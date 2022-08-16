@@ -1,0 +1,13 @@
+syntax = "proto3";
+package privacy.privacy;
+
+option go_package = "privacy/x/privacy/types";
+
+message Token {
+  string index = 1; 
+  string creator = 2;
+  string name = 3;
+  string symbol = 4;
+  bytes amount = 5;
+  bytes token_id = 6;
+}

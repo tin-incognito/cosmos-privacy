@@ -30176,6 +30176,1112 @@ paths:
           format: uint64
       tags:
         - Query
+  /privacy/privacy/commitment:
+    get:
+      summary: Queries a list of Commitment items.
+      operationId: PrivacyPrivacyCommitmentAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              commitment:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    index:
+                      type: string
+                    creator:
+                      type: string
+                    token_id:
+                      type: string
+                      format: byte
+                    value:
+                      type: string
+                      format: byte
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/privacy/privacy/commitment/{index}':
+    get:
+      summary: Queries a Commitment by index.
+      operationId: PrivacyPrivacyCommitment
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              commitment:
+                type: object
+                properties:
+                  index:
+                    type: string
+                  creator:
+                    type: string
+                  token_id:
+                    type: string
+                    format: byte
+                  value:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /privacy/privacy/commitment_index:
+    get:
+      summary: Queries a list of CommitmentIndex items.
+      operationId: PrivacyPrivacyCommitmentIndexAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              commitmentIndex:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    index:
+                      type: string
+                    creator:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/privacy/privacy/commitment_index/{index}':
+    get:
+      summary: Queries a CommitmentIndex by index.
+      operationId: PrivacyPrivacyCommitmentIndex
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              commitmentIndex:
+                type: object
+                properties:
+                  index:
+                    type: string
+                  creator:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /privacy/privacy/onetime_address:
+    get:
+      summary: Queries a list of OnetimeAddress items.
+      operationId: PrivacyPrivacyOnetimeAddressAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              onetimeAddress:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    index:
+                      type: string
+                    creator:
+                      type: string
+                    token_id:
+                      type: string
+                      format: byte
+                    public_key:
+                      type: string
+                      format: byte
+                    i:
+                      type: string
+                      format: byte
+                    status:
+                      type: integer
+                      format: int32
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/privacy/privacy/onetime_address/{index}':
+    get:
+      summary: Queries a OnetimeAddress by index.
+      operationId: PrivacyPrivacyOnetimeAddress
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              onetimeAddress:
+                type: object
+                properties:
+                  index:
+                    type: string
+                  creator:
+                    type: string
+                  token_id:
+                    type: string
+                    format: byte
+                  public_key:
+                    type: string
+                    format: byte
+                  i:
+                    type: string
+                    format: byte
+                  status:
+                    type: integer
+                    format: int32
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /privacy/privacy/output_coin:
+    get:
+      summary: Queries a list of OutputCoin items.
+      operationId: PrivacyPrivacyOutputCoinAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              outputCoin:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    index:
+                      type: string
+                    creator:
+                      type: string
+                    token_id:
+                      type: string
+                      format: byte
+                    value:
+                      type: string
+                      format: byte
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/privacy/privacy/output_coin/{index}':
+    get:
+      summary: Queries a OutputCoin by index.
+      operationId: PrivacyPrivacyOutputCoin
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              outputCoin:
+                type: object
+                properties:
+                  index:
+                    type: string
+                  creator:
+                    type: string
+                  token_id:
+                    type: string
+                    format: byte
+                  value:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /privacy/privacy/params:
+    get:
+      summary: Parameters queries the parameters of the module.
+      operationId: PrivacyPrivacyParams
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params holds all the parameters of this module.
+                type: object
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /privacy/privacy/serial_number:
+    get:
+      summary: Queries a list of SerialNumber items.
+      operationId: PrivacyPrivacySerialNumberAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              serialNumber:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    index:
+                      type: string
+                    creator:
+                      type: string
+                    token_id:
+                      type: string
+                      format: byte
+                    serial_number:
+                      type: string
+                      format: byte
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/privacy/privacy/serial_number/{index}':
+    get:
+      summary: Queries a SerialNumber by index.
+      operationId: PrivacyPrivacySerialNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              serialNumber:
+                type: object
+                properties:
+                  index:
+                    type: string
+                  creator:
+                    type: string
+                  token_id:
+                    type: string
+                    format: byte
+                  serial_number:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /privacy/privacy/token:
+    get:
+      summary: Queries a list of Token items.
+      operationId: PrivacyPrivacyTokenAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              token:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    index:
+                      type: string
+                    creator:
+                      type: string
+                    name:
+                      type: string
+                    symbol:
+                      type: string
+                    amount:
+                      type: string
+                      format: byte
+                    token_id:
+                      type: string
+                      format: byte
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/privacy/privacy/token/{index}':
+    get:
+      summary: Queries a Token by index.
+      operationId: PrivacyPrivacyToken
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              token:
+                type: object
+                properties:
+                  index:
+                    type: string
+                  creator:
+                    type: string
+                  name:
+                    type: string
+                  symbol:
+                    type: string
+                  amount:
+                    type: string
+                    format: byte
+                  token_id:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /tendermint/spn/monitoringp/connection_channel_id:
     get:
       summary: Queries a ConnectionChannelID by index.
@@ -51558,6 +52664,498 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  privacy.privacy.Commitment:
+    type: object
+    properties:
+      index:
+        type: string
+      creator:
+        type: string
+      token_id:
+        type: string
+        format: byte
+      value:
+        type: string
+        format: byte
+  privacy.privacy.CommitmentIndex:
+    type: object
+    properties:
+      index:
+        type: string
+      creator:
+        type: string
+  privacy.privacy.MsgCreateCommitmentIndexResponse:
+    type: object
+  privacy.privacy.MsgCreateCommitmentResponse:
+    type: object
+  privacy.privacy.MsgCreateOnetimeAddressResponse:
+    type: object
+  privacy.privacy.MsgCreateOutputCoinResponse:
+    type: object
+  privacy.privacy.MsgCreateSerialNumberResponse:
+    type: object
+  privacy.privacy.MsgCreateTokenResponse:
+    type: object
+  privacy.privacy.MsgCreateTxResponse:
+    type: object
+  privacy.privacy.MsgDeleteCommitmentIndexResponse:
+    type: object
+  privacy.privacy.MsgDeleteCommitmentResponse:
+    type: object
+  privacy.privacy.MsgDeleteOnetimeAddressResponse:
+    type: object
+  privacy.privacy.MsgDeleteOutputCoinResponse:
+    type: object
+  privacy.privacy.MsgDeleteSerialNumberResponse:
+    type: object
+  privacy.privacy.MsgDeleteTokenResponse:
+    type: object
+  privacy.privacy.MsgUpdateCommitmentIndexResponse:
+    type: object
+  privacy.privacy.MsgUpdateCommitmentResponse:
+    type: object
+  privacy.privacy.MsgUpdateOnetimeAddressResponse:
+    type: object
+  privacy.privacy.MsgUpdateOutputCoinResponse:
+    type: object
+  privacy.privacy.MsgUpdateSerialNumberResponse:
+    type: object
+  privacy.privacy.MsgUpdateTokenResponse:
+    type: object
+  privacy.privacy.OnetimeAddress:
+    type: object
+    properties:
+      index:
+        type: string
+      creator:
+        type: string
+      token_id:
+        type: string
+        format: byte
+      public_key:
+        type: string
+        format: byte
+      i:
+        type: string
+        format: byte
+      status:
+        type: integer
+        format: int32
+  privacy.privacy.OutputCoin:
+    type: object
+    properties:
+      index:
+        type: string
+      creator:
+        type: string
+      token_id:
+        type: string
+        format: byte
+      value:
+        type: string
+        format: byte
+  privacy.privacy.Params:
+    type: object
+    description: Params defines the parameters for the module.
+  privacy.privacy.QueryAllCommitmentIndexResponse:
+    type: object
+    properties:
+      commitmentIndex:
+        type: array
+        items:
+          type: object
+          properties:
+            index:
+              type: string
+            creator:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  privacy.privacy.QueryAllCommitmentResponse:
+    type: object
+    properties:
+      commitment:
+        type: array
+        items:
+          type: object
+          properties:
+            index:
+              type: string
+            creator:
+              type: string
+            token_id:
+              type: string
+              format: byte
+            value:
+              type: string
+              format: byte
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  privacy.privacy.QueryAllOnetimeAddressResponse:
+    type: object
+    properties:
+      onetimeAddress:
+        type: array
+        items:
+          type: object
+          properties:
+            index:
+              type: string
+            creator:
+              type: string
+            token_id:
+              type: string
+              format: byte
+            public_key:
+              type: string
+              format: byte
+            i:
+              type: string
+              format: byte
+            status:
+              type: integer
+              format: int32
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  privacy.privacy.QueryAllOutputCoinResponse:
+    type: object
+    properties:
+      outputCoin:
+        type: array
+        items:
+          type: object
+          properties:
+            index:
+              type: string
+            creator:
+              type: string
+            token_id:
+              type: string
+              format: byte
+            value:
+              type: string
+              format: byte
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  privacy.privacy.QueryAllSerialNumberResponse:
+    type: object
+    properties:
+      serialNumber:
+        type: array
+        items:
+          type: object
+          properties:
+            index:
+              type: string
+            creator:
+              type: string
+            token_id:
+              type: string
+              format: byte
+            serial_number:
+              type: string
+              format: byte
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  privacy.privacy.QueryAllTokenResponse:
+    type: object
+    properties:
+      token:
+        type: array
+        items:
+          type: object
+          properties:
+            index:
+              type: string
+            creator:
+              type: string
+            name:
+              type: string
+            symbol:
+              type: string
+            amount:
+              type: string
+              format: byte
+            token_id:
+              type: string
+              format: byte
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  privacy.privacy.QueryGetCommitmentIndexResponse:
+    type: object
+    properties:
+      commitmentIndex:
+        type: object
+        properties:
+          index:
+            type: string
+          creator:
+            type: string
+  privacy.privacy.QueryGetCommitmentResponse:
+    type: object
+    properties:
+      commitment:
+        type: object
+        properties:
+          index:
+            type: string
+          creator:
+            type: string
+          token_id:
+            type: string
+            format: byte
+          value:
+            type: string
+            format: byte
+  privacy.privacy.QueryGetOnetimeAddressResponse:
+    type: object
+    properties:
+      onetimeAddress:
+        type: object
+        properties:
+          index:
+            type: string
+          creator:
+            type: string
+          token_id:
+            type: string
+            format: byte
+          public_key:
+            type: string
+            format: byte
+          i:
+            type: string
+            format: byte
+          status:
+            type: integer
+            format: int32
+  privacy.privacy.QueryGetOutputCoinResponse:
+    type: object
+    properties:
+      outputCoin:
+        type: object
+        properties:
+          index:
+            type: string
+          creator:
+            type: string
+          token_id:
+            type: string
+            format: byte
+          value:
+            type: string
+            format: byte
+  privacy.privacy.QueryGetSerialNumberResponse:
+    type: object
+    properties:
+      serialNumber:
+        type: object
+        properties:
+          index:
+            type: string
+          creator:
+            type: string
+          token_id:
+            type: string
+            format: byte
+          serial_number:
+            type: string
+            format: byte
+  privacy.privacy.QueryGetTokenResponse:
+    type: object
+    properties:
+      token:
+        type: object
+        properties:
+          index:
+            type: string
+          creator:
+            type: string
+          name:
+            type: string
+          symbol:
+            type: string
+          amount:
+            type: string
+            format: byte
+          token_id:
+            type: string
+            format: byte
+  privacy.privacy.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
+  privacy.privacy.SerialNumber:
+    type: object
+    properties:
+      index:
+        type: string
+      creator:
+        type: string
+      token_id:
+        type: string
+        format: byte
+      serial_number:
+        type: string
+        format: byte
+  privacy.privacy.Token:
+    type: object
+    properties:
+      index:
+        type: string
+      creator:
+        type: string
+      name:
+        type: string
+      symbol:
+        type: string
+      amount:
+        type: string
+        format: byte
+      token_id:
+        type: string
+        format: byte
   tendermint.spn.monitoringp.ConnectionChannelID:
     type: object
     properties:

@@ -1,0 +1,14 @@
+syntax = "proto3";
+package privacy.privacy;
+
+option go_package = "privacy/x/privacy/types";
+
+message OnetimeAddress {
+  string index = 1; 
+  string creator = 2;
+  bytes token_id = 3;
+  bytes public_key = 4;
+  bytes i = 5;
+  int32 status = 6;
+}
+

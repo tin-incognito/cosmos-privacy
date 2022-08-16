@@ -3,6 +3,12 @@ package privacy.privacy;
 
 import "gogoproto/gogo.proto";
 import "privacy/params.proto";
+import "privacy/serial_number.proto";
+import "privacy/output_coin.proto";
+import "privacy/commitment.proto";
+import "privacy/commitment_index.proto";
+import "privacy/token.proto";
+import "privacy/onetime_address.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "privacy/x/privacy/types";
@@ -10,5 +16,11 @@ option go_package = "privacy/x/privacy/types";
 // GenesisState defines the privacy module's genesis state.
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
+  repeated SerialNumber serialNumberList = 2 [(gogoproto.nullable) = false];
+  repeated OutputCoin outputCoinList = 3 [(gogoproto.nullable) = false];
+  repeated Commitment commitmentList = 4 [(gogoproto.nullable) = false];
+  repeated CommitmentIndex commitmentIndexList = 5 [(gogoproto.nullable) = false];
+  repeated Token tokenList = 6 [(gogoproto.nullable) = false];
+  repeated OnetimeAddress onetimeAddressList = 7 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

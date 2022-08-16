@@ -5,6 +5,12 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "privacy/params.proto";
+import "privacy/serial_number.proto";
+import "privacy/output_coin.proto";
+import "privacy/commitment.proto";
+import "privacy/commitment_index.proto";
+import "privacy/token.proto";
+import "privacy/onetime_address.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "privacy/x/privacy/types";
@@ -15,7 +21,67 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/privacy/privacy/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a SerialNumber by index.
+	rpc SerialNumber(QueryGetSerialNumberRequest) returns (QueryGetSerialNumberResponse) {
+		option (google.api.http).get = "/privacy/privacy/serial_number/{index}";
+	}
+
+	// Queries a list of SerialNumber items.
+	rpc SerialNumberAll(QueryAllSerialNumberRequest) returns (QueryAllSerialNumberResponse) {
+		option (google.api.http).get = "/privacy/privacy/serial_number";
+	}
+
+// Queries a OutputCoin by index.
+	rpc OutputCoin(QueryGetOutputCoinRequest) returns (QueryGetOutputCoinResponse) {
+		option (google.api.http).get = "/privacy/privacy/output_coin/{index}";
+	}
+
+	// Queries a list of OutputCoin items.
+	rpc OutputCoinAll(QueryAllOutputCoinRequest) returns (QueryAllOutputCoinResponse) {
+		option (google.api.http).get = "/privacy/privacy/output_coin";
+	}
+
+// Queries a Commitment by index.
+	rpc Commitment(QueryGetCommitmentRequest) returns (QueryGetCommitmentResponse) {
+		option (google.api.http).get = "/privacy/privacy/commitment/{index}";
+	}
+
+	// Queries a list of Commitment items.
+	rpc CommitmentAll(QueryAllCommitmentRequest) returns (QueryAllCommitmentResponse) {
+		option (google.api.http).get = "/privacy/privacy/commitment";
+	}
+
+// Queries a CommitmentIndex by index.
+	rpc CommitmentIndex(QueryGetCommitmentIndexRequest) returns (QueryGetCommitmentIndexResponse) {
+		option (google.api.http).get = "/privacy/privacy/commitment_index/{index}";
+	}
+
+	// Queries a list of CommitmentIndex items.
+	rpc CommitmentIndexAll(QueryAllCommitmentIndexRequest) returns (QueryAllCommitmentIndexResponse) {
+		option (google.api.http).get = "/privacy/privacy/commitment_index";
+	}
+
+// Queries a Token by index.
+	rpc Token(QueryGetTokenRequest) returns (QueryGetTokenResponse) {
+		option (google.api.http).get = "/privacy/privacy/token/{index}";
+	}
+
+	// Queries a list of Token items.
+	rpc TokenAll(QueryAllTokenRequest) returns (QueryAllTokenResponse) {
+		option (google.api.http).get = "/privacy/privacy/token";
+	}
+
+// Queries a OnetimeAddress by index.
+	rpc OnetimeAddress(QueryGetOnetimeAddressRequest) returns (QueryGetOnetimeAddressResponse) {
+		option (google.api.http).get = "/privacy/privacy/onetime_address/{index}";
+	}
+
+	// Queries a list of OnetimeAddress items.
+	rpc OnetimeAddressAll(QueryAllOnetimeAddressRequest) returns (QueryAllOnetimeAddressResponse) {
+		option (google.api.http).get = "/privacy/privacy/onetime_address";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +91,114 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetSerialNumberRequest {
+	  string index = 1;
+
+}
+
+message QueryGetSerialNumberResponse {
+	SerialNumber serialNumber = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllSerialNumberRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllSerialNumberResponse {
+	repeated SerialNumber serialNumber = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetOutputCoinRequest {
+	  string index = 1;
+
+}
+
+message QueryGetOutputCoinResponse {
+	OutputCoin outputCoin = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllOutputCoinRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllOutputCoinResponse {
+	repeated OutputCoin outputCoin = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetCommitmentRequest {
+	  string index = 1;
+
+}
+
+message QueryGetCommitmentResponse {
+	Commitment commitment = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllCommitmentRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllCommitmentResponse {
+	repeated Commitment commitment = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetCommitmentIndexRequest {
+	  string index = 1;
+
+}
+
+message QueryGetCommitmentIndexResponse {
+	CommitmentIndex commitmentIndex = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllCommitmentIndexRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllCommitmentIndexResponse {
+	repeated CommitmentIndex commitmentIndex = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetTokenRequest {
+	  string index = 1;
+
+}
+
+message QueryGetTokenResponse {
+	Token token = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllTokenRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTokenResponse {
+	repeated Token token = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetOnetimeAddressRequest {
+	  string index = 1;
+
+}
+
+message QueryGetOnetimeAddressResponse {
+	OnetimeAddress onetimeAddress = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllOnetimeAddressRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllOnetimeAddressResponse {
+	repeated OnetimeAddress onetimeAddress = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

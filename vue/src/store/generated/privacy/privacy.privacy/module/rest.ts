@@ -9,10 +9,206 @@
  * ---------------------------------------------------------------
  */
 
+export interface PrivacyCommitment {
+  index?: string;
+  creator?: string;
+
+  /** @format byte */
+  token_id?: string;
+
+  /** @format byte */
+  value?: string;
+}
+
+export interface PrivacyCommitmentIndex {
+  index?: string;
+  creator?: string;
+}
+
+export type PrivacyMsgCreateCommitmentIndexResponse = object;
+
+export type PrivacyMsgCreateCommitmentResponse = object;
+
+export type PrivacyMsgCreateOnetimeAddressResponse = object;
+
+export type PrivacyMsgCreateOutputCoinResponse = object;
+
+export type PrivacyMsgCreateSerialNumberResponse = object;
+
+export type PrivacyMsgCreateTokenResponse = object;
+
+export type PrivacyMsgCreateTxResponse = object;
+
+export type PrivacyMsgDeleteCommitmentIndexResponse = object;
+
+export type PrivacyMsgDeleteCommitmentResponse = object;
+
+export type PrivacyMsgDeleteOnetimeAddressResponse = object;
+
+export type PrivacyMsgDeleteOutputCoinResponse = object;
+
+export type PrivacyMsgDeleteSerialNumberResponse = object;
+
+export type PrivacyMsgDeleteTokenResponse = object;
+
+export type PrivacyMsgUpdateCommitmentIndexResponse = object;
+
+export type PrivacyMsgUpdateCommitmentResponse = object;
+
+export type PrivacyMsgUpdateOnetimeAddressResponse = object;
+
+export type PrivacyMsgUpdateOutputCoinResponse = object;
+
+export type PrivacyMsgUpdateSerialNumberResponse = object;
+
+export type PrivacyMsgUpdateTokenResponse = object;
+
+export interface PrivacyOnetimeAddress {
+  index?: string;
+  creator?: string;
+
+  /** @format byte */
+  token_id?: string;
+
+  /** @format byte */
+  public_key?: string;
+
+  /** @format byte */
+  i?: string;
+
+  /** @format int32 */
+  status?: number;
+}
+
+export interface PrivacyOutputCoin {
+  index?: string;
+  creator?: string;
+
+  /** @format byte */
+  token_id?: string;
+
+  /** @format byte */
+  value?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */
 export type PrivacyParams = object;
+
+export interface PrivacyQueryAllCommitmentIndexResponse {
+  commitmentIndex?: PrivacyCommitmentIndex[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface PrivacyQueryAllCommitmentResponse {
+  commitment?: PrivacyCommitment[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface PrivacyQueryAllOnetimeAddressResponse {
+  onetimeAddress?: PrivacyOnetimeAddress[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface PrivacyQueryAllOutputCoinResponse {
+  outputCoin?: PrivacyOutputCoin[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface PrivacyQueryAllSerialNumberResponse {
+  serialNumber?: PrivacySerialNumber[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface PrivacyQueryAllTokenResponse {
+  token?: PrivacyToken[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface PrivacyQueryGetCommitmentIndexResponse {
+  commitmentIndex?: PrivacyCommitmentIndex;
+}
+
+export interface PrivacyQueryGetCommitmentResponse {
+  commitment?: PrivacyCommitment;
+}
+
+export interface PrivacyQueryGetOnetimeAddressResponse {
+  onetimeAddress?: PrivacyOnetimeAddress;
+}
+
+export interface PrivacyQueryGetOutputCoinResponse {
+  outputCoin?: PrivacyOutputCoin;
+}
+
+export interface PrivacyQueryGetSerialNumberResponse {
+  serialNumber?: PrivacySerialNumber;
+}
+
+export interface PrivacyQueryGetTokenResponse {
+  token?: PrivacyToken;
+}
 
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
@@ -20,6 +216,30 @@ export type PrivacyParams = object;
 export interface PrivacyQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: PrivacyParams;
+}
+
+export interface PrivacySerialNumber {
+  index?: string;
+  creator?: string;
+
+  /** @format byte */
+  token_id?: string;
+
+  /** @format byte */
+  serial_number?: string;
+}
+
+export interface PrivacyToken {
+  index?: string;
+  creator?: string;
+  name?: string;
+  symbol?: string;
+
+  /** @format byte */
+  amount?: string;
+
+  /** @format byte */
+  token_id?: string;
 }
 
 export interface ProtobufAny {
@@ -31,6 +251,69 @@ export interface RpcStatus {
   code?: number;
   message?: string;
   details?: ProtobufAny[];
+}
+
+/**
+* message SomeRequest {
+         Foo some_parameter = 1;
+         PageRequest pagination = 2;
+ }
+*/
+export interface V1Beta1PageRequest {
+  /**
+   * key is a value returned in PageResponse.next_key to begin
+   * querying the next page most efficiently. Only one of offset or key
+   * should be set.
+   * @format byte
+   */
+  key?: string;
+
+  /**
+   * offset is a numeric offset that can be used when key is unavailable.
+   * It is less efficient than using key. Only one of offset or key should
+   * be set.
+   * @format uint64
+   */
+  offset?: string;
+
+  /**
+   * limit is the total number of results to be returned in the result page.
+   * If left empty it will default to a value to be set by each app.
+   * @format uint64
+   */
+  limit?: string;
+
+  /**
+   * count_total is set to true  to indicate that the result set should include
+   * a count of the total number of items available for pagination in UIs.
+   * count_total is only respected when offset is used. It is ignored when key
+   * is set.
+   */
+  count_total?: boolean;
+
+  /**
+   * reverse is set to true if results are to be returned in the descending order.
+   *
+   * Since: cosmos-sdk 0.43
+   */
+  reverse?: boolean;
+}
+
+/**
+* PageResponse is to be embedded in gRPC response messages where the
+corresponding request message has used PageRequest.
+
+ message SomeResponse {
+         repeated Bar results = 1;
+         PageResponse page = 2;
+ }
+*/
+export interface V1Beta1PageResponse {
+  /** @format byte */
+  next_key?: string;
+
+  /** @format uint64 */
+  total?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -225,10 +508,178 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title privacy/genesis.proto
+ * @title privacy/commitment.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCommitmentAll
+   * @summary Queries a list of Commitment items.
+   * @request GET:/privacy/privacy/commitment
+   */
+  queryCommitmentAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PrivacyQueryAllCommitmentResponse, RpcStatus>({
+      path: `/privacy/privacy/commitment`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCommitment
+   * @summary Queries a Commitment by index.
+   * @request GET:/privacy/privacy/commitment/{index}
+   */
+  queryCommitment = (index: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetCommitmentResponse, RpcStatus>({
+      path: `/privacy/privacy/commitment/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCommitmentIndexAll
+   * @summary Queries a list of CommitmentIndex items.
+   * @request GET:/privacy/privacy/commitment_index
+   */
+  queryCommitmentIndexAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PrivacyQueryAllCommitmentIndexResponse, RpcStatus>({
+      path: `/privacy/privacy/commitment_index`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCommitmentIndex
+   * @summary Queries a CommitmentIndex by index.
+   * @request GET:/privacy/privacy/commitment_index/{index}
+   */
+  queryCommitmentIndex = (index: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetCommitmentIndexResponse, RpcStatus>({
+      path: `/privacy/privacy/commitment_index/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryOnetimeAddressAll
+   * @summary Queries a list of OnetimeAddress items.
+   * @request GET:/privacy/privacy/onetime_address
+   */
+  queryOnetimeAddressAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PrivacyQueryAllOnetimeAddressResponse, RpcStatus>({
+      path: `/privacy/privacy/onetime_address`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryOnetimeAddress
+   * @summary Queries a OnetimeAddress by index.
+   * @request GET:/privacy/privacy/onetime_address/{index}
+   */
+  queryOnetimeAddress = (index: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetOnetimeAddressResponse, RpcStatus>({
+      path: `/privacy/privacy/onetime_address/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryOutputCoinAll
+   * @summary Queries a list of OutputCoin items.
+   * @request GET:/privacy/privacy/output_coin
+   */
+  queryOutputCoinAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PrivacyQueryAllOutputCoinResponse, RpcStatus>({
+      path: `/privacy/privacy/output_coin`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryOutputCoin
+   * @summary Queries a OutputCoin by index.
+   * @request GET:/privacy/privacy/output_coin/{index}
+   */
+  queryOutputCoin = (index: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetOutputCoinResponse, RpcStatus>({
+      path: `/privacy/privacy/output_coin/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *
@@ -240,6 +691,90 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<PrivacyQueryParamsResponse, RpcStatus>({
       path: `/privacy/privacy/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QuerySerialNumberAll
+   * @summary Queries a list of SerialNumber items.
+   * @request GET:/privacy/privacy/serial_number
+   */
+  querySerialNumberAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PrivacyQueryAllSerialNumberResponse, RpcStatus>({
+      path: `/privacy/privacy/serial_number`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QuerySerialNumber
+   * @summary Queries a SerialNumber by index.
+   * @request GET:/privacy/privacy/serial_number/{index}
+   */
+  querySerialNumber = (index: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetSerialNumberResponse, RpcStatus>({
+      path: `/privacy/privacy/serial_number/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTokenAll
+   * @summary Queries a list of Token items.
+   * @request GET:/privacy/privacy/token
+   */
+  queryTokenAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PrivacyQueryAllTokenResponse, RpcStatus>({
+      path: `/privacy/privacy/token`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryToken
+   * @summary Queries a Token by index.
+   * @request GET:/privacy/privacy/token/{index}
+   */
+  queryToken = (index: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetTokenResponse, RpcStatus>({
+      path: `/privacy/privacy/token/${index}`,
       method: "GET",
       format: "json",
       ...params,

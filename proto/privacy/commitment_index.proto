@@ -1,0 +1,10 @@
+syntax = "proto3";
+package privacy.privacy;
+
+option go_package = "privacy/x/privacy/types";
+
+message CommitmentIndex {
+  string index = 1; 
+  string creator = 2;
+}
+

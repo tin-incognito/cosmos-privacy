@@ -1,13 +1,166 @@
 syntax = "proto3";
 package privacy.privacy;
 
+import "privacy/serial_number.proto";
+import "privacy/output_coin.proto";
+import "privacy/commitment.proto";
+import "privacy/commitment_index.proto";
+import "privacy/token.proto";
+import "privacy/onetime_address.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "privacy/x/privacy/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc CreateSerialNumber(MsgCreateSerialNumber) returns (MsgCreateSerialNumberResponse);
+  rpc UpdateSerialNumber(MsgUpdateSerialNumber) returns (MsgUpdateSerialNumberResponse);
+  rpc DeleteSerialNumber(MsgDeleteSerialNumber) returns (MsgDeleteSerialNumberResponse);
+  rpc CreateOutputCoin(MsgCreateOutputCoin) returns (MsgCreateOutputCoinResponse);
+  rpc UpdateOutputCoin(MsgUpdateOutputCoin) returns (MsgUpdateOutputCoinResponse);
+  rpc DeleteOutputCoin(MsgDeleteOutputCoin) returns (MsgDeleteOutputCoinResponse);
+  rpc CreateCommitment(MsgCreateCommitment) returns (MsgCreateCommitmentResponse);
+  rpc UpdateCommitment(MsgUpdateCommitment) returns (MsgUpdateCommitmentResponse);
+  rpc DeleteCommitment(MsgDeleteCommitment) returns (MsgDeleteCommitmentResponse);
+  rpc CreateCommitmentIndex(MsgCreateCommitmentIndex) returns (MsgCreateCommitmentIndexResponse);
+  rpc UpdateCommitmentIndex(MsgUpdateCommitmentIndex) returns (MsgUpdateCommitmentIndexResponse);
+  rpc DeleteCommitmentIndex(MsgDeleteCommitmentIndex) returns (MsgDeleteCommitmentIndexResponse);
+  rpc CreateToken(MsgCreateToken) returns (MsgCreateTokenResponse);
+  rpc UpdateToken(MsgUpdateToken) returns (MsgUpdateTokenResponse);
+  rpc DeleteToken(MsgDeleteToken) returns (MsgDeleteTokenResponse);
+  rpc CreateOnetimeAddress(MsgCreateOnetimeAddress) returns (MsgCreateOnetimeAddressResponse);
+  rpc UpdateOnetimeAddress(MsgUpdateOnetimeAddress) returns (MsgUpdateOnetimeAddressResponse);
+  rpc DeleteOnetimeAddress(MsgDeleteOnetimeAddress) returns (MsgDeleteOnetimeAddressResponse);
+  rpc CreateTx(MsgCreateTx) returns (MsgCreateTxResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateSerialNumber {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgCreateSerialNumberResponse {}
+
+message MsgUpdateSerialNumber {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgUpdateSerialNumberResponse {}
+
+message MsgDeleteSerialNumber {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteSerialNumberResponse {}
+
+message MsgCreateOutputCoin {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgCreateOutputCoinResponse {}
+
+message MsgUpdateOutputCoin {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgUpdateOutputCoinResponse {}
+
+message MsgDeleteOutputCoin {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteOutputCoinResponse {}
+
+message MsgCreateCommitment {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgCreateCommitmentResponse {}
+
+message MsgUpdateCommitment {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgUpdateCommitmentResponse {}
+
+message MsgDeleteCommitment {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteCommitmentResponse {}
+
+message MsgCreateCommitmentIndex {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgCreateCommitmentIndexResponse {}
+
+message MsgUpdateCommitmentIndex {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgUpdateCommitmentIndexResponse {}
+
+message MsgDeleteCommitmentIndex {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteCommitmentIndexResponse {}
+
+message MsgCreateToken {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgCreateTokenResponse {}
+
+message MsgUpdateToken {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgUpdateTokenResponse {}
+
+message MsgDeleteToken {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteTokenResponse {}
+
+message MsgCreateOnetimeAddress {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgCreateOnetimeAddressResponse {}
+
+message MsgUpdateOnetimeAddress {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgUpdateOnetimeAddressResponse {}
+
+message MsgDeleteOnetimeAddress {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteOnetimeAddressResponse {}
+
+message MsgCreateTx {
+  string creator = 1;
+  bytes value = 2;
+}
+
+message MsgCreateTxResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

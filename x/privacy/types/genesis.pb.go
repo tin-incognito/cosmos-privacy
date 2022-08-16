@@ -25,7 +25,13 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // GenesisState defines the privacy module's genesis state.
 type GenesisState struct {
-	Params Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
+	Params              Params            `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
+	SerialNumberList    []SerialNumber    `protobuf:"bytes,2,rep,name=serialNumberList,proto3" json:"serialNumberList"`
+	OutputCoinList      []OutputCoin      `protobuf:"bytes,3,rep,name=outputCoinList,proto3" json:"outputCoinList"`
+	CommitmentList      []Commitment      `protobuf:"bytes,4,rep,name=commitmentList,proto3" json:"commitmentList"`
+	CommitmentIndexList []CommitmentIndex `protobuf:"bytes,5,rep,name=commitmentIndexList,proto3" json:"commitmentIndexList"`
+	TokenList           []Token           `protobuf:"bytes,6,rep,name=tokenList,proto3" json:"tokenList"`
+	OnetimeAddressList  []OnetimeAddress  `protobuf:"bytes,7,rep,name=onetimeAddressList,proto3" json:"onetimeAddressList"`
 }
 
 func (m *GenesisState) Reset()         { *m = GenesisState{} }
@@ -68,6 +74,48 @@ func (m *GenesisState) GetParams() Params {
 	return Params{}
 }
 
+func (m *GenesisState) GetSerialNumberList() []SerialNumber {
+	if m != nil {
+		return m.SerialNumberList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetOutputCoinList() []OutputCoin {
+	if m != nil {
+		return m.OutputCoinList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetCommitmentList() []Commitment {
+	if m != nil {
+		return m.CommitmentList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetCommitmentIndexList() []CommitmentIndex {
+	if m != nil {
+		return m.CommitmentIndexList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetTokenList() []Token {
+	if m != nil {
+		return m.TokenList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetOnetimeAddressList() []OnetimeAddress {
+	if m != nil {
+		return m.OnetimeAddressList
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*GenesisState)(nil), "privacy.privacy.GenesisState")
 }
@@ -75,18 +123,32 @@ func init() {
 func init() { proto.RegisterFile("privacy/genesis.proto", fileDescriptor_7375abeed0ce61dc) }
 
 var fileDescriptor_7375abeed0ce61dc = []byte{
-	// 165 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2d, 0x28, 0xca, 0x2c,
-	0x4b, 0x4c, 0xae, 0xd4, 0x4f, 0x4f, 0xcd, 0x4b, 0x2d, 0xce, 0x2c, 0xd6, 0x2b, 0x28, 0xca, 0x2f,
-	0xc9, 0x17, 0xe2, 0x87, 0x0a, 0xeb, 0x41, 0x69, 0x29, 0x91, 0xf4, 0xfc, 0xf4, 0x7c, 0xb0, 0x9c,
-	0x3e, 0x88, 0x05, 0x51, 0x26, 0x25, 0x02, 0xd3, 0x5d, 0x90, 0x58, 0x94, 0x98, 0x0b, 0xd5, 0xac,
-	0xe4, 0xca, 0xc5, 0xe3, 0x0e, 0x31, 0x2d, 0xb8, 0x24, 0xb1, 0x24, 0x55, 0xc8, 0x94, 0x8b, 0x0d,
-	0x22, 0x2f, 0xc1, 0xa8, 0xc0, 0xa8, 0xc1, 0x6d, 0x24, 0xae, 0x87, 0x66, 0xba, 0x5e, 0x00, 0x58,
-	0xda, 0x89, 0xe5, 0xc4, 0x3d, 0x79, 0x86, 0x20, 0xa8, 0x62, 0x27, 0xc3, 0x13, 0x8f, 0xe4, 0x18,
-	0x2f, 0x3c, 0x92, 0x63, 0x7c, 0xf0, 0x48, 0x8e, 0x71, 0xc2, 0x63, 0x39, 0x86, 0x0b, 0x8f, 0xe5,
-	0x18, 0x6e, 0x3c, 0x96, 0x63, 0x88, 0x12, 0x87, 0x59, 0x5b, 0xa1, 0x0f, 0x63, 0x95, 0x54, 0x16,
-	0xa4, 0x16, 0x27, 0xb1, 0x81, 0x1d, 0x60, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0x4b, 0x0d, 0x5d,
-	0x45, 0xd6, 0x00, 0x00, 0x00,
+	// 391 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0x41, 0x4f, 0xea, 0x40,
+	0x10, 0xc7, 0xdb, 0x07, 0x8f, 0x97, 0xb7, 0x18, 0x35, 0x0b, 0x0a, 0x42, 0x28, 0xc4, 0x13, 0xa7,
+	0x12, 0x31, 0x5e, 0xbc, 0x09, 0x07, 0x43, 0x62, 0xc4, 0x88, 0x26, 0xc6, 0x4b, 0x53, 0x60, 0x43,
+	0x36, 0xda, 0x6e, 0xd3, 0x2e, 0x06, 0xbe, 0x85, 0x57, 0xbf, 0x11, 0x47, 0x8e, 0x9e, 0x8c, 0x81,
+	0x2f, 0x62, 0x3a, 0x9d, 0x2d, 0x42, 0xd1, 0x53, 0x9b, 0xf9, 0xff, 0xe7, 0xd7, 0xce, 0x7f, 0x86,
+	0x1c, 0x78, 0x3e, 0x7f, 0xb1, 0x07, 0xd3, 0xc6, 0x88, 0xb9, 0x2c, 0xe0, 0x81, 0xe9, 0xf9, 0x42,
+	0x0a, 0xba, 0x87, 0x65, 0x13, 0x9f, 0xa5, 0xfc, 0x48, 0x8c, 0x04, 0x68, 0x8d, 0xf0, 0x2d, 0xb2,
+	0x95, 0xf2, 0xaa, 0xdb, 0xb3, 0x7d, 0xdb, 0xc1, 0xe6, 0x52, 0x59, 0x55, 0x03, 0xe6, 0x73, 0xfb,
+	0xd9, 0x72, 0xc7, 0x4e, 0x9f, 0xf9, 0x28, 0x1e, 0x29, 0x51, 0x8c, 0xa5, 0x37, 0x96, 0xd6, 0x40,
+	0x70, 0x17, 0xa5, 0xa2, 0x92, 0x06, 0xc2, 0x71, 0xb8, 0x74, 0x98, 0x2b, 0x51, 0x31, 0x92, 0x8a,
+	0xc5, 0xdd, 0x21, 0x9b, 0xa0, 0x9e, 0x53, 0xba, 0x14, 0x4f, 0x4c, 0xe1, 0x2a, 0xf1, 0x97, 0x5c,
+	0x26, 0xb9, 0xc3, 0x2c, 0x7b, 0x38, 0xf4, 0x59, 0x80, 0x7f, 0x79, 0xfc, 0x96, 0x26, 0x3b, 0x97,
+	0xd1, 0xd0, 0x3d, 0x69, 0x4b, 0x46, 0xcf, 0x48, 0x26, 0x1a, 0xa3, 0xa8, 0xd7, 0xf4, 0x7a, 0xb6,
+	0x59, 0x30, 0x37, 0x42, 0x30, 0x6f, 0x40, 0x6e, 0xa5, 0x67, 0x1f, 0x55, 0xed, 0x16, 0xcd, 0xb4,
+	0x4b, 0xf6, 0xa3, 0x39, 0xaf, 0x61, 0xcc, 0x2b, 0x1e, 0xc8, 0xe2, 0x9f, 0x5a, 0xaa, 0x9e, 0x6d,
+	0x56, 0x12, 0x80, 0xde, 0x37, 0x23, 0x62, 0x12, 0xcd, 0xb4, 0x43, 0x76, 0xa3, 0x6c, 0xda, 0x82,
+	0xbb, 0x80, 0x4b, 0x01, 0xae, 0x9c, 0xc0, 0x75, 0x63, 0x1b, 0xc2, 0x36, 0x1a, 0x43, 0xd4, 0x2a,
+	0x31, 0x40, 0xa5, 0x7f, 0x40, 0xb5, 0x63, 0x9b, 0x42, 0xad, 0x37, 0xd2, 0x07, 0x92, 0x5b, 0x55,
+	0x3a, 0x61, 0xf6, 0xc0, 0xfb, 0x0b, 0xbc, 0xda, 0x2f, 0x3c, 0xf0, 0x22, 0x74, 0x1b, 0x82, 0x9e,
+	0x93, 0xff, 0xb0, 0x36, 0xe0, 0x65, 0x80, 0x77, 0x98, 0xe0, 0xdd, 0x85, 0x0e, 0xa4, 0xac, 0xec,
+	0xf4, 0x9e, 0x50, 0xdc, 0xee, 0x45, 0xb4, 0x5c, 0x80, 0xfc, 0x03, 0x48, 0x35, 0x99, 0xd7, 0x9a,
+	0x15, 0x69, 0x5b, 0x00, 0xad, 0x93, 0xd9, 0xc2, 0xd0, 0xe7, 0x0b, 0x43, 0xff, 0x5c, 0x18, 0xfa,
+	0xeb, 0xd2, 0xd0, 0xe6, 0x4b, 0x43, 0x7b, 0x5f, 0x1a, 0xda, 0x63, 0x41, 0x1d, 0xd5, 0xa4, 0x11,
+	0xdf, 0xdc, 0xd4, 0x63, 0x41, 0x3f, 0x03, 0x57, 0x75, 0xfa, 0x15, 0x00, 0x00, 0xff, 0xff, 0xd2,
+	0x11, 0x60, 0xb5, 0x51, 0x03, 0x00, 0x00,
 }
 
 func (m *GenesisState) Marshal() (dAtA []byte, err error) {
@@ -109,6 +171,90 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.OnetimeAddressList) > 0 {
+		for iNdEx := len(m.OnetimeAddressList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.OnetimeAddressList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x3a
+		}
+	}
+	if len(m.TokenList) > 0 {
+		for iNdEx := len(m.TokenList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.TokenList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x32
+		}
+	}
+	if len(m.CommitmentIndexList) > 0 {
+		for iNdEx := len(m.CommitmentIndexList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.CommitmentIndexList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x2a
+		}
+	}
+	if len(m.CommitmentList) > 0 {
+		for iNdEx := len(m.CommitmentList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.CommitmentList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x22
+		}
+	}
+	if len(m.OutputCoinList) > 0 {
+		for iNdEx := len(m.OutputCoinList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.OutputCoinList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x1a
+		}
+	}
+	if len(m.SerialNumberList) > 0 {
+		for iNdEx := len(m.SerialNumberList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.SerialNumberList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
+	}
 	{
 		size, err := m.Params.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
@@ -141,6 +287,42 @@ func (m *GenesisState) Size() (n int) {
 	_ = l
 	l = m.Params.Size()
 	n += 1 + l + sovGenesis(uint64(l))
+	if len(m.SerialNumberList) > 0 {
+		for _, e := range m.SerialNumberList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if len(m.OutputCoinList) > 0 {
+		for _, e := range m.OutputCoinList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if len(m.CommitmentList) > 0 {
+		for _, e := range m.CommitmentList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if len(m.CommitmentIndexList) > 0 {
+		for _, e := range m.CommitmentIndexList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if len(m.TokenList) > 0 {
+		for _, e := range m.TokenList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if len(m.OnetimeAddressList) > 0 {
+		for _, e := range m.OnetimeAddressList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
 	return n
 }
 
@@ -209,6 +391,210 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if err := m.Params.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field SerialNumberList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.SerialNumberList = append(m.SerialNumberList, SerialNumber{})
+			if err := m.SerialNumberList[len(m.SerialNumberList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OutputCoinList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.OutputCoinList = append(m.OutputCoinList, OutputCoin{})
+			if err := m.OutputCoinList[len(m.OutputCoinList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CommitmentList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CommitmentList = append(m.CommitmentList, Commitment{})
+			if err := m.CommitmentList[len(m.CommitmentList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CommitmentIndexList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CommitmentIndexList = append(m.CommitmentIndexList, CommitmentIndex{})
+			if err := m.CommitmentIndexList[len(m.CommitmentIndexList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TokenList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TokenList = append(m.TokenList, Token{})
+			if err := m.TokenList[len(m.TokenList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OnetimeAddressList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.OnetimeAddressList = append(m.OnetimeAddressList, OnetimeAddress{})
+			if err := m.OnetimeAddressList[len(m.OnetimeAddressList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

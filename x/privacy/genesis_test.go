@@ -14,6 +14,54 @@ func TestGenesis(t *testing.T) {
 	genesisState := types.GenesisState{
 		Params: types.DefaultParams(),
 
+		SerialNumberList: []types.SerialNumber{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
+		OutputCoinList: []types.OutputCoin{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
+		CommitmentList: []types.Commitment{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
+		CommitmentIndexList: []types.CommitmentIndex{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
+		TokenList: []types.Token{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
+		OnetimeAddressList: []types.OnetimeAddress{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -25,5 +73,11 @@ func TestGenesis(t *testing.T) {
 	nullify.Fill(&genesisState)
 	nullify.Fill(got)
 
+	require.ElementsMatch(t, genesisState.SerialNumberList, got.SerialNumberList)
+	require.ElementsMatch(t, genesisState.OutputCoinList, got.OutputCoinList)
+	require.ElementsMatch(t, genesisState.CommitmentList, got.CommitmentList)
+	require.ElementsMatch(t, genesisState.CommitmentIndexList, got.CommitmentIndexList)
+	require.ElementsMatch(t, genesisState.TokenList, got.TokenList)
+	require.ElementsMatch(t, genesisState.OnetimeAddressList, got.OnetimeAddressList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

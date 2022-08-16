@@ -19,12 +19,144 @@ func TestGenesisState_Validate(t *testing.T) {
 			valid:    true,
 		},
 		{
-			desc:     "valid genesis state",
+			desc: "valid genesis state",
 			genState: &types.GenesisState{
 
+				SerialNumberList: []types.SerialNumber{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
+				OutputCoinList: []types.OutputCoin{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
+				CommitmentList: []types.Commitment{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
+				CommitmentIndexList: []types.CommitmentIndex{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
+				TokenList: []types.Token{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
+				OnetimeAddressList: []types.OnetimeAddress{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated serialNumber",
+			genState: &types.GenesisState{
+				SerialNumberList: []types.SerialNumber{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated outputCoin",
+			genState: &types.GenesisState{
+				OutputCoinList: []types.OutputCoin{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated commitment",
+			genState: &types.GenesisState{
+				CommitmentList: []types.Commitment{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated commitmentIndex",
+			genState: &types.GenesisState{
+				CommitmentIndexList: []types.CommitmentIndex{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated token",
+			genState: &types.GenesisState{
+				TokenList: []types.Token{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated onetimeAddress",
+			genState: &types.GenesisState{
+				OnetimeAddressList: []types.OnetimeAddress{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {
