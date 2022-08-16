@@ -16,6 +16,7 @@ func DefaultGenesis() *GenesisState {
 		CommitmentIndexList: []CommitmentIndex{},
 		TokenList:           []Token{},
 		OnetimeAddressList:  []OnetimeAddress{},
+		TxPrivacyDataList:   []TxPrivacyData{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -83,6 +84,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for onetimeAddress")
 		}
 		onetimeAddressIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in txPrivacyData
+	txPrivacyDataIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.TxPrivacyDataList {
+		index := string(TxPrivacyDataKey(elem.Index))
+		if _, ok := txPrivacyDataIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for txPrivacyData")
+		}
+		txPrivacyDataIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

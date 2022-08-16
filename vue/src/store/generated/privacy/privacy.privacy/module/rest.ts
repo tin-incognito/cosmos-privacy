@@ -37,6 +37,8 @@ export type PrivacyMsgCreateSerialNumberResponse = object;
 
 export type PrivacyMsgCreateTokenResponse = object;
 
+export type PrivacyMsgCreateTxPrivacyDataResponse = object;
+
 export type PrivacyMsgCreateTxResponse = object;
 
 export type PrivacyMsgDeleteCommitmentIndexResponse = object;
@@ -51,6 +53,8 @@ export type PrivacyMsgDeleteSerialNumberResponse = object;
 
 export type PrivacyMsgDeleteTokenResponse = object;
 
+export type PrivacyMsgDeleteTxPrivacyDataResponse = object;
+
 export type PrivacyMsgUpdateCommitmentIndexResponse = object;
 
 export type PrivacyMsgUpdateCommitmentResponse = object;
@@ -62,6 +66,8 @@ export type PrivacyMsgUpdateOutputCoinResponse = object;
 export type PrivacyMsgUpdateSerialNumberResponse = object;
 
 export type PrivacyMsgUpdateTokenResponse = object;
+
+export type PrivacyMsgUpdateTxPrivacyDataResponse = object;
 
 export interface PrivacyOnetimeAddress {
   index?: string;
@@ -186,6 +192,21 @@ export interface PrivacyQueryAllTokenResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface PrivacyQueryAllTxPrivacyDataResponse {
+  txPrivacyData?: PrivacyTxPrivacyData[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface PrivacyQueryGetCommitmentIndexResponse {
   commitmentIndex?: PrivacyCommitmentIndex;
 }
@@ -208,6 +229,10 @@ export interface PrivacyQueryGetSerialNumberResponse {
 
 export interface PrivacyQueryGetTokenResponse {
   token?: PrivacyToken;
+}
+
+export interface PrivacyQueryGetTxPrivacyDataResponse {
+  txPrivacyData?: PrivacyTxPrivacyData;
 }
 
 /**
@@ -240,6 +265,32 @@ export interface PrivacyToken {
 
   /** @format byte */
   token_id?: string;
+}
+
+export interface PrivacyTxPrivacyData {
+  index?: string;
+  creator?: string;
+
+  /** @format uint64 */
+  lock_time?: string;
+
+  /** @format uint64 */
+  fee?: string;
+
+  /** @format byte */
+  info?: string;
+
+  /** @format byte */
+  sig_pub_key?: string;
+
+  /** @format byte */
+  sig?: string;
+
+  /** @format byte */
+  proof?: string;
+
+  /** @format byte */
+  messages?: string;
 }
 
 export interface ProtobufAny {
@@ -290,13 +341,6 @@ export interface V1Beta1PageRequest {
    * is set.
    */
   count_total?: boolean;
-
-  /**
-   * reverse is set to true if results are to be returned in the descending order.
-   *
-   * Since: cosmos-sdk 0.43
-   */
-  reverse?: boolean;
 }
 
 /**
@@ -526,7 +570,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -568,7 +611,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -610,7 +652,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -652,7 +693,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -710,7 +750,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -752,7 +791,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -775,6 +813,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryToken = (index: string, params: RequestParams = {}) =>
     this.request<PrivacyQueryGetTokenResponse, RpcStatus>({
       path: `/privacy/privacy/token/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTxPrivacyDataAll
+   * @summary Queries a list of TxPrivacyData items.
+   * @request GET:/privacy/privacy/tx_privacy_data
+   */
+  queryTxPrivacyDataAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PrivacyQueryAllTxPrivacyDataResponse, RpcStatus>({
+      path: `/privacy/privacy/tx_privacy_data`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTxPrivacyData
+   * @summary Queries a TxPrivacyData by index.
+   * @request GET:/privacy/privacy/tx_privacy_data/{index}
+   */
+  queryTxPrivacyData = (index: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetTxPrivacyDataResponse, RpcStatus>({
+      path: `/privacy/privacy/tx_privacy_data/${index}`,
       method: "GET",
       format: "json",
       ...params,

@@ -7,6 +7,7 @@ import "privacy/commitment.proto";
 import "privacy/commitment_index.proto";
 import "privacy/token.proto";
 import "privacy/onetime_address.proto";
+import "privacy/tx_privacy_data.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "privacy/x/privacy/types";
@@ -32,6 +33,9 @@ service Msg {
   rpc UpdateOnetimeAddress(MsgUpdateOnetimeAddress) returns (MsgUpdateOnetimeAddressResponse);
   rpc DeleteOnetimeAddress(MsgDeleteOnetimeAddress) returns (MsgDeleteOnetimeAddressResponse);
   rpc CreateTx(MsgCreateTx) returns (MsgCreateTxResponse);
+  rpc CreateTxPrivacyData(MsgCreateTxPrivacyData) returns (MsgCreateTxPrivacyDataResponse);
+  rpc UpdateTxPrivacyData(MsgUpdateTxPrivacyData) returns (MsgUpdateTxPrivacyDataResponse);
+  rpc DeleteTxPrivacyData(MsgDeleteTxPrivacyData) returns (MsgDeleteTxPrivacyDataResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -162,5 +166,25 @@ message MsgCreateTx {
 
 message MsgCreateTxResponse {
 }
+
+message MsgCreateTxPrivacyData {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgCreateTxPrivacyDataResponse {}
+
+message MsgUpdateTxPrivacyData {
+  string creator = 1;
+  string index = 2;
+
+}
+message MsgUpdateTxPrivacyDataResponse {}
+
+message MsgDeleteTxPrivacyData {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteTxPrivacyDataResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

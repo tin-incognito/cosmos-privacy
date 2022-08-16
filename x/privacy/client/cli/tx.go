@@ -49,6 +49,9 @@ func GetTxCmd() *cobra.Command {
 	cmd.AddCommand(CmdUpdateOnetimeAddress())
 	cmd.AddCommand(CmdDeleteOnetimeAddress())
 	cmd.AddCommand(CmdCreateTx())
+	cmd.AddCommand(CmdCreateTxPrivacyData())
+	cmd.AddCommand(CmdUpdateTxPrivacyData())
+	cmd.AddCommand(CmdDeleteTxPrivacyData())
 	// this line is used by starport scaffolding # 1
 
 	return cmd

@@ -70,6 +70,14 @@ func TestGenesisState_Validate(t *testing.T) {
 						Index: "1",
 					},
 				},
+				TxPrivacyDataList: []types.TxPrivacyData{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -148,6 +156,20 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "duplicated onetimeAddress",
 			genState: &types.GenesisState{
 				OnetimeAddressList: []types.OnetimeAddress{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated txPrivacyData",
+			genState: &types.GenesisState{
+				TxPrivacyDataList: []types.TxPrivacyData{
 					{
 						Index: "0",
 					},

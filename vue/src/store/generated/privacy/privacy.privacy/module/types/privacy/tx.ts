@@ -136,6 +136,27 @@ export interface MsgCreateTx {
 
 export interface MsgCreateTxResponse {}
 
+export interface MsgCreateTxPrivacyData {
+  creator: string;
+  index: string;
+}
+
+export interface MsgCreateTxPrivacyDataResponse {}
+
+export interface MsgUpdateTxPrivacyData {
+  creator: string;
+  index: string;
+}
+
+export interface MsgUpdateTxPrivacyDataResponse {}
+
+export interface MsgDeleteTxPrivacyData {
+  creator: string;
+  index: string;
+}
+
+export interface MsgDeleteTxPrivacyDataResponse {}
+
 const baseMsgCreateSerialNumber: object = { creator: "", index: "" };
 
 export const MsgCreateSerialNumber = {
@@ -2545,6 +2566,393 @@ export const MsgCreateTxResponse = {
   },
 };
 
+const baseMsgCreateTxPrivacyData: object = { creator: "", index: "" };
+
+export const MsgCreateTxPrivacyData = {
+  encode(
+    message: MsgCreateTxPrivacyData,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.index !== "") {
+      writer.uint32(18).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgCreateTxPrivacyData {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgCreateTxPrivacyData } as MsgCreateTxPrivacyData;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateTxPrivacyData {
+    const message = { ...baseMsgCreateTxPrivacyData } as MsgCreateTxPrivacyData;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index);
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreateTxPrivacyData): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgCreateTxPrivacyData>
+  ): MsgCreateTxPrivacyData {
+    const message = { ...baseMsgCreateTxPrivacyData } as MsgCreateTxPrivacyData;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index;
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgCreateTxPrivacyDataResponse: object = {};
+
+export const MsgCreateTxPrivacyDataResponse = {
+  encode(
+    _: MsgCreateTxPrivacyDataResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgCreateTxPrivacyDataResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgCreateTxPrivacyDataResponse,
+    } as MsgCreateTxPrivacyDataResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgCreateTxPrivacyDataResponse {
+    const message = {
+      ...baseMsgCreateTxPrivacyDataResponse,
+    } as MsgCreateTxPrivacyDataResponse;
+    return message;
+  },
+
+  toJSON(_: MsgCreateTxPrivacyDataResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgCreateTxPrivacyDataResponse>
+  ): MsgCreateTxPrivacyDataResponse {
+    const message = {
+      ...baseMsgCreateTxPrivacyDataResponse,
+    } as MsgCreateTxPrivacyDataResponse;
+    return message;
+  },
+};
+
+const baseMsgUpdateTxPrivacyData: object = { creator: "", index: "" };
+
+export const MsgUpdateTxPrivacyData = {
+  encode(
+    message: MsgUpdateTxPrivacyData,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.index !== "") {
+      writer.uint32(18).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUpdateTxPrivacyData {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgUpdateTxPrivacyData } as MsgUpdateTxPrivacyData;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdateTxPrivacyData {
+    const message = { ...baseMsgUpdateTxPrivacyData } as MsgUpdateTxPrivacyData;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index);
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdateTxPrivacyData): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgUpdateTxPrivacyData>
+  ): MsgUpdateTxPrivacyData {
+    const message = { ...baseMsgUpdateTxPrivacyData } as MsgUpdateTxPrivacyData;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index;
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateTxPrivacyDataResponse: object = {};
+
+export const MsgUpdateTxPrivacyDataResponse = {
+  encode(
+    _: MsgUpdateTxPrivacyDataResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateTxPrivacyDataResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgUpdateTxPrivacyDataResponse,
+    } as MsgUpdateTxPrivacyDataResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgUpdateTxPrivacyDataResponse {
+    const message = {
+      ...baseMsgUpdateTxPrivacyDataResponse,
+    } as MsgUpdateTxPrivacyDataResponse;
+    return message;
+  },
+
+  toJSON(_: MsgUpdateTxPrivacyDataResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgUpdateTxPrivacyDataResponse>
+  ): MsgUpdateTxPrivacyDataResponse {
+    const message = {
+      ...baseMsgUpdateTxPrivacyDataResponse,
+    } as MsgUpdateTxPrivacyDataResponse;
+    return message;
+  },
+};
+
+const baseMsgDeleteTxPrivacyData: object = { creator: "", index: "" };
+
+export const MsgDeleteTxPrivacyData = {
+  encode(
+    message: MsgDeleteTxPrivacyData,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.index !== "") {
+      writer.uint32(18).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteTxPrivacyData {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteTxPrivacyData } as MsgDeleteTxPrivacyData;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteTxPrivacyData {
+    const message = { ...baseMsgDeleteTxPrivacyData } as MsgDeleteTxPrivacyData;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index);
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgDeleteTxPrivacyData): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgDeleteTxPrivacyData>
+  ): MsgDeleteTxPrivacyData {
+    const message = { ...baseMsgDeleteTxPrivacyData } as MsgDeleteTxPrivacyData;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index;
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgDeleteTxPrivacyDataResponse: object = {};
+
+export const MsgDeleteTxPrivacyDataResponse = {
+  encode(
+    _: MsgDeleteTxPrivacyDataResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgDeleteTxPrivacyDataResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgDeleteTxPrivacyDataResponse,
+    } as MsgDeleteTxPrivacyDataResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteTxPrivacyDataResponse {
+    const message = {
+      ...baseMsgDeleteTxPrivacyDataResponse,
+    } as MsgDeleteTxPrivacyDataResponse;
+    return message;
+  },
+
+  toJSON(_: MsgDeleteTxPrivacyDataResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgDeleteTxPrivacyDataResponse>
+  ): MsgDeleteTxPrivacyDataResponse {
+    const message = {
+      ...baseMsgDeleteTxPrivacyDataResponse,
+    } as MsgDeleteTxPrivacyDataResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateSerialNumber(
@@ -2595,8 +3003,17 @@ export interface Msg {
   DeleteOnetimeAddress(
     request: MsgDeleteOnetimeAddress
   ): Promise<MsgDeleteOnetimeAddressResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   CreateTx(request: MsgCreateTx): Promise<MsgCreateTxResponse>;
+  CreateTxPrivacyData(
+    request: MsgCreateTxPrivacyData
+  ): Promise<MsgCreateTxPrivacyDataResponse>;
+  UpdateTxPrivacyData(
+    request: MsgUpdateTxPrivacyData
+  ): Promise<MsgUpdateTxPrivacyDataResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  DeleteTxPrivacyData(
+    request: MsgDeleteTxPrivacyData
+  ): Promise<MsgDeleteTxPrivacyDataResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -2854,6 +3271,48 @@ export class MsgClientImpl implements Msg {
     const data = MsgCreateTx.encode(request).finish();
     const promise = this.rpc.request("privacy.privacy.Msg", "CreateTx", data);
     return promise.then((data) => MsgCreateTxResponse.decode(new Reader(data)));
+  }
+
+  CreateTxPrivacyData(
+    request: MsgCreateTxPrivacyData
+  ): Promise<MsgCreateTxPrivacyDataResponse> {
+    const data = MsgCreateTxPrivacyData.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Msg",
+      "CreateTxPrivacyData",
+      data
+    );
+    return promise.then((data) =>
+      MsgCreateTxPrivacyDataResponse.decode(new Reader(data))
+    );
+  }
+
+  UpdateTxPrivacyData(
+    request: MsgUpdateTxPrivacyData
+  ): Promise<MsgUpdateTxPrivacyDataResponse> {
+    const data = MsgUpdateTxPrivacyData.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Msg",
+      "UpdateTxPrivacyData",
+      data
+    );
+    return promise.then((data) =>
+      MsgUpdateTxPrivacyDataResponse.decode(new Reader(data))
+    );
+  }
+
+  DeleteTxPrivacyData(
+    request: MsgDeleteTxPrivacyData
+  ): Promise<MsgDeleteTxPrivacyDataResponse> {
+    const data = MsgDeleteTxPrivacyData.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Msg",
+      "DeleteTxPrivacyData",
+      data
+    );
+    return promise.then((data) =>
+      MsgDeleteTxPrivacyDataResponse.decode(new Reader(data))
+    );
   }
 }
 

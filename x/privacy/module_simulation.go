@@ -100,6 +100,18 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgCreateTx int = 100
 
+	opWeightMsgCreateTxPrivacyData = "op_weight_msg_tx_privacy_data"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateTxPrivacyData int = 100
+
+	opWeightMsgUpdateTxPrivacyData = "op_weight_msg_tx_privacy_data"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateTxPrivacyData int = 100
+
+	opWeightMsgDeleteTxPrivacyData = "op_weight_msg_tx_privacy_data"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgDeleteTxPrivacyData int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -162,6 +174,16 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 			},
 		},
 		OnetimeAddressList: []types.OnetimeAddress{
+			{
+				Creator: sample.AccAddress(),
+				Index:   "0",
+			},
+			{
+				Creator: sample.AccAddress(),
+				Index:   "1",
+			},
+		},
+		TxPrivacyDataList: []types.TxPrivacyData{
 			{
 				Creator: sample.AccAddress(),
 				Index:   "0",
@@ -401,6 +423,39 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgCreateTx,
 		privacysimulation.SimulateMsgCreateTx(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgCreateTxPrivacyData int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateTxPrivacyData, &weightMsgCreateTxPrivacyData, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateTxPrivacyData = defaultWeightMsgCreateTxPrivacyData
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateTxPrivacyData,
+		privacysimulation.SimulateMsgCreateTxPrivacyData(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgUpdateTxPrivacyData int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateTxPrivacyData, &weightMsgUpdateTxPrivacyData, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateTxPrivacyData = defaultWeightMsgUpdateTxPrivacyData
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateTxPrivacyData,
+		privacysimulation.SimulateMsgUpdateTxPrivacyData(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgDeleteTxPrivacyData int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteTxPrivacyData, &weightMsgDeleteTxPrivacyData, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteTxPrivacyData = defaultWeightMsgDeleteTxPrivacyData
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteTxPrivacyData,
+		privacysimulation.SimulateMsgDeleteTxPrivacyData(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

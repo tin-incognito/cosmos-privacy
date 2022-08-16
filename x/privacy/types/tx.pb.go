@@ -1699,6 +1699,270 @@ func (m *MsgCreateTxResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCreateTxResponse proto.InternalMessageInfo
 
+type MsgCreateTxPrivacyData struct {
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Index   string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
+}
+
+func (m *MsgCreateTxPrivacyData) Reset()         { *m = MsgCreateTxPrivacyData{} }
+func (m *MsgCreateTxPrivacyData) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateTxPrivacyData) ProtoMessage()    {}
+func (*MsgCreateTxPrivacyData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_039b3b08a7703bd9, []int{38}
+}
+func (m *MsgCreateTxPrivacyData) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateTxPrivacyData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateTxPrivacyData.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateTxPrivacyData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateTxPrivacyData.Merge(m, src)
+}
+func (m *MsgCreateTxPrivacyData) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateTxPrivacyData) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateTxPrivacyData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateTxPrivacyData proto.InternalMessageInfo
+
+func (m *MsgCreateTxPrivacyData) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgCreateTxPrivacyData) GetIndex() string {
+	if m != nil {
+		return m.Index
+	}
+	return ""
+}
+
+type MsgCreateTxPrivacyDataResponse struct {
+}
+
+func (m *MsgCreateTxPrivacyDataResponse) Reset()         { *m = MsgCreateTxPrivacyDataResponse{} }
+func (m *MsgCreateTxPrivacyDataResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgCreateTxPrivacyDataResponse) ProtoMessage()    {}
+func (*MsgCreateTxPrivacyDataResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_039b3b08a7703bd9, []int{39}
+}
+func (m *MsgCreateTxPrivacyDataResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgCreateTxPrivacyDataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgCreateTxPrivacyDataResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgCreateTxPrivacyDataResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgCreateTxPrivacyDataResponse.Merge(m, src)
+}
+func (m *MsgCreateTxPrivacyDataResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgCreateTxPrivacyDataResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgCreateTxPrivacyDataResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgCreateTxPrivacyDataResponse proto.InternalMessageInfo
+
+type MsgUpdateTxPrivacyData struct {
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Index   string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
+}
+
+func (m *MsgUpdateTxPrivacyData) Reset()         { *m = MsgUpdateTxPrivacyData{} }
+func (m *MsgUpdateTxPrivacyData) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateTxPrivacyData) ProtoMessage()    {}
+func (*MsgUpdateTxPrivacyData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_039b3b08a7703bd9, []int{40}
+}
+func (m *MsgUpdateTxPrivacyData) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateTxPrivacyData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateTxPrivacyData.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateTxPrivacyData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateTxPrivacyData.Merge(m, src)
+}
+func (m *MsgUpdateTxPrivacyData) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateTxPrivacyData) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateTxPrivacyData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateTxPrivacyData proto.InternalMessageInfo
+
+func (m *MsgUpdateTxPrivacyData) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgUpdateTxPrivacyData) GetIndex() string {
+	if m != nil {
+		return m.Index
+	}
+	return ""
+}
+
+type MsgUpdateTxPrivacyDataResponse struct {
+}
+
+func (m *MsgUpdateTxPrivacyDataResponse) Reset()         { *m = MsgUpdateTxPrivacyDataResponse{} }
+func (m *MsgUpdateTxPrivacyDataResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUpdateTxPrivacyDataResponse) ProtoMessage()    {}
+func (*MsgUpdateTxPrivacyDataResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_039b3b08a7703bd9, []int{41}
+}
+func (m *MsgUpdateTxPrivacyDataResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUpdateTxPrivacyDataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUpdateTxPrivacyDataResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUpdateTxPrivacyDataResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUpdateTxPrivacyDataResponse.Merge(m, src)
+}
+func (m *MsgUpdateTxPrivacyDataResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUpdateTxPrivacyDataResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUpdateTxPrivacyDataResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUpdateTxPrivacyDataResponse proto.InternalMessageInfo
+
+type MsgDeleteTxPrivacyData struct {
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Index   string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
+}
+
+func (m *MsgDeleteTxPrivacyData) Reset()         { *m = MsgDeleteTxPrivacyData{} }
+func (m *MsgDeleteTxPrivacyData) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteTxPrivacyData) ProtoMessage()    {}
+func (*MsgDeleteTxPrivacyData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_039b3b08a7703bd9, []int{42}
+}
+func (m *MsgDeleteTxPrivacyData) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteTxPrivacyData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteTxPrivacyData.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteTxPrivacyData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteTxPrivacyData.Merge(m, src)
+}
+func (m *MsgDeleteTxPrivacyData) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteTxPrivacyData) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteTxPrivacyData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteTxPrivacyData proto.InternalMessageInfo
+
+func (m *MsgDeleteTxPrivacyData) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgDeleteTxPrivacyData) GetIndex() string {
+	if m != nil {
+		return m.Index
+	}
+	return ""
+}
+
+type MsgDeleteTxPrivacyDataResponse struct {
+}
+
+func (m *MsgDeleteTxPrivacyDataResponse) Reset()         { *m = MsgDeleteTxPrivacyDataResponse{} }
+func (m *MsgDeleteTxPrivacyDataResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteTxPrivacyDataResponse) ProtoMessage()    {}
+func (*MsgDeleteTxPrivacyDataResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_039b3b08a7703bd9, []int{43}
+}
+func (m *MsgDeleteTxPrivacyDataResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteTxPrivacyDataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteTxPrivacyDataResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteTxPrivacyDataResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteTxPrivacyDataResponse.Merge(m, src)
+}
+func (m *MsgDeleteTxPrivacyDataResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteTxPrivacyDataResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteTxPrivacyDataResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteTxPrivacyDataResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgCreateSerialNumber)(nil), "privacy.privacy.MsgCreateSerialNumber")
 	proto.RegisterType((*MsgCreateSerialNumberResponse)(nil), "privacy.privacy.MsgCreateSerialNumberResponse")
@@ -1738,58 +2002,69 @@ func init() {
 	proto.RegisterType((*MsgDeleteOnetimeAddressResponse)(nil), "privacy.privacy.MsgDeleteOnetimeAddressResponse")
 	proto.RegisterType((*MsgCreateTx)(nil), "privacy.privacy.MsgCreateTx")
 	proto.RegisterType((*MsgCreateTxResponse)(nil), "privacy.privacy.MsgCreateTxResponse")
+	proto.RegisterType((*MsgCreateTxPrivacyData)(nil), "privacy.privacy.MsgCreateTxPrivacyData")
+	proto.RegisterType((*MsgCreateTxPrivacyDataResponse)(nil), "privacy.privacy.MsgCreateTxPrivacyDataResponse")
+	proto.RegisterType((*MsgUpdateTxPrivacyData)(nil), "privacy.privacy.MsgUpdateTxPrivacyData")
+	proto.RegisterType((*MsgUpdateTxPrivacyDataResponse)(nil), "privacy.privacy.MsgUpdateTxPrivacyDataResponse")
+	proto.RegisterType((*MsgDeleteTxPrivacyData)(nil), "privacy.privacy.MsgDeleteTxPrivacyData")
+	proto.RegisterType((*MsgDeleteTxPrivacyDataResponse)(nil), "privacy.privacy.MsgDeleteTxPrivacyDataResponse")
 }
 
 func init() { proto.RegisterFile("privacy/tx.proto", fileDescriptor_039b3b08a7703bd9) }
 
 var fileDescriptor_039b3b08a7703bd9 = []byte{
-	// 725 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x97, 0x5d, 0x6b, 0xd3, 0x50,
-	0x18, 0xc7, 0x5b, 0xc5, 0xb7, 0x67, 0xe2, 0x46, 0xb6, 0xba, 0x98, 0xd9, 0x74, 0x96, 0xa2, 0x2d,
-	0x48, 0xe7, 0xf4, 0x5a, 0x50, 0xab, 0xc8, 0x84, 0x4d, 0xa8, 0x13, 0xc1, 0x9b, 0xd2, 0xb5, 0xc7,
-	0x11, 0x6c, 0x93, 0x90, 0xa4, 0xa3, 0xfb, 0x16, 0x7e, 0x2c, 0x2f, 0x77, 0x29, 0x78, 0x23, 0xed,
-	0x17, 0x91, 0xbc, 0x9d, 0x9c, 0x9d, 0xf3, 0x9c, 0x93, 0x94, 0xf4, 0x6a, 0x24, 0xe7, 0xd9, 0xff,
-	0x97, 0xf3, 0x5f, 0x38, 0xbf, 0x05, 0xb6, 0x5c, 0xcf, 0xba, 0x18, 0x8e, 0x2e, 0x0f, 0x82, 0x79,
-	0xd7, 0xf5, 0x9c, 0xc0, 0xd1, 0x36, 0x93, 0x3b, 0xdd, 0xe4, 0xa7, 0xb1, 0x97, 0x8e, 0xf8, 0xc4,
-	0xb3, 0x86, 0x93, 0x81, 0x3d, 0x9b, 0x9e, 0x11, 0x2f, 0x9e, 0x36, 0x1e, 0xa5, 0x8b, 0xce, 0x2c,
-	0x70, 0x67, 0xc1, 0x60, 0xe4, 0x58, 0x76, 0xb2, 0xa4, 0xa7, 0x4b, 0x23, 0x67, 0x3a, 0xb5, 0x82,
-	0x29, 0xb1, 0x83, 0x64, 0xc5, 0x14, 0x57, 0x06, 0x96, 0x3d, 0x26, 0xc9, 0x23, 0x18, 0xdb, 0xf4,
-	0xa1, 0x9c, 0x9f, 0x24, 0x8d, 0xab, 0x53, 0x92, 0x4d, 0x02, 0x6b, 0x4a, 0x06, 0xc3, 0xf1, 0xd8,
-	0x23, 0xbe, 0x1f, 0x2f, 0x37, 0x3f, 0x42, 0xed, 0xd8, 0x3f, 0xef, 0x79, 0x64, 0x18, 0x90, 0x2f,
-	0xd1, 0x83, 0x9e, 0x44, 0xcf, 0xa9, 0xe9, 0x70, 0x67, 0x14, 0xde, 0x75, 0x3c, 0xbd, 0xba, 0x5f,
-	0x6d, 0xdf, 0xeb, 0xa7, 0x97, 0xda, 0x0e, 0xdc, 0x8a, 0xa8, 0xfa, 0x8d, 0xe8, 0x7e, 0x7c, 0xd1,
-	0x6c, 0x40, 0x1d, 0x0d, 0xea, 0x13, 0xdf, 0x75, 0x6c, 0x9f, 0x24, 0xa4, 0xaf, 0xee, 0x78, 0x3d,
-	0x24, 0x31, 0x88, 0x23, 0xbd, 0x27, 0x13, 0xb2, 0x16, 0x92, 0x18, 0x44, 0x49, 0x1f, 0x60, 0x9b,
-	0x6e, 0xfa, 0x73, 0xf4, 0x97, 0xec, 0x39, 0x96, 0xbd, 0x32, 0xa7, 0x0e, 0x7b, 0x48, 0x0c, 0x47,
-	0x89, 0x37, 0x5c, 0x9a, 0xc2, 0xc7, 0x70, 0x94, 0x78, 0xb3, 0xa5, 0x29, 0x7c, 0x0c, 0xda, 0x58,
-	0x8f, 0xbe, 0xc6, 0xa5, 0x1a, 0xcb, 0x62, 0xd0, 0xc6, 0x4a, 0x53, 0xf8, 0x18, 0xb4, 0xb1, 0xd2,
-	0x14, 0x3e, 0x86, 0x52, 0x3e, 0x81, 0x8e, 0x6c, 0xf5, 0x28, 0xfc, 0xd5, 0x95, 0x51, 0x4d, 0xd8,
-	0x97, 0x65, 0x71, 0x3c, 0x7e, 0xd3, 0x65, 0x78, 0x68, 0x16, 0xc7, 0xe3, 0xb7, 0x5f, 0x86, 0x87,
-	0x66, 0x51, 0xde, 0x1b, 0x78, 0x40, 0x3b, 0x38, 0x0d, 0x0f, 0xca, 0x95, 0x29, 0x3a, 0x3c, 0xbc,
-	0x9e, 0xc0, 0x65, 0xc7, 0xfb, 0x2d, 0x93, 0xcd, 0x24, 0x70, 0xd9, 0xf1, 0xde, 0xca, 0x64, 0x33,
-	0x09, 0x34, 0xfb, 0x08, 0x76, 0xb3, 0x03, 0x28, 0xf6, 0xc4, 0xdb, 0x58, 0x13, 0x2b, 0x43, 0x9e,
-	0x40, 0x43, 0x12, 0xc5, 0xd1, 0x92, 0x83, 0x68, 0x1d, 0x34, 0x2c, 0x8a, 0xa3, 0x25, 0x07, 0xd2,
-	0x3a, 0x68, 0x58, 0x14, 0xa5, 0xbd, 0x86, 0x8d, 0xec, 0xdd, 0xc8, 0x79, 0x81, 0x2f, 0x86, 0x93,
-	0x19, 0x89, 0x08, 0xf7, 0xfb, 0xf1, 0x45, 0xb3, 0xc6, 0x1c, 0x8f, 0xa7, 0xf4, 0x9d, 0x7d, 0xf9,
-	0x77, 0x13, 0x6e, 0x1e, 0xfb, 0xe7, 0xda, 0x04, 0x34, 0x44, 0xd5, 0x4f, 0xbb, 0xdc, 0xff, 0x1e,
-	0x5d, 0xd4, 0xc4, 0x46, 0xb7, 0xd8, 0x5c, 0x4a, 0x0d, 0x69, 0x88, 0xae, 0x51, 0x9a, 0x38, 0x87,
-	0xd3, 0xe4, 0xd6, 0x0e, 0x69, 0x88, 0xb2, 0x51, 0x9a, 0x38, 0x87, 0xd3, 0xe4, 0xe6, 0xd6, 0x7e,
-	0xc0, 0x96, 0xa0, 0xed, 0x96, 0xbc, 0x9f, 0x6c, 0xca, 0x78, 0x5e, 0x64, 0x8a, 0xe5, 0x08, 0xe2,
-	0x6e, 0xc9, 0x9b, 0xc9, 0xe3, 0xc8, 0xec, 0x1d, 0x72, 0x04, 0x75, 0xb7, 0xe4, 0x9d, 0xe4, 0x71,
-	0x64, 0xfe, 0xce, 0x7a, 0x63, 0x84, 0xa7, 0xe8, 0x2d, 0x9b, 0x52, 0xf5, 0x26, 0x5a, 0x2f, 0xeb,
-	0x2d, 0x8f, 0xc3, 0x4f, 0xa9, 0x7a, 0xc3, 0x39, 0x82, 0xc0, 0x15, 0xbd, 0xe5, 0x71, 0x64, 0x16,
-	0xd7, 0x66, 0x50, 0xc3, 0x15, 0xde, 0x29, 0x52, 0x4b, 0x34, 0x6a, 0x1c, 0x16, 0x1e, 0x65, 0xb1,
-	0xb8, 0xc9, 0x3b, 0x45, 0x5a, 0x52, 0x60, 0x95, 0x4e, 0x0f, 0xb1, 0xb8, 0xd0, 0x3b, 0x45, 0x4a,
-	0x53, 0x60, 0x95, 0x6a, 0xd7, 0xbe, 0xc1, 0x06, 0xeb, 0xf5, 0x86, 0xbc, 0xaf, 0x68, 0xc0, 0x78,
-	0x96, 0x33, 0xc0, 0x06, 0xb3, 0x52, 0x6f, 0xc8, 0x1b, 0x51, 0x04, 0x23, 0x52, 0x0f, 0x83, 0x59,
-	0xa3, 0x37, 0xe4, 0x7b, 0x56, 0x04, 0x23, 0x46, 0xd7, 0x3c, 0xd8, 0x41, 0x75, 0xde, 0x56, 0x9c,
-	0x5e, 0xd7, 0x26, 0x8d, 0x17, 0x45, 0x27, 0x59, 0x26, 0x2a, 0xf5, 0xb6, 0xe2, 0x24, 0x2b, 0xc0,
-	0x54, 0xd9, 0x3d, 0x64, 0xa2, 0x6a, 0x6f, 0x2b, 0x4e, 0xb5, 0x02, 0x4c, 0x95, 0xe3, 0xb5, 0x13,
-	0xb8, 0x4b, 0x05, 0xff, 0x58, 0xf1, 0x0a, 0xcd, 0x8d, 0x96, 0x6a, 0x35, 0xcd, 0x7b, 0x77, 0xf8,
-	0x7b, 0x61, 0x56, 0xaf, 0x16, 0x66, 0xf5, 0xdf, 0xc2, 0xac, 0xfe, 0x5a, 0x9a, 0x95, 0xab, 0xa5,
-	0x59, 0xf9, 0xb3, 0x34, 0x2b, 0xdf, 0x77, 0xd3, 0x8f, 0xf7, 0xf9, 0x01, 0xfd, 0xb6, 0xbf, 0x74,
-	0x89, 0x7f, 0x76, 0x3b, 0xfa, 0x7a, 0x7f, 0xf5, 0x3f, 0x00, 0x00, 0xff, 0xff, 0x84, 0x45, 0x48,
-	0x1f, 0x88, 0x10, 0x00, 0x00,
+	// 812 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x98, 0xcf, 0x6e, 0xd3, 0x40,
+	0x10, 0xc6, 0x1b, 0x10, 0xff, 0xa6, 0x08, 0x2a, 0xb7, 0xa5, 0xc6, 0xa5, 0x4e, 0x89, 0x22, 0x48,
+	0x25, 0x94, 0x50, 0x38, 0x23, 0x01, 0x29, 0x82, 0x22, 0xb5, 0xa0, 0x50, 0x84, 0xc4, 0xc5, 0x72,
+	0x93, 0xa5, 0xb2, 0x48, 0x6c, 0xcb, 0x76, 0xaa, 0xf4, 0x2d, 0x78, 0x12, 0x9e, 0x83, 0x63, 0x8f,
+	0x1c, 0x51, 0xf2, 0x22, 0xc8, 0xff, 0xd6, 0xdb, 0xf5, 0xec, 0xda, 0x91, 0x7d, 0x6a, 0xed, 0x9d,
+	0x7e, 0x3f, 0xcf, 0xd7, 0xd1, 0xf8, 0x93, 0x61, 0xcd, 0xf5, 0xac, 0x73, 0x73, 0x78, 0xd1, 0x0b,
+	0x66, 0x5d, 0xd7, 0x73, 0x02, 0x47, 0xb9, 0x9f, 0xdc, 0xe9, 0x26, 0x3f, 0xb5, 0xed, 0xb4, 0xc4,
+	0x27, 0x9e, 0x65, 0x8e, 0x0d, 0x7b, 0x3a, 0x39, 0x25, 0x5e, 0x5c, 0xad, 0x3d, 0x4c, 0x0f, 0x9d,
+	0x69, 0xe0, 0x4e, 0x03, 0x63, 0xe8, 0x58, 0x76, 0x72, 0xa4, 0xa6, 0x47, 0x43, 0x67, 0x32, 0xb1,
+	0x82, 0x09, 0xb1, 0x83, 0xe4, 0x44, 0xcf, 0x9f, 0x18, 0x96, 0x3d, 0x22, 0xc9, 0x23, 0x68, 0xeb,
+	0xf4, 0xa1, 0x9c, 0x9f, 0x24, 0x95, 0xdb, 0xa1, 0x24, 0x9b, 0x04, 0xd6, 0x84, 0x18, 0xe6, 0x68,
+	0xe4, 0x11, 0xdf, 0xe7, 0x8f, 0x83, 0x99, 0x91, 0xfc, 0x6a, 0x8c, 0xcc, 0xc0, 0x8c, 0x8f, 0x5b,
+	0xef, 0x61, 0xf3, 0xc8, 0x3f, 0xeb, 0x7b, 0xc4, 0x0c, 0xc8, 0x97, 0xa8, 0x8f, 0xe3, 0xa8, 0x0d,
+	0x45, 0x85, 0x5b, 0xc3, 0xf0, 0xae, 0xe3, 0xa9, 0x8d, 0xdd, 0x46, 0xe7, 0xce, 0x20, 0xbd, 0x54,
+	0x36, 0xe0, 0x46, 0xf4, 0x50, 0xea, 0xb5, 0xe8, 0x7e, 0x7c, 0xd1, 0x6a, 0xc2, 0x0e, 0x2a, 0x34,
+	0x20, 0xbe, 0xeb, 0xd8, 0x3e, 0x49, 0x48, 0x5f, 0xdd, 0x51, 0x3d, 0xa4, 0xbc, 0x10, 0x47, 0x3a,
+	0x20, 0x63, 0x52, 0x0b, 0x29, 0x2f, 0x44, 0x49, 0xef, 0x60, 0x9d, 0x36, 0xfd, 0x29, 0xfa, 0x47,
+	0xf7, 0x1d, 0xcb, 0x5e, 0x9a, 0xb3, 0x03, 0xdb, 0x88, 0x0c, 0x47, 0x89, 0x1b, 0xae, 0x4c, 0xe1,
+	0x65, 0x38, 0x4a, 0xdc, 0x6c, 0x65, 0x0a, 0x2f, 0x83, 0x3a, 0xd6, 0xa7, 0x53, 0x5e, 0xc9, 0xb1,
+	0x4c, 0x06, 0x75, 0xac, 0x32, 0x85, 0x97, 0x41, 0x1d, 0xab, 0x4c, 0xe1, 0x65, 0x28, 0xe5, 0x23,
+	0xa8, 0x48, 0xab, 0x87, 0xe1, 0x9f, 0x2e, 0x8d, 0x6a, 0xc1, 0xae, 0x48, 0x8b, 0xe3, 0xf1, 0x4d,
+	0x57, 0xe1, 0xa1, 0x5a, 0x1c, 0x8f, 0x6f, 0xbf, 0x0a, 0x0f, 0xd5, 0xa2, 0xbc, 0xd7, 0x70, 0x8f,
+	0x7a, 0x70, 0x12, 0xee, 0xd1, 0xa5, 0x29, 0x2a, 0x3c, 0xb8, 0xaa, 0xc0, 0x69, 0xc7, 0xfd, 0x56,
+	0xd1, 0x66, 0x14, 0x38, 0xed, 0xb8, 0xb7, 0x2a, 0xda, 0x8c, 0x02, 0xd5, 0x3e, 0x84, 0xad, 0x6c,
+	0x01, 0xc5, 0xaf, 0x91, 0x37, 0xf1, 0x5b, 0x64, 0x69, 0xc8, 0x63, 0x68, 0x0a, 0xa4, 0x38, 0x5a,
+	0xb2, 0x88, 0xea, 0xa0, 0x61, 0x52, 0x1c, 0x2d, 0x59, 0x48, 0x75, 0xd0, 0x30, 0x29, 0x4a, 0x7b,
+	0x05, 0xab, 0xd9, 0x6c, 0x14, 0x0c, 0xf0, 0xb9, 0x39, 0x9e, 0x92, 0x88, 0x70, 0x77, 0x10, 0x5f,
+	0xb4, 0x36, 0x99, 0xf5, 0x78, 0x92, 0xcd, 0xec, 0x07, 0x76, 0xe2, 0x66, 0x9f, 0xe3, 0xd7, 0xf8,
+	0x81, 0x19, 0x98, 0x4b, 0xb7, 0xb0, 0x0b, 0x3a, 0xae, 0xc4, 0xb1, 0x92, 0x09, 0xac, 0x81, 0x85,
+	0x28, 0x71, 0xac, 0x64, 0x22, 0x6b, 0x60, 0x21, 0x4a, 0x29, 0xeb, 0xc5, 0x6f, 0x05, 0xae, 0x1f,
+	0xf9, 0x67, 0xca, 0x18, 0x14, 0x24, 0xee, 0x3c, 0xe9, 0x72, 0xf1, 0xae, 0x8b, 0xa6, 0x19, 0xad,
+	0x5b, 0xae, 0x2e, 0xa5, 0x86, 0x34, 0x24, 0xf2, 0xa0, 0xb4, 0x7c, 0x1d, 0x4e, 0x13, 0x27, 0x9f,
+	0x90, 0x86, 0xc4, 0x1e, 0x94, 0x96, 0xaf, 0xc3, 0x69, 0xe2, 0xf4, 0xa3, 0xfc, 0x80, 0xb5, 0x5c,
+	0xf4, 0x69, 0x8b, 0xfd, 0xc9, 0xaa, 0xb4, 0x67, 0x65, 0xaa, 0x58, 0x4e, 0x2e, 0xfc, 0xb4, 0xc5,
+	0xce, 0x14, 0x71, 0x44, 0x09, 0x28, 0xe4, 0xe4, 0xe2, 0x4f, 0x5b, 0xec, 0x49, 0x11, 0x47, 0x94,
+	0x81, 0x32, 0xdf, 0x98, 0xd0, 0x20, 0xf1, 0x2d, 0xab, 0x92, 0xf9, 0x96, 0x4f, 0x0e, 0x99, 0x6f,
+	0x45, 0x1c, 0xbe, 0x4a, 0xe6, 0x1b, 0xce, 0xc9, 0x85, 0x20, 0x89, 0x6f, 0x45, 0x1c, 0x51, 0x12,
+	0x52, 0xa6, 0xb0, 0x89, 0xc7, 0xa0, 0xbd, 0x32, 0xb6, 0x44, 0xa5, 0xda, 0x7e, 0xe9, 0x52, 0x16,
+	0x8b, 0xa7, 0xa1, 0xbd, 0x32, 0x2e, 0x49, 0xb0, 0xd2, 0x5c, 0x14, 0x62, 0xf1, 0x50, 0xb4, 0x57,
+	0xc6, 0x34, 0x09, 0x56, 0x1a, 0x8f, 0x94, 0x6f, 0xb0, 0xca, 0x66, 0xa3, 0xa6, 0xd8, 0xaf, 0xa8,
+	0x40, 0x7b, 0x5a, 0x50, 0xc0, 0x0a, 0xb3, 0xc1, 0xa8, 0x29, 0x76, 0x44, 0x22, 0x8c, 0x04, 0xa3,
+	0x50, 0x98, 0x4d, 0x45, 0x4d, 0x71, 0xcf, 0x12, 0x61, 0x24, 0x15, 0x29, 0x1e, 0x6c, 0xa0, 0x91,
+	0xa8, 0x23, 0xd9, 0x5e, 0x57, 0x2a, 0xb5, 0xe7, 0x65, 0x2b, 0x59, 0x26, 0x1a, 0x8c, 0x3a, 0x92,
+	0x4d, 0x56, 0x82, 0x29, 0x4b, 0x48, 0x21, 0x13, 0x8d, 0x47, 0x1d, 0xc9, 0x56, 0x2b, 0xc1, 0x94,
+	0xe5, 0x24, 0xe5, 0x18, 0x6e, 0xd3, 0x90, 0xf4, 0x48, 0x32, 0x42, 0x33, 0xad, 0x2d, 0x3b, 0xa5,
+	0x7a, 0x0e, 0xac, 0x63, 0xf1, 0x48, 0x36, 0x9d, 0x6c, 0xa1, 0xd6, 0x2b, 0x59, 0xc8, 0x02, 0xb1,
+	0x8c, 0x24, 0x9b, 0xda, 0x62, 0xa0, 0x24, 0x2b, 0x85, 0x40, 0x2c, 0x28, 0xc9, 0xa6, 0xb9, 0x18,
+	0x28, 0x09, 0x4c, 0x6f, 0xf7, 0xff, 0xcc, 0xf5, 0xc6, 0xe5, 0x5c, 0x6f, 0xfc, 0x9b, 0xeb, 0x8d,
+	0x5f, 0x0b, 0x7d, 0xe5, 0x72, 0xa1, 0xaf, 0xfc, 0x5d, 0xe8, 0x2b, 0xdf, 0xb7, 0xd2, 0x6f, 0x4a,
+	0xb3, 0x1e, 0xfd, 0xba, 0x74, 0xe1, 0x12, 0xff, 0xf4, 0x66, 0xf4, 0x51, 0xe9, 0xe5, 0xff, 0x00,
+	0x00, 0x00, 0xff, 0xff, 0x46, 0x42, 0x6c, 0x85, 0x3e, 0x13, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1823,6 +2098,9 @@ type MsgClient interface {
 	UpdateOnetimeAddress(ctx context.Context, in *MsgUpdateOnetimeAddress, opts ...grpc.CallOption) (*MsgUpdateOnetimeAddressResponse, error)
 	DeleteOnetimeAddress(ctx context.Context, in *MsgDeleteOnetimeAddress, opts ...grpc.CallOption) (*MsgDeleteOnetimeAddressResponse, error)
 	CreateTx(ctx context.Context, in *MsgCreateTx, opts ...grpc.CallOption) (*MsgCreateTxResponse, error)
+	CreateTxPrivacyData(ctx context.Context, in *MsgCreateTxPrivacyData, opts ...grpc.CallOption) (*MsgCreateTxPrivacyDataResponse, error)
+	UpdateTxPrivacyData(ctx context.Context, in *MsgUpdateTxPrivacyData, opts ...grpc.CallOption) (*MsgUpdateTxPrivacyDataResponse, error)
+	DeleteTxPrivacyData(ctx context.Context, in *MsgDeleteTxPrivacyData, opts ...grpc.CallOption) (*MsgDeleteTxPrivacyDataResponse, error)
 }
 
 type msgClient struct {
@@ -2004,6 +2282,33 @@ func (c *msgClient) CreateTx(ctx context.Context, in *MsgCreateTx, opts ...grpc.
 	return out, nil
 }
 
+func (c *msgClient) CreateTxPrivacyData(ctx context.Context, in *MsgCreateTxPrivacyData, opts ...grpc.CallOption) (*MsgCreateTxPrivacyDataResponse, error) {
+	out := new(MsgCreateTxPrivacyDataResponse)
+	err := c.cc.Invoke(ctx, "/privacy.privacy.Msg/CreateTxPrivacyData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) UpdateTxPrivacyData(ctx context.Context, in *MsgUpdateTxPrivacyData, opts ...grpc.CallOption) (*MsgUpdateTxPrivacyDataResponse, error) {
+	out := new(MsgUpdateTxPrivacyDataResponse)
+	err := c.cc.Invoke(ctx, "/privacy.privacy.Msg/UpdateTxPrivacyData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DeleteTxPrivacyData(ctx context.Context, in *MsgDeleteTxPrivacyData, opts ...grpc.CallOption) (*MsgDeleteTxPrivacyDataResponse, error) {
+	out := new(MsgDeleteTxPrivacyDataResponse)
+	err := c.cc.Invoke(ctx, "/privacy.privacy.Msg/DeleteTxPrivacyData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	CreateSerialNumber(context.Context, *MsgCreateSerialNumber) (*MsgCreateSerialNumberResponse, error)
@@ -2025,6 +2330,9 @@ type MsgServer interface {
 	UpdateOnetimeAddress(context.Context, *MsgUpdateOnetimeAddress) (*MsgUpdateOnetimeAddressResponse, error)
 	DeleteOnetimeAddress(context.Context, *MsgDeleteOnetimeAddress) (*MsgDeleteOnetimeAddressResponse, error)
 	CreateTx(context.Context, *MsgCreateTx) (*MsgCreateTxResponse, error)
+	CreateTxPrivacyData(context.Context, *MsgCreateTxPrivacyData) (*MsgCreateTxPrivacyDataResponse, error)
+	UpdateTxPrivacyData(context.Context, *MsgUpdateTxPrivacyData) (*MsgUpdateTxPrivacyDataResponse, error)
+	DeleteTxPrivacyData(context.Context, *MsgDeleteTxPrivacyData) (*MsgDeleteTxPrivacyDataResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -2087,6 +2395,15 @@ func (*UnimplementedMsgServer) DeleteOnetimeAddress(ctx context.Context, req *Ms
 }
 func (*UnimplementedMsgServer) CreateTx(ctx context.Context, req *MsgCreateTx) (*MsgCreateTxResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTx not implemented")
+}
+func (*UnimplementedMsgServer) CreateTxPrivacyData(ctx context.Context, req *MsgCreateTxPrivacyData) (*MsgCreateTxPrivacyDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTxPrivacyData not implemented")
+}
+func (*UnimplementedMsgServer) UpdateTxPrivacyData(ctx context.Context, req *MsgUpdateTxPrivacyData) (*MsgUpdateTxPrivacyDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTxPrivacyData not implemented")
+}
+func (*UnimplementedMsgServer) DeleteTxPrivacyData(ctx context.Context, req *MsgDeleteTxPrivacyData) (*MsgDeleteTxPrivacyDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTxPrivacyData not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -2435,6 +2752,60 @@ func _Msg_CreateTx_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_CreateTxPrivacyData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgCreateTxPrivacyData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).CreateTxPrivacyData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/privacy.privacy.Msg/CreateTxPrivacyData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).CreateTxPrivacyData(ctx, req.(*MsgCreateTxPrivacyData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_UpdateTxPrivacyData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUpdateTxPrivacyData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).UpdateTxPrivacyData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/privacy.privacy.Msg/UpdateTxPrivacyData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).UpdateTxPrivacyData(ctx, req.(*MsgUpdateTxPrivacyData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DeleteTxPrivacyData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteTxPrivacyData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteTxPrivacyData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/privacy.privacy.Msg/DeleteTxPrivacyData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteTxPrivacyData(ctx, req.(*MsgDeleteTxPrivacyData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "privacy.privacy.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -2514,6 +2885,18 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateTx",
 			Handler:    _Msg_CreateTx_Handler,
+		},
+		{
+			MethodName: "CreateTxPrivacyData",
+			Handler:    _Msg_CreateTxPrivacyData_Handler,
+		},
+		{
+			MethodName: "UpdateTxPrivacyData",
+			Handler:    _Msg_UpdateTxPrivacyData_Handler,
+		},
+		{
+			MethodName: "DeleteTxPrivacyData",
+			Handler:    _Msg_DeleteTxPrivacyData_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -3660,6 +4043,186 @@ func (m *MsgCreateTxResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgCreateTxPrivacyData) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateTxPrivacyData) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateTxPrivacyData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Index) > 0 {
+		i -= len(m.Index)
+		copy(dAtA[i:], m.Index)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Index)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgCreateTxPrivacyDataResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgCreateTxPrivacyDataResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgCreateTxPrivacyDataResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateTxPrivacyData) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateTxPrivacyData) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateTxPrivacyData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Index) > 0 {
+		i -= len(m.Index)
+		copy(dAtA[i:], m.Index)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Index)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUpdateTxPrivacyDataResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUpdateTxPrivacyDataResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUpdateTxPrivacyDataResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteTxPrivacyData) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteTxPrivacyData) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteTxPrivacyData) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Index) > 0 {
+		i -= len(m.Index)
+		copy(dAtA[i:], m.Index)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Index)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteTxPrivacyDataResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteTxPrivacyDataResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteTxPrivacyDataResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -4157,6 +4720,84 @@ func (m *MsgCreateTx) Size() (n int) {
 }
 
 func (m *MsgCreateTxResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgCreateTxPrivacyData) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Index)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgCreateTxPrivacyDataResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgUpdateTxPrivacyData) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Index)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUpdateTxPrivacyDataResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgDeleteTxPrivacyData) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Index)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgDeleteTxPrivacyDataResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -7266,6 +7907,498 @@ func (m *MsgCreateTxResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgCreateTxResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateTxPrivacyData) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateTxPrivacyData: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateTxPrivacyData: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Index = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgCreateTxPrivacyDataResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgCreateTxPrivacyDataResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgCreateTxPrivacyDataResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateTxPrivacyData) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateTxPrivacyData: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateTxPrivacyData: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Index = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUpdateTxPrivacyDataResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUpdateTxPrivacyDataResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUpdateTxPrivacyDataResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteTxPrivacyData) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteTxPrivacyData: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteTxPrivacyData: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Index = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteTxPrivacyDataResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteTxPrivacyDataResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteTxPrivacyDataResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

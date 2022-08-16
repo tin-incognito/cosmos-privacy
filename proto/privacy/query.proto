@@ -11,6 +11,7 @@ import "privacy/commitment.proto";
 import "privacy/commitment_index.proto";
 import "privacy/token.proto";
 import "privacy/onetime_address.proto";
+import "privacy/tx_privacy_data.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "privacy/x/privacy/types";
@@ -79,6 +80,16 @@ service Query {
 	// Queries a list of OnetimeAddress items.
 	rpc OnetimeAddressAll(QueryAllOnetimeAddressRequest) returns (QueryAllOnetimeAddressResponse) {
 		option (google.api.http).get = "/privacy/privacy/onetime_address";
+	}
+
+// Queries a TxPrivacyData by index.
+	rpc TxPrivacyData(QueryGetTxPrivacyDataRequest) returns (QueryGetTxPrivacyDataResponse) {
+		option (google.api.http).get = "/privacy/privacy/tx_privacy_data/{index}";
+	}
+
+	// Queries a list of TxPrivacyData items.
+	rpc TxPrivacyDataAll(QueryAllTxPrivacyDataRequest) returns (QueryAllTxPrivacyDataResponse) {
+		option (google.api.http).get = "/privacy/privacy/tx_privacy_data";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -198,6 +209,24 @@ message QueryAllOnetimeAddressRequest {
 
 message QueryAllOnetimeAddressResponse {
 	repeated OnetimeAddress onetimeAddress = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetTxPrivacyDataRequest {
+	  string index = 1;
+
+}
+
+message QueryGetTxPrivacyDataResponse {
+	TxPrivacyData txPrivacyData = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllTxPrivacyDataRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTxPrivacyDataResponse {
+	repeated TxPrivacyData txPrivacyData = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

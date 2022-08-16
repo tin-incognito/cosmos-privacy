@@ -1,0 +1,17 @@
+syntax = "proto3";
+package privacy.privacy;
+
+option go_package = "privacy/x/privacy/types";
+
+message TxPrivacyData {
+  string index = 1; 
+  string creator = 2;
+  uint64 lock_time = 3;
+  uint64 fee = 4;
+  bytes info = 5;
+  bytes sig_pub_key = 6;
+  bytes sig = 7;
+  bytes proof = 8;
+  bytes messages = 9;
+}
+

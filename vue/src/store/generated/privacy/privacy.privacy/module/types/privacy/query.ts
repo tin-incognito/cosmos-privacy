@@ -11,6 +11,7 @@ import { Commitment } from "../privacy/commitment";
 import { CommitmentIndex } from "../privacy/commitment_index";
 import { Token } from "../privacy/token";
 import { OnetimeAddress } from "../privacy/onetime_address";
+import { TxPrivacyData } from "../privacy/tx_privacy_data";
 
 export const protobufPackage = "privacy.privacy";
 
@@ -122,6 +123,23 @@ export interface QueryAllOnetimeAddressRequest {
 
 export interface QueryAllOnetimeAddressResponse {
   onetimeAddress: OnetimeAddress[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetTxPrivacyDataRequest {
+  index: string;
+}
+
+export interface QueryGetTxPrivacyDataResponse {
+  txPrivacyData: TxPrivacyData | undefined;
+}
+
+export interface QueryAllTxPrivacyDataRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllTxPrivacyDataResponse {
+  txPrivacyData: TxPrivacyData[];
   pagination: PageResponse | undefined;
 }
 
@@ -2101,6 +2119,325 @@ export const QueryAllOnetimeAddressResponse = {
   },
 };
 
+const baseQueryGetTxPrivacyDataRequest: object = { index: "" };
+
+export const QueryGetTxPrivacyDataRequest = {
+  encode(
+    message: QueryGetTxPrivacyDataRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.index !== "") {
+      writer.uint32(10).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetTxPrivacyDataRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetTxPrivacyDataRequest,
+    } as QueryGetTxPrivacyDataRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetTxPrivacyDataRequest {
+    const message = {
+      ...baseQueryGetTxPrivacyDataRequest,
+    } as QueryGetTxPrivacyDataRequest;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index);
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetTxPrivacyDataRequest): unknown {
+    const obj: any = {};
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetTxPrivacyDataRequest>
+  ): QueryGetTxPrivacyDataRequest {
+    const message = {
+      ...baseQueryGetTxPrivacyDataRequest,
+    } as QueryGetTxPrivacyDataRequest;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index;
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetTxPrivacyDataResponse: object = {};
+
+export const QueryGetTxPrivacyDataResponse = {
+  encode(
+    message: QueryGetTxPrivacyDataResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.txPrivacyData !== undefined) {
+      TxPrivacyData.encode(
+        message.txPrivacyData,
+        writer.uint32(10).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetTxPrivacyDataResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetTxPrivacyDataResponse,
+    } as QueryGetTxPrivacyDataResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.txPrivacyData = TxPrivacyData.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetTxPrivacyDataResponse {
+    const message = {
+      ...baseQueryGetTxPrivacyDataResponse,
+    } as QueryGetTxPrivacyDataResponse;
+    if (object.txPrivacyData !== undefined && object.txPrivacyData !== null) {
+      message.txPrivacyData = TxPrivacyData.fromJSON(object.txPrivacyData);
+    } else {
+      message.txPrivacyData = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetTxPrivacyDataResponse): unknown {
+    const obj: any = {};
+    message.txPrivacyData !== undefined &&
+      (obj.txPrivacyData = message.txPrivacyData
+        ? TxPrivacyData.toJSON(message.txPrivacyData)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetTxPrivacyDataResponse>
+  ): QueryGetTxPrivacyDataResponse {
+    const message = {
+      ...baseQueryGetTxPrivacyDataResponse,
+    } as QueryGetTxPrivacyDataResponse;
+    if (object.txPrivacyData !== undefined && object.txPrivacyData !== null) {
+      message.txPrivacyData = TxPrivacyData.fromPartial(object.txPrivacyData);
+    } else {
+      message.txPrivacyData = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllTxPrivacyDataRequest: object = {};
+
+export const QueryAllTxPrivacyDataRequest = {
+  encode(
+    message: QueryAllTxPrivacyDataRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllTxPrivacyDataRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllTxPrivacyDataRequest,
+    } as QueryAllTxPrivacyDataRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllTxPrivacyDataRequest {
+    const message = {
+      ...baseQueryAllTxPrivacyDataRequest,
+    } as QueryAllTxPrivacyDataRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllTxPrivacyDataRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllTxPrivacyDataRequest>
+  ): QueryAllTxPrivacyDataRequest {
+    const message = {
+      ...baseQueryAllTxPrivacyDataRequest,
+    } as QueryAllTxPrivacyDataRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllTxPrivacyDataResponse: object = {};
+
+export const QueryAllTxPrivacyDataResponse = {
+  encode(
+    message: QueryAllTxPrivacyDataResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.txPrivacyData) {
+      TxPrivacyData.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllTxPrivacyDataResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllTxPrivacyDataResponse,
+    } as QueryAllTxPrivacyDataResponse;
+    message.txPrivacyData = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.txPrivacyData.push(
+            TxPrivacyData.decode(reader, reader.uint32())
+          );
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllTxPrivacyDataResponse {
+    const message = {
+      ...baseQueryAllTxPrivacyDataResponse,
+    } as QueryAllTxPrivacyDataResponse;
+    message.txPrivacyData = [];
+    if (object.txPrivacyData !== undefined && object.txPrivacyData !== null) {
+      for (const e of object.txPrivacyData) {
+        message.txPrivacyData.push(TxPrivacyData.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllTxPrivacyDataResponse): unknown {
+    const obj: any = {};
+    if (message.txPrivacyData) {
+      obj.txPrivacyData = message.txPrivacyData.map((e) =>
+        e ? TxPrivacyData.toJSON(e) : undefined
+      );
+    } else {
+      obj.txPrivacyData = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllTxPrivacyDataResponse>
+  ): QueryAllTxPrivacyDataResponse {
+    const message = {
+      ...baseQueryAllTxPrivacyDataResponse,
+    } as QueryAllTxPrivacyDataResponse;
+    message.txPrivacyData = [];
+    if (object.txPrivacyData !== undefined && object.txPrivacyData !== null) {
+      for (const e of object.txPrivacyData) {
+        message.txPrivacyData.push(TxPrivacyData.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -2149,6 +2486,14 @@ export interface Query {
   OnetimeAddressAll(
     request: QueryAllOnetimeAddressRequest
   ): Promise<QueryAllOnetimeAddressResponse>;
+  /** Queries a TxPrivacyData by index. */
+  TxPrivacyData(
+    request: QueryGetTxPrivacyDataRequest
+  ): Promise<QueryGetTxPrivacyDataResponse>;
+  /** Queries a list of TxPrivacyData items. */
+  TxPrivacyDataAll(
+    request: QueryAllTxPrivacyDataRequest
+  ): Promise<QueryAllTxPrivacyDataResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -2315,6 +2660,34 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllOnetimeAddressResponse.decode(new Reader(data))
+    );
+  }
+
+  TxPrivacyData(
+    request: QueryGetTxPrivacyDataRequest
+  ): Promise<QueryGetTxPrivacyDataResponse> {
+    const data = QueryGetTxPrivacyDataRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Query",
+      "TxPrivacyData",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetTxPrivacyDataResponse.decode(new Reader(data))
+    );
+  }
+
+  TxPrivacyDataAll(
+    request: QueryAllTxPrivacyDataRequest
+  ): Promise<QueryAllTxPrivacyDataResponse> {
+    const data = QueryAllTxPrivacyDataRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Query",
+      "TxPrivacyDataAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllTxPrivacyDataResponse.decode(new Reader(data))
     );
   }
 }
