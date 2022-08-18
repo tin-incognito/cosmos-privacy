@@ -8,7 +8,7 @@ import (
 	"sort"
 
 	"privacy/x/privacy/common"
-	"privacy/x/privacy/handler/operation/edwards25519"
+	"privacy/x/privacy/repos/operation/edwards25519"
 )
 
 // Scalar is a wrapper for `edwards25519.Scalar`, representing an integer modulo group order

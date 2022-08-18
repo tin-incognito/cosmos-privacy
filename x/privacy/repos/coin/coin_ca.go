@@ -3,8 +3,8 @@ package coin
 import (
 	"fmt"
 	"privacy/x/privacy/common"
-	"privacy/x/privacy/handler/key"
-	"privacy/x/privacy/handler/operation"
+	"privacy/x/privacy/repos/key"
+	"privacy/x/privacy/repos/operation"
 )
 
 const MaxAttempts int = 50000

@@ -6,11 +6,15 @@ export const protobufPackage = "privacy.privacy";
 export interface OutputCoin {
   index: string;
   creator: string;
-  token_id: Uint8Array;
+  is_confidential_asset: boolean;
   value: Uint8Array;
 }
 
-const baseOutputCoin: object = { index: "", creator: "" };
+const baseOutputCoin: object = {
+  index: "",
+  creator: "",
+  is_confidential_asset: false,
+};
 
 export const OutputCoin = {
   encode(message: OutputCoin, writer: Writer = Writer.create()): Writer {
@@ -20,8 +24,8 @@ export const OutputCoin = {
     if (message.creator !== "") {
       writer.uint32(18).string(message.creator);
     }
-    if (message.token_id.length !== 0) {
-      writer.uint32(26).bytes(message.token_id);
+    if (message.is_confidential_asset === true) {
+      writer.uint32(24).bool(message.is_confidential_asset);
     }
     if (message.value.length !== 0) {
       writer.uint32(34).bytes(message.value);
@@ -43,7 +47,7 @@ export const OutputCoin = {
           message.creator = reader.string();
           break;
         case 3:
-          message.token_id = reader.bytes();
+          message.is_confidential_asset = reader.bool();
           break;
         case 4:
           message.value = reader.bytes();
@@ -68,8 +72,13 @@ export const OutputCoin = {
     } else {
       message.creator = "";
     }
-    if (object.token_id !== undefined && object.token_id !== null) {
-      message.token_id = bytesFromBase64(object.token_id);
+    if (
+      object.is_confidential_asset !== undefined &&
+      object.is_confidential_asset !== null
+    ) {
+      message.is_confidential_asset = Boolean(object.is_confidential_asset);
+    } else {
+      message.is_confidential_asset = false;
     }
     if (object.value !== undefined && object.value !== null) {
       message.value = bytesFromBase64(object.value);
@@ -81,10 +90,8 @@ export const OutputCoin = {
     const obj: any = {};
     message.index !== undefined && (obj.index = message.index);
     message.creator !== undefined && (obj.creator = message.creator);
-    message.token_id !== undefined &&
-      (obj.token_id = base64FromBytes(
-        message.token_id !== undefined ? message.token_id : new Uint8Array()
-      ));
+    message.is_confidential_asset !== undefined &&
+      (obj.is_confidential_asset = message.is_confidential_asset);
     message.value !== undefined &&
       (obj.value = base64FromBytes(
         message.value !== undefined ? message.value : new Uint8Array()
@@ -104,10 +111,13 @@ export const OutputCoin = {
     } else {
       message.creator = "";
     }
-    if (object.token_id !== undefined && object.token_id !== null) {
-      message.token_id = object.token_id;
+    if (
+      object.is_confidential_asset !== undefined &&
+      object.is_confidential_asset !== null
+    ) {
+      message.is_confidential_asset = object.is_confidential_asset;
     } else {
-      message.token_id = new Uint8Array();
+      message.is_confidential_asset = false;
     }
     if (object.value !== undefined && object.value !== null) {
       message.value = object.value;

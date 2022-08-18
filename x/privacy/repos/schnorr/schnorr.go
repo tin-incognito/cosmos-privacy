@@ -4,7 +4,7 @@ import (
 	"crypto/subtle"
 	"fmt"
 	"privacy/x/privacy/common"
-	"privacy/x/privacy/handler/operation"
+	"privacy/x/privacy/repos/operation"
 )
 
 // SchnorrPublicKey represents Schnorr Publickey

@@ -2,7 +2,7 @@ package coin
 
 import (
 	"fmt"
-	"privacy/x/privacy/handler/operation"
+	"privacy/x/privacy/repos/operation"
 )
 
 func getMin(a, b int) int {
@@ -71,4 +71,10 @@ func parseScalarForSetBytes(coinBytes *[]byte, offset *int) (*operation.Scalar, 
 		*offset += int(lenField)
 	}
 	return sc, nil
+}
+
+func NewCoinFromBytes(b []byte) (*Coin, error) {
+	c := NewCoin()
+	err := c.SetBytes(b)
+	return c, err
 }

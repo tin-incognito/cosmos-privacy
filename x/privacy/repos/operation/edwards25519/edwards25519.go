@@ -7,7 +7,7 @@ package edwards25519
 import (
 	"errors"
 
-	"privacy/x/privacy/handler/operation/edwards25519/field"
+	"privacy/x/privacy/repos/operation/edwards25519/field"
 )
 
 // Point types.

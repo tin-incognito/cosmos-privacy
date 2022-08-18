@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"privacy/x/privacy/handler/operation"
+	"privacy/x/privacy/repos/operation"
 )
 
 func SliceToArray(slice []byte) [operation.Ed25519KeySize]byte {

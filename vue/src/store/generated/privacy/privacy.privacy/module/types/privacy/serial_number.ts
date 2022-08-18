@@ -6,11 +6,15 @@ export const protobufPackage = "privacy.privacy";
 export interface SerialNumber {
   index: string;
   creator: string;
-  token_id: Uint8Array;
-  serial_number: Uint8Array;
+  is_confidential_asset: boolean;
+  value: Uint8Array;
 }
 
-const baseSerialNumber: object = { index: "", creator: "" };
+const baseSerialNumber: object = {
+  index: "",
+  creator: "",
+  is_confidential_asset: false,
+};
 
 export const SerialNumber = {
   encode(message: SerialNumber, writer: Writer = Writer.create()): Writer {
@@ -20,11 +24,11 @@ export const SerialNumber = {
     if (message.creator !== "") {
       writer.uint32(18).string(message.creator);
     }
-    if (message.token_id.length !== 0) {
-      writer.uint32(26).bytes(message.token_id);
+    if (message.is_confidential_asset === true) {
+      writer.uint32(24).bool(message.is_confidential_asset);
     }
-    if (message.serial_number.length !== 0) {
-      writer.uint32(34).bytes(message.serial_number);
+    if (message.value.length !== 0) {
+      writer.uint32(34).bytes(message.value);
     }
     return writer;
   },
@@ -43,10 +47,10 @@ export const SerialNumber = {
           message.creator = reader.string();
           break;
         case 3:
-          message.token_id = reader.bytes();
+          message.is_confidential_asset = reader.bool();
           break;
         case 4:
-          message.serial_number = reader.bytes();
+          message.value = reader.bytes();
           break;
         default:
           reader.skipType(tag & 7);
@@ -68,11 +72,16 @@ export const SerialNumber = {
     } else {
       message.creator = "";
     }
-    if (object.token_id !== undefined && object.token_id !== null) {
-      message.token_id = bytesFromBase64(object.token_id);
+    if (
+      object.is_confidential_asset !== undefined &&
+      object.is_confidential_asset !== null
+    ) {
+      message.is_confidential_asset = Boolean(object.is_confidential_asset);
+    } else {
+      message.is_confidential_asset = false;
     }
-    if (object.serial_number !== undefined && object.serial_number !== null) {
-      message.serial_number = bytesFromBase64(object.serial_number);
+    if (object.value !== undefined && object.value !== null) {
+      message.value = bytesFromBase64(object.value);
     }
     return message;
   },
@@ -81,15 +90,11 @@ export const SerialNumber = {
     const obj: any = {};
     message.index !== undefined && (obj.index = message.index);
     message.creator !== undefined && (obj.creator = message.creator);
-    message.token_id !== undefined &&
-      (obj.token_id = base64FromBytes(
-        message.token_id !== undefined ? message.token_id : new Uint8Array()
-      ));
-    message.serial_number !== undefined &&
-      (obj.serial_number = base64FromBytes(
-        message.serial_number !== undefined
-          ? message.serial_number
-          : new Uint8Array()
+    message.is_confidential_asset !== undefined &&
+      (obj.is_confidential_asset = message.is_confidential_asset);
+    message.value !== undefined &&
+      (obj.value = base64FromBytes(
+        message.value !== undefined ? message.value : new Uint8Array()
       ));
     return obj;
   },
@@ -106,15 +111,18 @@ export const SerialNumber = {
     } else {
       message.creator = "";
     }
-    if (object.token_id !== undefined && object.token_id !== null) {
-      message.token_id = object.token_id;
+    if (
+      object.is_confidential_asset !== undefined &&
+      object.is_confidential_asset !== null
+    ) {
+      message.is_confidential_asset = object.is_confidential_asset;
     } else {
-      message.token_id = new Uint8Array();
+      message.is_confidential_asset = false;
     }
-    if (object.serial_number !== undefined && object.serial_number !== null) {
-      message.serial_number = object.serial_number;
+    if (object.value !== undefined && object.value !== null) {
+      message.value = object.value;
     } else {
-      message.serial_number = new Uint8Array();
+      message.value = new Uint8Array();
     }
     return message;
   },

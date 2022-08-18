@@ -5,9 +5,9 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	C25519 "privacy/x/privacy/handler/operation/curve25519"
+	C25519 "privacy/x/privacy/repos/operation/curve25519"
 
-	"privacy/x/privacy/handler/operation/edwards25519"
+	"privacy/x/privacy/repos/operation/edwards25519"
 )
 
 // Point is a wrapper for `edwards25519.Point`, representing a point on the curve.
@@ -250,8 +250,8 @@ func HashToPointFromIndex(index int32, padStr string) *Point {
 func hashToPoint(b []byte) *Point {
 	keyHash := C25519.Key(C25519.Keccak256(b))
 	keyPoint := keyHash.HashToPoint()
-
-	p, _ := new(Point).SetKey(keyPoint)
+	temp := keyPoint.ToBytes()
+	p, _ := new(Point).SetKey(&temp)
 	return p
 }
 

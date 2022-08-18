@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"privacy/x/privacy/common"
 	"privacy/x/privacy/common/base58"
-	"privacy/x/privacy/handler/key"
-	"privacy/x/privacy/handler/operation"
+	"privacy/x/privacy/repos/key"
+	"privacy/x/privacy/repos/operation"
+
+	proto "github.com/gogo/protobuf/proto"
 )
 
 type TxRandom [TxRandomGroupSize]byte
@@ -75,23 +77,23 @@ func (t *TxRandom) SetBytes(b []byte) error {
 // If has privacy, mask and amount will be as paper monero
 type Coin struct {
 	// Public
-	info       []byte
-	publicKey  *operation.Point
-	commitment *operation.Point
-	keyImage   *operation.Point
+	Info       []byte           `protobuf:"bytes,1,opt,name=info,proto3,omitempty" json:"info,omitempty"`
+	PublicKey  *operation.Point `protobuf:"bytes,2,opt,name=public_key,proto3,omitempty" json:"public_key,omitempty"`
+	Commitment *operation.Point `protobuf:"bytes,3,opt,name=commitment,proto3,omitempty" json:"commitment,omitempty"`
+	KeyImage   *operation.Point `protobuf:"bytes,4,opt,name=key_image,proto3,omitempty" json:"key_image,omitempty"`
 
 	// sharedRandom and txRandom is shared secret between receiver and giver
 	// sharedRandom is only visible when creating coins, when it is broadcast to network, it will be set to null
-	sharedConcealRandom *operation.Scalar //rConceal: shared random when concealing output coin and blinding assetTag
-	sharedRandom        *operation.Scalar // rOTA: shared random when creating one-time-address
-	txRandom            *TxRandom         // rConceal*G + rOTA*G + index
+	SharedConcealRandom *operation.Scalar `protobuf:"bytes,5,opt,name=shared_conceal_random,proto3,omitempty" json:"shared_conceal_random,omitempty"` //rConceal: shared random when concealing output coin and blinding assetTag
+	SharedRandom        *operation.Scalar `protobuf:"bytes,6,opt,name=shared_random,proto3,omitempty" json:"shared_random,omitempty"`                 // rOTA: shared random when creating one-time-address
+	TxRandom            *TxRandom         `protobuf:"bytes,7,opt,name=tx_random,proto3,omitempty" json:"tx_random,omitempty"`                         // rConceal*G + rOTA*G + index
 
 	// mask = randomness
 	// amount = value
-	mask   *operation.Scalar
-	amount *operation.Scalar
+	Mask   *operation.Scalar `protobuf:"bytes,8,opt,name=mask,proto3,omitempty" json:"mask,omitempty"`
+	Amount *operation.Scalar `protobuf:"bytes,9,opt,name=amount,proto3,omitempty" json:"creator,omitempty"`
 	// tag is nil unless confidential asset
-	assetTag *operation.Point
+	AssetTag *operation.Point `protobuf:"bytes,10,opt,name=asset_tag,proto3,omitempty" json:"asset_tag,omitempty"`
 }
 
 // ParsePrivateKeyOfCoin retrieves the private OTA key of coin from the Master PrivateKey
@@ -214,50 +216,50 @@ func (c *Coin) Decrypt(keySet *key.KeySet) (*Coin, error) {
 
 func NewCoin() *Coin {
 	c := new(Coin)
-	c.info = []byte{}
-	c.publicKey = new(operation.Point).Identity()
-	c.commitment = new(operation.Point).Identity()
-	c.keyImage = new(operation.Point).Identity()
-	c.sharedRandom = new(operation.Scalar)
-	c.txRandom = NewTxRandom()
-	c.mask = new(operation.Scalar)
-	c.amount = new(operation.Scalar)
+	c.Info = []byte{}
+	c.PublicKey = new(operation.Point).Identity()
+	c.Commitment = new(operation.Point).Identity()
+	c.KeyImage = new(operation.Point).Identity()
+	c.SharedRandom = new(operation.Scalar)
+	c.TxRandom = NewTxRandom()
+	c.Mask = new(operation.Scalar)
+	c.Amount = new(operation.Scalar)
 	return c
 }
 
 func (c Coin) IsEncrypted() bool {
-	if c.mask == nil || c.amount == nil {
+	if c.Mask == nil || c.Amount == nil {
 		return true
 	}
-	tempCommitment := operation.PedCom.CommitAtIndex(c.amount, c.mask, operation.PedersenValueIndex)
+	tempCommitment := operation.PedCom.CommitAtIndex(c.Amount, c.Mask, operation.PedersenValueIndex)
 	if c.GetAssetTag() != nil {
 		// err is only for nil parameters, which we already checked, so here it is ignored
 		com, _ := c.ComputeCommitmentCA()
 		tempCommitment = com
 	}
-	return !operation.IsPointEqual(tempCommitment, c.commitment)
+	return !operation.IsPointEqual(tempCommitment, c.Commitment)
 }
 
-func (c Coin) GetRandomness() *operation.Scalar          { return c.mask }
-func (c Coin) GetAmount() *operation.Scalar              { return c.amount }
-func (c Coin) GetSharedRandom() *operation.Scalar        { return c.sharedRandom }
-func (c Coin) GetSharedConcealRandom() *operation.Scalar { return c.sharedConcealRandom }
-func (c Coin) GetPublicKey() *operation.Point            { return c.publicKey }
-func (c Coin) GetCommitment() *operation.Point           { return c.commitment }
-func (c Coin) GetKeyImage() *operation.Point             { return c.keyImage }
-func (c Coin) GetInfo() []byte                           { return c.info }
-func (c Coin) GetAssetTag() *operation.Point             { return c.assetTag }
+func (c Coin) GetRandomness() *operation.Scalar          { return c.Mask }
+func (c Coin) GetAmount() *operation.Scalar              { return c.Amount }
+func (c Coin) GetSharedRandom() *operation.Scalar        { return c.SharedRandom }
+func (c Coin) GetSharedConcealRandom() *operation.Scalar { return c.SharedConcealRandom }
+func (c Coin) GetPublicKey() *operation.Point            { return c.PublicKey }
+func (c Coin) GetCommitment() *operation.Point           { return c.Commitment }
+func (c Coin) GetKeyImage() *operation.Point             { return c.KeyImage }
+func (c Coin) GetInfo() []byte                           { return c.Info }
+func (c Coin) GetAssetTag() *operation.Point             { return c.AssetTag }
 func (c Coin) GetValue() uint64 {
 	if c.IsEncrypted() {
 		return 0
 	}
-	return c.amount.ToUint64Little()
+	return c.Amount.ToUint64Little()
 }
-func (c Coin) GetTxRandom() *TxRandom { return c.txRandom }
+func (c Coin) GetTxRandom() *TxRandom { return c.TxRandom }
 func (c Coin) GetTxRandomDetail() (*operation.Point, *operation.Point, uint32, error) {
-	txRandomOTAPoint, err1 := c.txRandom.GetTxOTARandomPoint()
-	txRandomConcealPoint, err2 := c.txRandom.GetTxConcealRandomPoint()
-	index, err3 := c.txRandom.GetIndex()
+	txRandomOTAPoint, err1 := c.TxRandom.GetTxOTARandomPoint()
+	txRandomConcealPoint, err2 := c.TxRandom.GetTxConcealRandomPoint()
+	index, err3 := c.TxRandom.GetIndex()
 	if err1 != nil || err2 != nil || err3 != nil {
 		return nil, nil, 0, fmt.Errorf("cannot Get TxRandom: point or index is wrong")
 	}
@@ -269,24 +271,24 @@ func (c Coin) GetCoinDetailEncrypted() []byte {
 }
 
 func (c *Coin) GetCoinID() [operation.Ed25519KeySize]byte {
-	if c.publicKey != nil {
-		return c.publicKey.ToBytes()
+	if c.PublicKey != nil {
+		return c.PublicKey.ToBytes()
 	}
 	return [operation.Ed25519KeySize]byte{}
 }
 
-func (c *Coin) SetRandomness(mask *operation.Scalar)           { c.mask = mask }
-func (c *Coin) SetAmount(amount *operation.Scalar)             { c.amount = amount }
-func (c *Coin) SetSharedRandom(sharedRandom *operation.Scalar) { c.sharedRandom = sharedRandom }
+func (c *Coin) SetRandomness(mask *operation.Scalar)           { c.Mask = mask }
+func (c *Coin) SetAmount(amount *operation.Scalar)             { c.Amount = amount }
+func (c *Coin) SetSharedRandom(sharedRandom *operation.Scalar) { c.SharedRandom = sharedRandom }
 func (c *Coin) SetSharedConcealRandom(sharedConcealRandom *operation.Scalar) {
-	c.sharedConcealRandom = sharedConcealRandom
+	c.SharedConcealRandom = sharedConcealRandom
 }
 func (c *Coin) SetTxRandom(txRandom *TxRandom) {
 	if txRandom == nil {
-		c.txRandom = nil
+		c.TxRandom = nil
 	} else {
-		c.txRandom = NewTxRandom()
-		_ = c.txRandom.SetBytes(txRandom.Bytes())
+		c.TxRandom = NewTxRandom()
+		_ = c.TxRandom.SetBytes(txRandom.Bytes())
 	}
 }
 func (c *Coin) SetTxRandomDetail(txConcealRandomPoint, txRandomPoint *operation.Point, index uint32) {
@@ -294,18 +296,18 @@ func (c *Coin) SetTxRandomDetail(txConcealRandomPoint, txRandomPoint *operation.
 	res.SetTxConcealRandomPoint(txConcealRandomPoint)
 	res.SetTxOTARandomPoint(txRandomPoint)
 	res.SetIndex(index)
-	c.txRandom = res
+	c.TxRandom = res
 }
 
-func (c *Coin) SetPublicKey(publicKey *operation.Point)   { c.publicKey = publicKey }
-func (c *Coin) SetCommitment(commitment *operation.Point) { c.commitment = commitment }
-func (c *Coin) SetKeyImage(keyImage *operation.Point)     { c.keyImage = keyImage }
-func (c *Coin) SetValue(value uint64)                     { c.amount = new(operation.Scalar).FromUint64(value) }
+func (c *Coin) SetPublicKey(publicKey *operation.Point)   { c.PublicKey = publicKey }
+func (c *Coin) SetCommitment(commitment *operation.Point) { c.Commitment = commitment }
+func (c *Coin) SetKeyImage(keyImage *operation.Point)     { c.KeyImage = keyImage }
+func (c *Coin) SetValue(value uint64)                     { c.Amount = new(operation.Scalar).FromUint64(value) }
 func (c *Coin) SetInfo(b []byte) {
-	c.info = make([]byte, len(b))
-	copy(c.info, b)
+	c.Info = make([]byte, len(b))
+	copy(c.Info, b)
 }
-func (c *Coin) SetAssetTag(at *operation.Point) { c.assetTag = at }
+func (c *Coin) SetAssetTag(at *operation.Point) { c.AssetTag = at }
 
 func (c Coin) Bytes() []byte {
 	coinBytes := []byte{}
@@ -314,65 +316,65 @@ func (c Coin) Bytes() []byte {
 	coinBytes = append(coinBytes, byteLengthInfo)
 	coinBytes = append(coinBytes, info[:byteLengthInfo]...)
 
-	if c.publicKey != nil {
+	if c.PublicKey != nil {
 		coinBytes = append(coinBytes, byte(operation.Ed25519KeySize))
-		coinBytes = append(coinBytes, c.publicKey.ToBytesS()...)
+		coinBytes = append(coinBytes, c.PublicKey.ToBytesS()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
 
-	if c.commitment != nil {
+	if c.Commitment != nil {
 		coinBytes = append(coinBytes, byte(operation.Ed25519KeySize))
-		coinBytes = append(coinBytes, c.commitment.ToBytesS()...)
+		coinBytes = append(coinBytes, c.Commitment.ToBytesS()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
 
-	if c.keyImage != nil {
+	if c.KeyImage != nil {
 		coinBytes = append(coinBytes, byte(operation.Ed25519KeySize))
-		coinBytes = append(coinBytes, c.keyImage.ToBytesS()...)
+		coinBytes = append(coinBytes, c.KeyImage.ToBytesS()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
 
-	if c.sharedRandom != nil {
+	if c.SharedRandom != nil {
 		coinBytes = append(coinBytes, byte(operation.Ed25519KeySize))
-		coinBytes = append(coinBytes, c.sharedRandom.ToBytesS()...)
+		coinBytes = append(coinBytes, c.SharedRandom.ToBytesS()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
 
-	if c.sharedConcealRandom != nil {
+	if c.SharedConcealRandom != nil {
 		coinBytes = append(coinBytes, byte(operation.Ed25519KeySize))
-		coinBytes = append(coinBytes, c.sharedConcealRandom.ToBytesS()...)
+		coinBytes = append(coinBytes, c.SharedConcealRandom.ToBytesS()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
 
-	if c.txRandom != nil {
+	if c.TxRandom != nil {
 		coinBytes = append(coinBytes, TxRandomGroupSize)
-		coinBytes = append(coinBytes, c.txRandom.Bytes()...)
+		coinBytes = append(coinBytes, c.TxRandom.Bytes()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
 
-	if c.mask != nil {
+	if c.Mask != nil {
 		coinBytes = append(coinBytes, byte(operation.Ed25519KeySize))
-		coinBytes = append(coinBytes, c.mask.ToBytesS()...)
+		coinBytes = append(coinBytes, c.Mask.ToBytesS()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
 
-	if c.amount != nil {
+	if c.Amount != nil {
 		coinBytes = append(coinBytes, byte(operation.Ed25519KeySize))
-		coinBytes = append(coinBytes, c.amount.ToBytesS()...)
+		coinBytes = append(coinBytes, c.Amount.ToBytesS()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
 
-	if c.assetTag != nil {
+	if c.AssetTag != nil {
 		coinBytes = append(coinBytes, byte(operation.Ed25519KeySize))
-		coinBytes = append(coinBytes, c.assetTag.ToBytesS()...)
+		coinBytes = append(coinBytes, c.AssetTag.ToBytesS()...)
 	} else {
 		coinBytes = append(coinBytes, byte(0))
 	}
@@ -390,29 +392,29 @@ func (c *Coin) SetBytes(coinBytes []byte) error {
 	}
 
 	offset := 0
-	c.info, err = parseInfoForSetBytes(&coinBytes, &offset)
+	c.Info, err = parseInfoForSetBytes(&coinBytes, &offset)
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 info error: %v", err)
 	}
 
-	c.publicKey, err = parsePointForSetBytes(&coinBytes, &offset)
+	c.PublicKey, err = parsePointForSetBytes(&coinBytes, &offset)
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 publicKey error: %v", err)
 	}
-	c.commitment, err = parsePointForSetBytes(&coinBytes, &offset)
+	c.Commitment, err = parsePointForSetBytes(&coinBytes, &offset)
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 commitment error: %v", err)
 	}
-	c.keyImage, err = parsePointForSetBytes(&coinBytes, &offset)
+	c.KeyImage, err = parsePointForSetBytes(&coinBytes, &offset)
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 keyImage error: %v", err)
 	}
-	c.sharedRandom, err = parseScalarForSetBytes(&coinBytes, &offset)
+	c.SharedRandom, err = parseScalarForSetBytes(&coinBytes, &offset)
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 mask error: %v", err)
 	}
 
-	c.sharedConcealRandom, err = parseScalarForSetBytes(&coinBytes, &offset)
+	c.SharedConcealRandom, err = parseScalarForSetBytes(&coinBytes, &offset)
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 mask error: %v", err)
 	}
@@ -427,8 +429,8 @@ func (c *Coin) SetBytes(coinBytes []byte) error {
 	if offset+TxRandomGroupSize > len(coinBytes) {
 		return fmt.Errorf("setBytes CoinV2 TxRandomGroup error: length of coinBytes is too small")
 	}
-	c.txRandom = NewTxRandom()
-	err = c.txRandom.SetBytes(coinBytes[offset : offset+TxRandomGroupSize])
+	c.TxRandom = NewTxRandom()
+	err = c.TxRandom.SetBytes(coinBytes[offset : offset+TxRandomGroupSize])
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 TxRandomGroup error: %v", err)
 	}
@@ -437,20 +439,20 @@ func (c *Coin) SetBytes(coinBytes []byte) error {
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 txRandom error: %v", err)
 	}
-	c.mask, err = parseScalarForSetBytes(&coinBytes, &offset)
+	c.Mask, err = parseScalarForSetBytes(&coinBytes, &offset)
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 mask error: %v", err)
 	}
-	c.amount, err = parseScalarForSetBytes(&coinBytes, &offset)
+	c.Amount, err = parseScalarForSetBytes(&coinBytes, &offset)
 	if err != nil {
 		return fmt.Errorf("setBytes CoinV2 amount error: %v", err)
 	}
 
 	if offset >= len(coinBytes) {
 		// for parsing old serialization, which does not have assetTag field
-		c.assetTag = nil
+		c.AssetTag = nil
 	} else {
-		c.assetTag, err = parsePointForSetBytes(&coinBytes, &offset)
+		c.AssetTag, err = parsePointForSetBytes(&coinBytes, &offset)
 		if err != nil {
 			return fmt.Errorf("setBytes CoinV2 assetTag error: %v", err)
 		}
@@ -510,7 +512,7 @@ func (c *Coin) CheckCoinValid(paymentAdd key.PaymentAddress, sharedRandom []byte
 	hash := operation.HashToScalar(append(rK.ToBytesS(), common.Uint32ToBytes(index)...))
 	HrKG := new(operation.Point).ScalarMultBase(hash)
 	tmpPubKey := new(operation.Point).Add(HrKG, paymentAdd.GetPublicSpend())
-	return bytes.Equal(tmpPubKey.ToBytesS(), c.publicKey.ToBytesS())
+	return bytes.Equal(tmpPubKey.ToBytesS(), c.PublicKey.ToBytesS())
 }
 
 // Check whether the utxo is from this keyset
@@ -538,3 +540,7 @@ func (c *Coin) DoesCoinBelongToKeySet(keySet *key.KeySet) (bool, *operation.Poin
 
 	return operation.IsPointEqual(KCheck, keySet.OTAKey.GetPublicSpend()), rK
 }
+
+func (c *Coin) Reset()         { c = NewCoin() }
+func (c *Coin) String() string { return proto.CompactTextString(c) }
+func (c *Coin) ProtoMessage()  {}

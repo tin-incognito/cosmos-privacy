@@ -30,3 +30,42 @@ func Uint32ToBytes(value uint32) []byte {
 	binary.BigEndian.PutUint32(b, value)
 	return b
 }
+
+// IntToBytes converts an integer number to 2-byte array in big endian
+func IntToBytes(n int) []byte {
+	if n == 0 {
+		return []byte{0, 0}
+	}
+
+	a := big.NewInt(int64(n))
+
+	if len(a.Bytes()) > 2 {
+		return []byte{}
+	}
+
+	if len(a.Bytes()) == 1 {
+		return []byte{0, a.Bytes()[0]}
+	}
+
+	return a.Bytes()
+}
+
+// BytesToInt reverts an integer number from 2-byte array
+func BytesToInt(bytesArr []byte) int {
+	if len(bytesArr) != 2 {
+		return 0
+	}
+
+	numInt := new(big.Int).SetBytes(bytesArr)
+	return int(numInt.Int64())
+}
+
+// BoolToByte receives a value in bool
+// and returns a value in byte
+func BoolToByte(value bool) byte {
+	var bitSetVar byte
+	if value {
+		bitSetVar = 1
+	}
+	return bitSetVar
+}

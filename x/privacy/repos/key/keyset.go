@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"privacy/x/privacy/common"
 	"privacy/x/privacy/common/base58"
-	"privacy/x/privacy/handler/operation"
-	"privacy/x/privacy/handler/schnorr"
+	"privacy/x/privacy/repos/operation"
+	"privacy/x/privacy/repos/schnorr"
 )
 
 // KeySet is real raw data of wallet account, which user can use to

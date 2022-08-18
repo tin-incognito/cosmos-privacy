@@ -30195,9 +30195,8 @@ paths:
                       type: string
                     creator:
                       type: string
-                    token_id:
-                      type: string
-                      format: byte
+                    is_confidential_asset:
+                      type: boolean
                     value:
                       type: string
                       format: byte
@@ -30322,9 +30321,8 @@ paths:
                     type: string
                   creator:
                     type: string
-                  token_id:
-                    type: string
-                    format: byte
+                  is_confidential_asset:
+                    type: boolean
                   value:
                     type: string
                     format: byte
@@ -30537,9 +30535,8 @@ paths:
                       type: string
                     creator:
                       type: string
-                    token_id:
-                      type: string
-                      format: byte
+                    is_confidential_asset:
+                      type: boolean
                     public_key:
                       type: string
                       format: byte
@@ -30670,9 +30667,8 @@ paths:
                     type: string
                   creator:
                     type: string
-                  token_id:
-                    type: string
-                    format: byte
+                  is_confidential_asset:
+                    type: boolean
                   public_key:
                     type: string
                     format: byte
@@ -30726,9 +30722,8 @@ paths:
                       type: string
                     creator:
                       type: string
-                    token_id:
-                      type: string
-                      format: byte
+                    is_confidential_asset:
+                      type: boolean
                     value:
                       type: string
                       format: byte
@@ -30853,9 +30848,8 @@ paths:
                     type: string
                   creator:
                     type: string
-                  token_id:
-                    type: string
-                    format: byte
+                  is_confidential_asset:
+                    type: boolean
                   value:
                     type: string
                     format: byte
@@ -30939,10 +30933,9 @@ paths:
                       type: string
                     creator:
                       type: string
-                    token_id:
-                      type: string
-                      format: byte
-                    serial_number:
+                    is_confidential_asset:
+                      type: boolean
+                    value:
                       type: string
                       format: byte
               pagination:
@@ -31066,10 +31059,9 @@ paths:
                     type: string
                   creator:
                     type: string
-                  token_id:
-                    type: string
-                    format: byte
-                  serial_number:
+                  is_confidential_asset:
+                    type: boolean
+                  value:
                     type: string
                     format: byte
         default:
@@ -52878,9 +52870,8 @@ definitions:
         type: string
       creator:
         type: string
-      token_id:
-        type: string
-        format: byte
+      is_confidential_asset:
+        type: boolean
       value:
         type: string
         format: byte
@@ -52942,9 +52933,8 @@ definitions:
         type: string
       creator:
         type: string
-      token_id:
-        type: string
-        format: byte
+      is_confidential_asset:
+        type: boolean
       public_key:
         type: string
         format: byte
@@ -52961,9 +52951,8 @@ definitions:
         type: string
       creator:
         type: string
-      token_id:
-        type: string
-        format: byte
+      is_confidential_asset:
+        type: boolean
       value:
         type: string
         format: byte
@@ -53019,9 +53008,8 @@ definitions:
               type: string
             creator:
               type: string
-            token_id:
-              type: string
-              format: byte
+            is_confidential_asset:
+              type: boolean
             value:
               type: string
               format: byte
@@ -53062,9 +53050,8 @@ definitions:
               type: string
             creator:
               type: string
-            token_id:
-              type: string
-              format: byte
+            is_confidential_asset:
+              type: boolean
             public_key:
               type: string
               format: byte
@@ -53111,9 +53098,8 @@ definitions:
               type: string
             creator:
               type: string
-            token_id:
-              type: string
-              format: byte
+            is_confidential_asset:
+              type: boolean
             value:
               type: string
               format: byte
@@ -53154,10 +53140,9 @@ definitions:
               type: string
             creator:
               type: string
-            token_id:
-              type: string
-              format: byte
-            serial_number:
+            is_confidential_asset:
+              type: boolean
+            value:
               type: string
               format: byte
       pagination:
@@ -53310,9 +53295,8 @@ definitions:
             type: string
           creator:
             type: string
-          token_id:
-            type: string
-            format: byte
+          is_confidential_asset:
+            type: boolean
           value:
             type: string
             format: byte
@@ -53326,9 +53310,8 @@ definitions:
             type: string
           creator:
             type: string
-          token_id:
-            type: string
-            format: byte
+          is_confidential_asset:
+            type: boolean
           public_key:
             type: string
             format: byte
@@ -53348,9 +53331,8 @@ definitions:
             type: string
           creator:
             type: string
-          token_id:
-            type: string
-            format: byte
+          is_confidential_asset:
+            type: boolean
           value:
             type: string
             format: byte
@@ -53364,10 +53346,9 @@ definitions:
             type: string
           creator:
             type: string
-          token_id:
-            type: string
-            format: byte
-          serial_number:
+          is_confidential_asset:
+            type: boolean
+          value:
             type: string
             format: byte
   privacy.privacy.QueryGetTokenResponse:
@@ -53435,10 +53416,9 @@ definitions:
         type: string
       creator:
         type: string
-      token_id:
-        type: string
-        format: byte
-      serial_number:
+      is_confidential_asset:
+        type: boolean
+      value:
         type: string
         format: byte
   privacy.privacy.Token:

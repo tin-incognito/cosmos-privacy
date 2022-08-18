@@ -76,7 +76,7 @@ func (hashObj *Hash) GetBytes() []byte {
 }
 
 // NewHash receives a bytes array and returns a corresponding object Hash
-func NewHashWithBytes(newHash []byte) (*Hash, error) {
+func NewHashFromBytes(newHash []byte) (*Hash, error) {
 	hash := NewHash()
 	err := hash.SetBytes(newHash)
 	if err != nil {
