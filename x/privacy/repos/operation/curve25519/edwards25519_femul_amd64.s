@@ -7,7 +7,7 @@
 #include "textflag.h"
 
 // func FeMul(outp *uint64, xp *uint64, yp *uint64)
-TEXT FeMul(SB),NOSPLIT,$0
+TEXT ·FeMul(SB),NOSPLIT,$0
 	MOVQ outp+0(FP), DI
 	MOVQ xp+8(FP), BX
 	MOVQ yp+16(FP), CX

@@ -13,7 +13,7 @@
 // See https://golang.org/issues/43145 for the main compiler issue.
 //
 // func carryPropagate(v *Element)
-TEXT ¬∑carryPropagate(SB),NOFRAME|NOSPLIT,$0-8
+TEXT carryPropagate(SB),NOFRAME|NOSPLIT,$0-8
 	MOVD v+0(FP), R20
 
 	LDP 0(R20), (R0, R1)

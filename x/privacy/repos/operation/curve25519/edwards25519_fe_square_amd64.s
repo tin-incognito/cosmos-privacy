@@ -7,7 +7,7 @@
 #include "textflag.h"
 
 // func FeSquare(outp *uint64, xp *uint64)
-TEXT FeSquare(SB),NOSPLIT,$0
+TEXT ·FeSquare(SB),NOSPLIT,$0
     MOVQ outp+0(FP), DI
     MOVQ xp+8(FP), SI
 
