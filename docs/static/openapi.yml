@@ -52882,6 +52882,8 @@ definitions:
         type: string
       creator:
         type: string
+  privacy.privacy.MsgAirdropResponse:
+    type: object
   privacy.privacy.MsgCreateCommitmentIndexResponse:
     type: object
   privacy.privacy.MsgCreateCommitmentResponse:

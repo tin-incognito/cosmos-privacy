@@ -157,6 +157,15 @@ export interface MsgDeleteTxPrivacyData {
 
 export interface MsgDeleteTxPrivacyDataResponse {}
 
+export interface MsgAirdrop {
+  creator: string;
+  ota_receiver: string;
+  amount: Uint8Array;
+  info: Uint8Array;
+}
+
+export interface MsgAirdropResponse {}
+
 const baseMsgCreateSerialNumber: object = { creator: "", index: "" };
 
 export const MsgCreateSerialNumber = {
@@ -2953,6 +2962,153 @@ export const MsgDeleteTxPrivacyDataResponse = {
   },
 };
 
+const baseMsgAirdrop: object = { creator: "", ota_receiver: "" };
+
+export const MsgAirdrop = {
+  encode(message: MsgAirdrop, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.ota_receiver !== "") {
+      writer.uint32(18).string(message.ota_receiver);
+    }
+    if (message.amount.length !== 0) {
+      writer.uint32(26).bytes(message.amount);
+    }
+    if (message.info.length !== 0) {
+      writer.uint32(34).bytes(message.info);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgAirdrop {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgAirdrop } as MsgAirdrop;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.ota_receiver = reader.string();
+          break;
+        case 3:
+          message.amount = reader.bytes();
+          break;
+        case 4:
+          message.info = reader.bytes();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgAirdrop {
+    const message = { ...baseMsgAirdrop } as MsgAirdrop;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.ota_receiver !== undefined && object.ota_receiver !== null) {
+      message.ota_receiver = String(object.ota_receiver);
+    } else {
+      message.ota_receiver = "";
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = bytesFromBase64(object.amount);
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = bytesFromBase64(object.info);
+    }
+    return message;
+  },
+
+  toJSON(message: MsgAirdrop): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.ota_receiver !== undefined &&
+      (obj.ota_receiver = message.ota_receiver);
+    message.amount !== undefined &&
+      (obj.amount = base64FromBytes(
+        message.amount !== undefined ? message.amount : new Uint8Array()
+      ));
+    message.info !== undefined &&
+      (obj.info = base64FromBytes(
+        message.info !== undefined ? message.info : new Uint8Array()
+      ));
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgAirdrop>): MsgAirdrop {
+    const message = { ...baseMsgAirdrop } as MsgAirdrop;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.ota_receiver !== undefined && object.ota_receiver !== null) {
+      message.ota_receiver = object.ota_receiver;
+    } else {
+      message.ota_receiver = "";
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = object.amount;
+    } else {
+      message.amount = new Uint8Array();
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = object.info;
+    } else {
+      message.info = new Uint8Array();
+    }
+    return message;
+  },
+};
+
+const baseMsgAirdropResponse: object = {};
+
+export const MsgAirdropResponse = {
+  encode(_: MsgAirdropResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgAirdropResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgAirdropResponse } as MsgAirdropResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgAirdropResponse {
+    const message = { ...baseMsgAirdropResponse } as MsgAirdropResponse;
+    return message;
+  },
+
+  toJSON(_: MsgAirdropResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgAirdropResponse>): MsgAirdropResponse {
+    const message = { ...baseMsgAirdropResponse } as MsgAirdropResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateSerialNumber(
@@ -3010,10 +3166,11 @@ export interface Msg {
   UpdateTxPrivacyData(
     request: MsgUpdateTxPrivacyData
   ): Promise<MsgUpdateTxPrivacyDataResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DeleteTxPrivacyData(
     request: MsgDeleteTxPrivacyData
   ): Promise<MsgDeleteTxPrivacyDataResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  Airdrop(request: MsgAirdrop): Promise<MsgAirdropResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -3313,6 +3470,12 @@ export class MsgClientImpl implements Msg {
     return promise.then((data) =>
       MsgDeleteTxPrivacyDataResponse.decode(new Reader(data))
     );
+  }
+
+  Airdrop(request: MsgAirdrop): Promise<MsgAirdropResponse> {
+    const data = MsgAirdrop.encode(request).finish();
+    const promise = this.rpc.request("privacy.privacy.Msg", "Airdrop", data);
+    return promise.then((data) => MsgAirdropResponse.decode(new Reader(data)));
   }
 }
 

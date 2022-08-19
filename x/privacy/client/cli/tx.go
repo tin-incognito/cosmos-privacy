@@ -52,6 +52,7 @@ func GetTxCmd() *cobra.Command {
 	cmd.AddCommand(CmdCreateTxPrivacyData())
 	cmd.AddCommand(CmdUpdateTxPrivacyData())
 	cmd.AddCommand(CmdDeleteTxPrivacyData())
+	cmd.AddCommand(CmdAirdrop())
 	// this line is used by starport scaffolding # 1
 
 	return cmd

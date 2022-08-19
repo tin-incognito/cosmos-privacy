@@ -2,6 +2,7 @@ package coin
 
 import (
 	"fmt"
+	"math/big"
 	"privacy/x/privacy/repos/operation"
 )
 
@@ -77,4 +78,18 @@ func NewCoinFromBytes(b []byte) (*Coin, error) {
 	c := NewCoin()
 	err := c.SetBytes(b)
 	return c, err
+}
+
+func NewCoinFromAmountAndTxRandomBytes(
+	amount big.Int, publicKey *operation.Point, txRandom *TxRandom, info []byte,
+) *Coin {
+	c := NewCoin()
+	c.SetPublicKey(publicKey)
+	c.SetAmount(new(operation.Scalar).FromBytesS(amount.Bytes()))
+	c.SetRandomness(operation.RandomScalar())
+	c.SetTxRandom(txRandom)
+	c.SetCommitment(operation.PedCom.CommitAtIndex(c.GetAmount(), c.GetRandomness(), operation.PedersenValueIndex))
+	c.SetSharedRandom(nil)
+	c.SetInfo(info)
+	return c
 }

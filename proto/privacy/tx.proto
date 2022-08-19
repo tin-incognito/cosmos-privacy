@@ -36,6 +36,7 @@ service Msg {
   rpc CreateTxPrivacyData(MsgCreateTxPrivacyData) returns (MsgCreateTxPrivacyDataResponse);
   rpc UpdateTxPrivacyData(MsgUpdateTxPrivacyData) returns (MsgUpdateTxPrivacyDataResponse);
   rpc DeleteTxPrivacyData(MsgDeleteTxPrivacyData) returns (MsgDeleteTxPrivacyDataResponse);
+  rpc Airdrop(MsgAirdrop) returns (MsgAirdropResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -186,5 +187,15 @@ message MsgDeleteTxPrivacyData {
   string index = 2;
 }
 message MsgDeleteTxPrivacyDataResponse {}
+
+message MsgAirdrop {
+  string creator = 1;
+  string ota_receiver = 2;
+  bytes amount = 3;
+  bytes info = 4;
+}
+
+message MsgAirdropResponse {
+}
 
 // this line is used by starport scaffolding # proto/tx/message

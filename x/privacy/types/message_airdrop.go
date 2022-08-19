@@ -5,26 +5,25 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-const TypeMsgCreateTx = "create_tx"
+const TypeMsgAirdrop = "airdrop"
 
-var _ sdk.Msg = &MsgCreateTx{}
+var _ sdk.Msg = &MsgAirdrop{}
 
-func NewMsgCreateTx(creator string, value []byte) *MsgCreateTx {
-	return &MsgCreateTx{
+func NewMsgAirdrop(creator string) *MsgAirdrop {
+	return &MsgAirdrop{
 		Creator: creator,
-		Value:   value,
 	}
 }
 
-func (msg *MsgCreateTx) Route() string {
+func (msg *MsgAirdrop) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgCreateTx) Type() string {
-	return TypeMsgCreateTx
+func (msg *MsgAirdrop) Type() string {
+	return TypeMsgAirdrop
 }
 
-func (msg *MsgCreateTx) GetSigners() []sdk.AccAddress {
+func (msg *MsgAirdrop) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -32,12 +31,12 @@ func (msg *MsgCreateTx) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgCreateTx) GetSignBytes() []byte {
+func (msg *MsgAirdrop) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgCreateTx) ValidateBasic() error {
+func (msg *MsgAirdrop) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

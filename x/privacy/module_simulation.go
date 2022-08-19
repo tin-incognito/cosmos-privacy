@@ -112,6 +112,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDeleteTxPrivacyData int = 100
 
+	opWeightMsgAirdrop = "op_weight_msg_airdrop"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgAirdrop int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -456,6 +460,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgDeleteTxPrivacyData,
 		privacysimulation.SimulateMsgDeleteTxPrivacyData(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgAirdrop int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgAirdrop, &weightMsgAirdrop, nil,
+		func(_ *rand.Rand) {
+			weightMsgAirdrop = defaultWeightMsgAirdrop
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgAirdrop,
+		privacysimulation.SimulateMsgAirdrop(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

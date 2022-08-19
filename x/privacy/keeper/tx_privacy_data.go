@@ -1,9 +1,11 @@
 package keeper
 
 import (
+	"privacy/x/privacy/models"
+	"privacy/x/privacy/types"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"privacy/x/privacy/types"
 )
 
 // SetTxPrivacyData set a specific txPrivacyData in the store from its index
@@ -60,4 +62,30 @@ func (k Keeper) GetAllTxPrivacyData(ctx sdk.Context) (list []types.TxPrivacyData
 	}
 
 	return
+}
+
+func (k Keeper) setPrivacyData(ctx sdk.Context, txPrivacyData []byte) error {
+	// parse data
+	serialNumbers, commitments, outputCoins, err := models.FetchDataFromTx(ctx, txPrivacyData)
+	if err != nil {
+		return err
+	}
+
+	// Store data
+	for _, serialNumber := range serialNumbers {
+		k.SetSerialNumber(ctx, serialNumber)
+	}
+
+	for _, outputCoin := range outputCoins {
+		for _, o := range outputCoin {
+			k.SetOutputCoin(ctx, o)
+		}
+	}
+
+	for _, commitment := range commitments {
+		for _, c := range commitment {
+			k.SetCommitment(ctx, c)
+		}
+	}
+	return nil
 }

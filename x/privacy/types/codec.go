@@ -30,6 +30,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateTxPrivacyData{}, "privacy/CreateTxPrivacyData", nil)
 	cdc.RegisterConcrete(&MsgUpdateTxPrivacyData{}, "privacy/UpdateTxPrivacyData", nil)
 	cdc.RegisterConcrete(&MsgDeleteTxPrivacyData{}, "privacy/DeleteTxPrivacyData", nil)
+	cdc.RegisterConcrete(&MsgAirdrop{}, "privacy/Airdrop", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -71,6 +72,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateTxPrivacyData{},
 		&MsgUpdateTxPrivacyData{},
 		&MsgDeleteTxPrivacyData{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgAirdrop{},
 	)
 	// this line is used by starport scaffolding # 3
 

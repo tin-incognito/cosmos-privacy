@@ -23,6 +23,8 @@ export interface PrivacyCommitmentIndex {
   creator?: string;
 }
 
+export type PrivacyMsgAirdropResponse = object;
+
 export type PrivacyMsgCreateCommitmentIndexResponse = object;
 
 export type PrivacyMsgCreateCommitmentResponse = object;

@@ -1,6 +1,8 @@
 package common
 
 import (
+	"crypto/rand"
+
 	"encoding/binary"
 	"fmt"
 	"math/big"
@@ -68,4 +70,11 @@ func BoolToByte(value bool) byte {
 		bitSetVar = 1
 	}
 	return bitSetVar
+}
+
+// RandBytes generates random bytes with length
+func RandBytes(length int) []byte {
+	rbytes := make([]byte, length)
+	rand.Read(rbytes)
+	return rbytes
 }

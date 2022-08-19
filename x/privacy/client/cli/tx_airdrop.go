@@ -3,20 +3,19 @@ package cli
 import (
 	"strconv"
 
-	"privacy/x/privacy/types"
-
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
+	"privacy/x/privacy/types"
 )
 
 var _ = strconv.Itoa(0)
 
-func CmdCreateTx() *cobra.Command {
+func CmdAirdrop() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-tx",
-		Short: "Broadcast message create_tx",
+		Use:   "airdrop",
+		Short: "Broadcast message airdrop",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 
@@ -25,11 +24,8 @@ func CmdCreateTx() *cobra.Command {
 				return err
 			}
 
-			txPrivacyData := []byte{}
-
-			msg := types.NewMsgCreateTx(
+			msg := types.NewMsgAirdrop(
 				clientCtx.GetFromAddress().String(),
-				txPrivacyData,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
