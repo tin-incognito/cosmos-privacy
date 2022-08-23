@@ -5,21 +5,19 @@ import (
 	"privacy/x/privacy/common"
 	"privacy/x/privacy/repos/bulletproofs"
 	"privacy/x/privacy/repos/coin"
-
-	proto "github.com/gogo/protobuf/proto"
 )
 
 type PaymentProof struct {
-	AggregatedRangeProof *bulletproofs.AggregatedRangeProof
-	InputCoins           []*coin.Coin
-	OutputCoins          []*coin.Coin
+	aggregatedRangeProof *bulletproofs.AggregatedRangeProof
+	inputCoins           []*coin.Coin
+	outputCoins          []*coin.Coin
 }
 
 func NewPaymentProof() *PaymentProof {
-	proof := NewPaymentProof()
-	proof.AggregatedRangeProof = bulletproofs.NewAggregatedRangeProof()
-	proof.InputCoins = []*coin.Coin{}
-	proof.OutputCoins = []*coin.Coin{}
+	proof := &PaymentProof{}
+	proof.aggregatedRangeProof = bulletproofs.NewAggregatedRangeProof()
+	proof.inputCoins = []*coin.Coin{}
+	proof.outputCoins = []*coin.Coin{}
 	return proof
 }
 
@@ -27,15 +25,15 @@ func NewPaymentProof() *PaymentProof {
 func (proof PaymentProof) Bytes() []byte {
 	var bytes []byte
 
-	comOutputMultiRangeProof := proof.AggregatedRangeProof.Bytes()
+	comOutputMultiRangeProof := proof.aggregatedRangeProof.Bytes()
 	var rangeProofLength uint32 = uint32(len(comOutputMultiRangeProof))
 	bytes = append(bytes, common.Uint32ToBytes(rangeProofLength)...)
 	bytes = append(bytes, comOutputMultiRangeProof...)
 
 	// InputCoins
-	bytes = append(bytes, byte(len(proof.InputCoins)))
-	for i := 0; i < len(proof.InputCoins); i++ {
-		inputCoins := proof.InputCoins[i].Bytes()
+	bytes = append(bytes, byte(len(proof.inputCoins)))
+	for i := 0; i < len(proof.inputCoins); i++ {
+		inputCoins := proof.inputCoins[i].Bytes()
 		lenInputCoins := len(inputCoins)
 		var lenInputCoinsBytes []byte
 		if lenInputCoins < 256 {
@@ -49,9 +47,9 @@ func (proof PaymentProof) Bytes() []byte {
 	}
 
 	// OutputCoins
-	bytes = append(bytes, byte(len(proof.OutputCoins)))
-	for i := 0; i < len(proof.OutputCoins); i++ {
-		outputCoins := proof.OutputCoins[i].Bytes()
+	bytes = append(bytes, byte(len(proof.outputCoins)))
+	for i := 0; i < len(proof.outputCoins); i++ {
+		outputCoins := proof.outputCoins[i].Bytes()
 		lenOutputCoins := len(outputCoins)
 		var lenOutputCoinsBytes []byte
 		if lenOutputCoins < 256 {
@@ -87,8 +85,8 @@ func (proof *PaymentProof) SetBytes(proofbytes []byte) error {
 	}
 	if lenComOutputMultiRangeProof > 0 {
 		bulletproof := bulletproofs.NewAggregatedRangeProof()
-		proof.AggregatedRangeProof = bulletproof
-		err := proof.AggregatedRangeProof.SetBytes(proofbytes[offset : offset+lenComOutputMultiRangeProof])
+		proof.aggregatedRangeProof = bulletproof
+		err := proof.aggregatedRangeProof.SetBytes(proofbytes[offset : offset+lenComOutputMultiRangeProof])
 		if err != nil {
 			return err
 		}
@@ -100,7 +98,7 @@ func (proof *PaymentProof) SetBytes(proofbytes []byte) error {
 	}
 	lenInputCoinsArray := int(proofbytes[offset])
 	offset++
-	proof.InputCoins = make([]*coin.Coin, lenInputCoinsArray)
+	proof.inputCoins = make([]*coin.Coin, lenInputCoinsArray)
 	var err error
 	for i := 0; i < lenInputCoinsArray; i++ {
 		// try get 1-byte for len
@@ -113,7 +111,7 @@ func (proof *PaymentProof) SetBytes(proofbytes []byte) error {
 		if offset+lenInputCoin > len(proofbytes) {
 			return fmt.Errorf("Out of range input coins")
 		}
-		proof.InputCoins[i], err = coin.NewCoinFromBytes(proofbytes[offset : offset+lenInputCoin])
+		proof.inputCoins[i], err = coin.NewCoinFromBytes(proofbytes[offset : offset+lenInputCoin])
 		if err != nil {
 			// 1-byte is wrong
 			// try get 2-byte for len
@@ -126,7 +124,7 @@ func (proof *PaymentProof) SetBytes(proofbytes []byte) error {
 			if offset+lenInputCoin > len(proofbytes) {
 				return fmt.Errorf("Out of range input coins")
 			}
-			proof.InputCoins[i], err = coin.NewCoinFromBytes(proofbytes[offset : offset+lenInputCoin])
+			proof.inputCoins[i], err = coin.NewCoinFromBytes(proofbytes[offset : offset+lenInputCoin])
 			if err != nil {
 				return err
 			}
@@ -139,9 +137,9 @@ func (proof *PaymentProof) SetBytes(proofbytes []byte) error {
 	}
 	lenOutputCoinsArray := int(proofbytes[offset])
 	offset++
-	proof.OutputCoins = make([]*coin.Coin, lenOutputCoinsArray)
+	proof.outputCoins = make([]*coin.Coin, lenOutputCoinsArray)
 	for i := 0; i < lenOutputCoinsArray; i++ {
-		proof.OutputCoins[i] = new(coin.Coin)
+		proof.outputCoins[i] = new(coin.Coin)
 		// try get 1-byte for len
 		if offset >= len(proofbytes) {
 			return fmt.Errorf("Out of range output coins")
@@ -152,7 +150,7 @@ func (proof *PaymentProof) SetBytes(proofbytes []byte) error {
 		if offset+lenOutputCoin > len(proofbytes) {
 			return fmt.Errorf("Out of range output coins")
 		}
-		err := proof.OutputCoins[i].SetBytes(proofbytes[offset : offset+lenOutputCoin])
+		err := proof.outputCoins[i].SetBytes(proofbytes[offset : offset+lenOutputCoin])
 		if err != nil {
 			// 1-byte is wrong
 			// try get 2-byte for len
@@ -165,7 +163,7 @@ func (proof *PaymentProof) SetBytes(proofbytes []byte) error {
 			if offset+lenOutputCoin > len(proofbytes) {
 				return fmt.Errorf("Out of range output coins")
 			}
-			e := proof.OutputCoins[i].SetBytes(proofbytes[offset : offset+lenOutputCoin])
+			e := proof.outputCoins[i].SetBytes(proofbytes[offset : offset+lenOutputCoin])
 			if e != nil {
 				return e
 			}
@@ -176,6 +174,42 @@ func (proof *PaymentProof) SetBytes(proofbytes []byte) error {
 	return nil
 }
 
-func (p *PaymentProof) Reset()         { p = NewPaymentProof() }
-func (p *PaymentProof) String() string { return proto.CompactTextString(p) }
-func (p *PaymentProof) ProtoMessage()  {}
+func (p *PaymentProof) SetInputCoins(inputCoins []*coin.Coin) error {
+	var err error
+	p.inputCoins = make([]*coin.Coin, len(inputCoins))
+	for i := 0; i < len(inputCoins); i++ {
+		b := inputCoins[i].Bytes()
+		if p.inputCoins[i], err = coin.NewCoinFromBytes(b); err != nil {
+			return err
+		}
+	}
+	return err
+}
+
+func (p *PaymentProof) SetOutputCoins(outputCoins []*coin.Coin) error {
+	var err error
+	p.outputCoins = make([]*coin.Coin, len(outputCoins))
+	for i := 0; i < len(outputCoins); i++ {
+		b := outputCoins[i].Bytes()
+		if p.outputCoins[i], err = coin.NewCoinFromBytes(b); err != nil {
+			return err
+		}
+	}
+	return err
+}
+
+func (p *PaymentProof) InputCoins() []coin.Coin {
+	res := make([]coin.Coin, len(p.inputCoins))
+	for i, v := range p.inputCoins {
+		res[i] = *v
+	}
+	return res
+}
+
+func (p *PaymentProof) OutputCoins() []coin.Coin {
+	res := make([]coin.Coin, len(p.outputCoins))
+	for i, v := range p.outputCoins {
+		res[i] = *v
+	}
+	return res
+}

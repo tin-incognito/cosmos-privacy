@@ -19,24 +19,31 @@ func (k msgServer) Airdrop(goCtx context.Context, msg *types.MsgAirdrop) (*types
 	otaReceiver := coin.OTAReceiver{}
 	err := otaReceiver.FromString(msg.OtaReceiver)
 	if err != nil {
+		ctx.Logger().Error("[incognito] err:")
+		ctx.Logger().Error(err.Error())
 		return nil, err
 	}
 	amount := big.NewInt(0).SetBytes(msg.Amount)
 
 	msgBytes, err := proto.Marshal(msg)
 	if err != nil {
+		ctx.Logger().Error("[incognito] err:")
+		ctx.Logger().Error(err.Error())
 		return nil, err
 	}
-
 	hash := common.HashH(msgBytes)
 
-	tx, err := models.BuildMintTx(&privateKey, otaReceiver, *amount, msg.Info, hash)
+	tx, err := models.BuildMintTx(ctx, &privateKey, otaReceiver, *amount, msg.Info, hash)
 	if err != nil {
+		ctx.Logger().Error("[incognito] err:")
+		ctx.Logger().Error(err.Error())
 		return nil, err
 	}
 
 	err = k.setPrivacyData(ctx, tx.Value)
 	if err != nil {
+		ctx.Logger().Error("[incognito] err:")
+		ctx.Logger().Error(err.Error())
 		return nil, err
 	}
 

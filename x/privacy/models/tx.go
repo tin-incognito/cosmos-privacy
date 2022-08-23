@@ -10,6 +10,7 @@ import (
 	"privacy/x/privacy/repos/operation"
 	"privacy/x/privacy/repos/schnorr"
 	"privacy/x/privacy/types"
+	"strconv"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -20,23 +21,30 @@ func FetchDataFromTx(ctx sdk.Context, txData []byte) ([]types.SerialNumber, map[
 	txPrivacyData := types.TxPrivacyData{}
 	err := proto.Unmarshal(txData, &txPrivacyData)
 	if err != nil {
-		ctx.Logger().Error("fail to unmarshal by protobuf tx privacy data %v", err)
+		ctx.Logger().Error("[incognito] fail to unmarshal by protobuf tx privacy data:")
+		ctx.Logger().Error(err.Error())
 		return nil, nil, nil, err
 	}
-
 	proof := repos.NewPaymentProof()
 
-	err = proto.Unmarshal(txPrivacyData.Proof, proof)
+	err = proof.SetBytes(txPrivacyData.Proof)
 	if err != nil {
-		ctx.Logger().Error("fail to unmarshal by protobuf proof %v", err)
+		ctx.Logger().Error("[incognito] fail to unmarshal by protobuf proof:")
+		ctx.Logger().Error(err.Error())
 		return nil, nil, nil, err
 	}
 
 	serialNumbers, commitments, outCoins, err := parseDataFromProof(proof)
 	if err != nil {
-		ctx.Logger().Error("fail to parse info from privacy data %v", err)
+		ctx.Logger().Error("fail to parse info from privacy datav")
+		ctx.Logger().Error(err.Error())
 		return nil, nil, nil, err
 	}
+
+	ctx.Logger().Info("[incognito] FetchDataFromTx:")
+	ctx.Logger().Info(strconv.Itoa(len(serialNumbers)))
+	ctx.Logger().Info(strconv.Itoa(len(commitments)))
+	ctx.Logger().Info(strconv.Itoa(len(outCoins)))
 
 	return serialNumbers, commitments, outCoins, nil
 }
@@ -46,7 +54,7 @@ func parseDataFromProof(proof *repos.PaymentProof) ([]types.SerialNumber, map[st
 	acceptedCommitments := make(map[string][]types.Commitment)
 	acceptedOutputcoins := make(map[string][]types.OutputCoin)
 
-	inputCoins := proof.InputCoins
+	inputCoins := proof.InputCoins()
 	for _, item := range inputCoins {
 		isConfidentialAsset := item.AssetTag != nil
 		serialNum := item.GetKeyImage().ToBytesS()
@@ -58,7 +66,7 @@ func parseDataFromProof(proof *repos.PaymentProof) ([]types.SerialNumber, map[st
 		}
 		acceptedSerialNumbers = append(acceptedSerialNumbers, serialNumber)
 	}
-	outputCoins := proof.OutputCoins
+	outputCoins := proof.OutputCoins()
 	for _, item := range outputCoins {
 		isConfidentialAsset := item.AssetTag != nil
 		pubkey := item.GetPublicKey().ToBytesS()
@@ -80,7 +88,7 @@ func parseDataFromProof(proof *repos.PaymentProof) ([]types.SerialNumber, map[st
 		if acceptedOutputcoins[publicKeyStr] == nil {
 			acceptedOutputcoins[publicKeyStr] = make([]types.OutputCoin, 0)
 		}
-		outputCoinBytes, err := proto.Marshal(item)
+		outputCoinBytes, err := proto.Marshal(&item)
 		if err != nil {
 			return nil, nil, nil, err
 		}
@@ -97,13 +105,14 @@ func parseDataFromProof(proof *repos.PaymentProof) ([]types.SerialNumber, map[st
 	return acceptedSerialNumbers, acceptedCommitments, acceptedOutputcoins, nil
 }
 
-func BuildMintTx(privateKey *key.PrivateKey, otaReceiver coin.OTAReceiver, amount big.Int, info []byte, hashedMessage common.Hash) (*types.MsgCreateTx, error) {
+func BuildMintTx(ctx sdk.Context, privateKey *key.PrivateKey, otaReceiver coin.OTAReceiver, amount big.Int, info []byte, hashedMessage common.Hash) (*types.MsgCreateTx, error) {
 	outputCoin, err := GenerateOutputCoin(amount, info, otaReceiver)
 	if err != nil {
 		return nil, err
 	}
+
 	proof := repos.NewPaymentProof()
-	proof.OutputCoins = []*coin.Coin{outputCoin}
+	proof.SetOutputCoins([]*coin.Coin{outputCoin})
 	sig, sigPubKey, err := SignNoPrivacy(privateKey, hashedMessage.Bytes())
 	if err != nil {
 		return nil, err

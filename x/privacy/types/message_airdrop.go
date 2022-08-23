@@ -9,9 +9,12 @@ const TypeMsgAirdrop = "airdrop"
 
 var _ sdk.Msg = &MsgAirdrop{}
 
-func NewMsgAirdrop(creator string) *MsgAirdrop {
+func NewMsgAirdrop(creator string, otaReceiver string, amount, info []byte) *MsgAirdrop {
 	return &MsgAirdrop{
-		Creator: creator,
+		Creator:     creator,
+		OtaReceiver: otaReceiver,
+		Amount:      amount,
+		Info:        info,
 	}
 }
 
