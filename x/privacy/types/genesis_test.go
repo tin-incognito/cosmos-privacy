@@ -78,6 +78,14 @@ func TestGenesisState_Validate(t *testing.T) {
 						Index: "1",
 					},
 				},
+				OTACoinList: []types.OTACoin{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -170,6 +178,20 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "duplicated txPrivacyData",
 			genState: &types.GenesisState{
 				TxPrivacyDataList: []types.TxPrivacyData{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated oTACoin",
+			genState: &types.GenesisState{
+				OTACoinList: []types.OTACoin{
 					{
 						Index: "0",
 					},

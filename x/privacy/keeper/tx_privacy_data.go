@@ -1,6 +1,7 @@
 package keeper
 
 import (
+	"fmt"
 	"privacy/x/privacy/models"
 	"privacy/x/privacy/types"
 
@@ -66,26 +67,40 @@ func (k Keeper) GetAllTxPrivacyData(ctx sdk.Context) (list []types.TxPrivacyData
 
 func (k Keeper) setPrivacyData(ctx sdk.Context, txPrivacyData []byte) error {
 	// parse data
-	serialNumbers, commitments, outputCoins, err := models.FetchDataFromTx(ctx, txPrivacyData)
+	serialNumbers, commitments, outputCoins, otaCoins, err := models.FetchDataFromTx(ctx, txPrivacyData)
 	if err != nil {
 		return err
 	}
 
 	// Store data
+
+	// store serialNumber
 	for _, serialNumber := range serialNumbers {
 		k.SetSerialNumber(ctx, serialNumber)
 	}
 
-	for _, outputCoin := range outputCoins {
-		for _, o := range outputCoin {
+	// store outputCoin
+	for key, outputCoin := range outputCoins {
+		otaCoin, found := otaCoins[key]
+		if !found {
+			return fmt.Errorf("Cannot find list otaCoin with key %v", key)
+		}
+		for i, o := range outputCoin {
 			k.SetOutputCoin(ctx, o)
+			if i >= len(otaCoin) {
+				return fmt.Errorf("Cannot find otaCoin with key %v and index %v", key, i)
+			}
+			oa := otaCoin[i]
+			k.SetOTACoin(ctx, oa)
 		}
 	}
 
+	// store commitment
 	for _, commitment := range commitments {
 		for _, c := range commitment {
 			k.SetCommitment(ctx, c)
 		}
 	}
+
 	return nil
 }

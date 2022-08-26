@@ -12,6 +12,7 @@ import "privacy/commitment_index.proto";
 import "privacy/token.proto";
 import "privacy/onetime_address.proto";
 import "privacy/tx_privacy_data.proto";
+import "privacy/ota_coin.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "privacy/x/privacy/types";
@@ -90,6 +91,21 @@ service Query {
 	// Queries a list of TxPrivacyData items.
 	rpc TxPrivacyDataAll(QueryAllTxPrivacyDataRequest) returns (QueryAllTxPrivacyDataResponse) {
 		option (google.api.http).get = "/privacy/privacy/tx_privacy_data";
+	}
+
+// Queries a list of Balance items.
+	rpc Balance(QueryBalanceRequest) returns (QueryBalanceResponse) {
+		option (google.api.http).get = "/privacy/privacy/balance/{privateKey}";
+	}
+
+// Queries a OTACoin by index.
+	rpc OTACoin(QueryGetOTACoinRequest) returns (QueryGetOTACoinResponse) {
+		option (google.api.http).get = "/privacy/privacy/ota_coin/{index}";
+	}
+
+	// Queries a list of OTACoin items.
+	rpc OTACoinAll(QueryAllOTACoinRequest) returns (QueryAllOTACoinResponse) {
+		option (google.api.http).get = "/privacy/privacy/ota_coin";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -227,6 +243,32 @@ message QueryAllTxPrivacyDataRequest {
 
 message QueryAllTxPrivacyDataResponse {
 	repeated TxPrivacyData txPrivacyData = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryBalanceRequest {
+  string privateKey = 1;
+}
+
+message QueryBalanceResponse {
+  bytes value = 1;
+}
+
+message QueryGetOTACoinRequest {
+	  string index = 1;
+
+}
+
+message QueryGetOTACoinResponse {
+	OTACoin oTACoin = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllOTACoinRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllOTACoinResponse {
+	repeated OTACoin oTACoin = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

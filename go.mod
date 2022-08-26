@@ -13,6 +13,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/hashicorp/golang-lru v0.5.5-0.20210104140557-80c98217689d
 	github.com/ignite/cli v0.23.0
+	github.com/incognitochain/go-incognito-sdk-v2 v1.0.1-beta
 	github.com/incognitochain/incognito-chain v0.0.0-20220822100437-caa1415c4c95
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/cobra v1.4.0
@@ -43,6 +44,7 @@ require (
 	github.com/bgentry/speakeasy v0.1.0 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/btcsuite/btcd v0.22.0-beta // indirect
+	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
@@ -161,6 +163,8 @@ require (
 	github.com/tendermint/fundraising v0.3.1-0.20220613014523-03b4a2d4481a // indirect
 	github.com/tendermint/go-amino v0.16.0 // indirect
 	github.com/tomasen/realip v0.0.0-20180522021738-f0c99a92ddce // indirect
+	github.com/tyler-smith/go-bip39 v1.1.0 // indirect
+	github.com/wemeetagain/go-hdwallet v0.1.0 // indirect
 	github.com/xanzy/ssh-agent v0.2.1 // indirect
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
 	github.com/zondax/hid v0.9.0 // indirect

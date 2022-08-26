@@ -3,11 +3,9 @@ package privacy.privacy;
 
 option go_package = "privacy/x/privacy/types";
 
-message OutputCoin {
+message OTACoin {
   string index = 1; 
-  string creator = 2;
-  bool is_confidential_asset = 3;
-  bytes pub_key = 4;
-  bytes value = 5;
+  string output_coin_index = 2;
+  bytes height = 3;
 }
 

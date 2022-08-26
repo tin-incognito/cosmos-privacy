@@ -37,6 +37,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.TxPrivacyDataList {
 		k.SetTxPrivacyData(ctx, elem)
 	}
+	// Set all the oTACoin
+	for _, elem := range genState.OTACoinList {
+		k.SetOTACoin(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
 }
@@ -53,6 +57,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.TokenList = k.GetAllToken(ctx)
 	genesis.OnetimeAddressList = k.GetAllOnetimeAddress(ctx)
 	genesis.TxPrivacyDataList = k.GetAllTxPrivacyData(ctx)
+	genesis.OTACoinList = k.GetAllOTACoin(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

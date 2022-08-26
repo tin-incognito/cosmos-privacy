@@ -7,6 +7,7 @@ import { CommitmentIndex } from "../privacy/commitment_index";
 import { Token } from "../privacy/token";
 import { OnetimeAddress } from "../privacy/onetime_address";
 import { TxPrivacyData } from "../privacy/tx_privacy_data";
+import { OTACoin } from "../privacy/ota_coin";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "privacy.privacy";
@@ -20,8 +21,9 @@ export interface GenesisState {
   commitmentIndexList: CommitmentIndex[];
   tokenList: Token[];
   onetimeAddressList: OnetimeAddress[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   txPrivacyDataList: TxPrivacyData[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  oTACoinList: OTACoin[];
 }
 
 const baseGenesisState: object = {};
@@ -52,6 +54,9 @@ export const GenesisState = {
     for (const v of message.txPrivacyDataList) {
       TxPrivacyData.encode(v!, writer.uint32(66).fork()).ldelim();
     }
+    for (const v of message.oTACoinList) {
+      OTACoin.encode(v!, writer.uint32(74).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -66,6 +71,7 @@ export const GenesisState = {
     message.tokenList = [];
     message.onetimeAddressList = [];
     message.txPrivacyDataList = [];
+    message.oTACoinList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -105,6 +111,9 @@ export const GenesisState = {
             TxPrivacyData.decode(reader, reader.uint32())
           );
           break;
+        case 9:
+          message.oTACoinList.push(OTACoin.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -122,6 +131,7 @@ export const GenesisState = {
     message.tokenList = [];
     message.onetimeAddressList = [];
     message.txPrivacyDataList = [];
+    message.oTACoinList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -172,6 +182,11 @@ export const GenesisState = {
     ) {
       for (const e of object.txPrivacyDataList) {
         message.txPrivacyDataList.push(TxPrivacyData.fromJSON(e));
+      }
+    }
+    if (object.oTACoinList !== undefined && object.oTACoinList !== null) {
+      for (const e of object.oTACoinList) {
+        message.oTACoinList.push(OTACoin.fromJSON(e));
       }
     }
     return message;
@@ -230,6 +245,13 @@ export const GenesisState = {
     } else {
       obj.txPrivacyDataList = [];
     }
+    if (message.oTACoinList) {
+      obj.oTACoinList = message.oTACoinList.map((e) =>
+        e ? OTACoin.toJSON(e) : undefined
+      );
+    } else {
+      obj.oTACoinList = [];
+    }
     return obj;
   },
 
@@ -242,6 +264,7 @@ export const GenesisState = {
     message.tokenList = [];
     message.onetimeAddressList = [];
     message.txPrivacyDataList = [];
+    message.oTACoinList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -292,6 +315,11 @@ export const GenesisState = {
     ) {
       for (const e of object.txPrivacyDataList) {
         message.txPrivacyDataList.push(TxPrivacyData.fromPartial(e));
+      }
+    }
+    if (object.oTACoinList !== undefined && object.oTACoinList !== null) {
+      for (const e of object.oTACoinList) {
+        message.oTACoinList.push(OTACoin.fromPartial(e));
       }
     }
     return message;

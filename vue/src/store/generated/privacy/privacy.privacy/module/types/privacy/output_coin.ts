@@ -7,6 +7,7 @@ export interface OutputCoin {
   index: string;
   creator: string;
   is_confidential_asset: boolean;
+  pub_key: Uint8Array;
   value: Uint8Array;
 }
 
@@ -27,8 +28,11 @@ export const OutputCoin = {
     if (message.is_confidential_asset === true) {
       writer.uint32(24).bool(message.is_confidential_asset);
     }
+    if (message.pub_key.length !== 0) {
+      writer.uint32(34).bytes(message.pub_key);
+    }
     if (message.value.length !== 0) {
-      writer.uint32(34).bytes(message.value);
+      writer.uint32(42).bytes(message.value);
     }
     return writer;
   },
@@ -50,6 +54,9 @@ export const OutputCoin = {
           message.is_confidential_asset = reader.bool();
           break;
         case 4:
+          message.pub_key = reader.bytes();
+          break;
+        case 5:
           message.value = reader.bytes();
           break;
         default:
@@ -80,6 +87,9 @@ export const OutputCoin = {
     } else {
       message.is_confidential_asset = false;
     }
+    if (object.pub_key !== undefined && object.pub_key !== null) {
+      message.pub_key = bytesFromBase64(object.pub_key);
+    }
     if (object.value !== undefined && object.value !== null) {
       message.value = bytesFromBase64(object.value);
     }
@@ -92,6 +102,10 @@ export const OutputCoin = {
     message.creator !== undefined && (obj.creator = message.creator);
     message.is_confidential_asset !== undefined &&
       (obj.is_confidential_asset = message.is_confidential_asset);
+    message.pub_key !== undefined &&
+      (obj.pub_key = base64FromBytes(
+        message.pub_key !== undefined ? message.pub_key : new Uint8Array()
+      ));
     message.value !== undefined &&
       (obj.value = base64FromBytes(
         message.value !== undefined ? message.value : new Uint8Array()
@@ -118,6 +132,11 @@ export const OutputCoin = {
       message.is_confidential_asset = object.is_confidential_asset;
     } else {
       message.is_confidential_asset = false;
+    }
+    if (object.pub_key !== undefined && object.pub_key !== null) {
+      message.pub_key = object.pub_key;
+    } else {
+      message.pub_key = new Uint8Array();
     }
     if (object.value !== undefined && object.value !== null) {
       message.value = object.value;

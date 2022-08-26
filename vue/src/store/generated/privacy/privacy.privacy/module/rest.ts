@@ -69,6 +69,14 @@ export type PrivacyMsgUpdateTokenResponse = object;
 
 export type PrivacyMsgUpdateTxPrivacyDataResponse = object;
 
+export interface PrivacyOTACoin {
+  index?: string;
+  output_coin_index?: string;
+
+  /** @format byte */
+  height?: string;
+}
+
 export interface PrivacyOnetimeAddress {
   index?: string;
   creator?: string;
@@ -88,6 +96,9 @@ export interface PrivacyOutputCoin {
   index?: string;
   creator?: string;
   is_confidential_asset?: boolean;
+
+  /** @format byte */
+  pub_key?: string;
 
   /** @format byte */
   value?: string;
@@ -115,6 +126,21 @@ export interface PrivacyQueryAllCommitmentIndexResponse {
 
 export interface PrivacyQueryAllCommitmentResponse {
   commitment?: PrivacyCommitment[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface PrivacyQueryAllOTACoinResponse {
+  oTACoin?: PrivacyOTACoin[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -203,12 +229,21 @@ export interface PrivacyQueryAllTxPrivacyDataResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface PrivacyQueryBalanceResponse {
+  /** @format byte */
+  value?: string;
+}
+
 export interface PrivacyQueryGetCommitmentIndexResponse {
   commitmentIndex?: PrivacyCommitmentIndex;
 }
 
 export interface PrivacyQueryGetCommitmentResponse {
   commitment?: PrivacyCommitment;
+}
+
+export interface PrivacyQueryGetOTACoinResponse {
+  oTACoin?: PrivacyOTACoin;
 }
 
 export interface PrivacyQueryGetOnetimeAddressResponse {
@@ -561,6 +596,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * No description
    *
    * @tags Query
+   * @name QueryBalance
+   * @summary Queries a list of Balance items.
+   * @request GET:/privacy/privacy/balance/{privateKey}
+   */
+  queryBalance = (privateKey: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryBalanceResponse, RpcStatus>({
+      path: `/privacy/privacy/balance/${privateKey}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
    * @name QueryCommitmentAll
    * @summary Queries a list of Commitment items.
    * @request GET:/privacy/privacy/commitment
@@ -678,6 +729,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryOnetimeAddress = (index: string, params: RequestParams = {}) =>
     this.request<PrivacyQueryGetOnetimeAddressResponse, RpcStatus>({
       path: `/privacy/privacy/onetime_address/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryOtaCoinAll
+   * @summary Queries a list of OTACoin items.
+   * @request GET:/privacy/privacy/ota_coin
+   */
+  queryOtaCoinAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<PrivacyQueryAllOTACoinResponse, RpcStatus>({
+      path: `/privacy/privacy/ota_coin`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryOtaCoin
+   * @summary Queries a OTACoin by index.
+   * @request GET:/privacy/privacy/ota_coin/{index}
+   */
+  queryOtaCoin = (index: string, params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetOTACoinResponse, RpcStatus>({
+      path: `/privacy/privacy/ota_coin/${index}`,
       method: "GET",
       format: "json",
       ...params,

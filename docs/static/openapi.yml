@@ -30176,6 +30176,44 @@ paths:
           format: uint64
       tags:
         - Query
+  '/privacy/privacy/balance/{privateKey}':
+    get:
+      summary: Queries a list of Balance items.
+      operationId: PrivacyPrivacyBalance
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              value:
+                type: string
+                format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: privateKey
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /privacy/privacy/commitment:
     get:
       summary: Queries a list of Commitment items.
@@ -30289,16 +30327,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -30459,16 +30487,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -30638,16 +30656,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/privacy/privacy/onetime_address/{index}':
@@ -30703,6 +30711,167 @@ paths:
           type: string
       tags:
         - Query
+  /privacy/privacy/ota_coin:
+    get:
+      summary: Queries a list of OTACoin items.
+      operationId: PrivacyPrivacyOTACoinAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              oTACoin:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    index:
+                      type: string
+                    output_coin_index:
+                      type: string
+                    height:
+                      type: string
+                      format: byte
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/privacy/privacy/ota_coin/{index}':
+    get:
+      summary: Queries a OTACoin by index.
+      operationId: PrivacyPrivacyOTACoin
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              oTACoin:
+                type: object
+                properties:
+                  index:
+                    type: string
+                  output_coin_index:
+                    type: string
+                  height:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /privacy/privacy/output_coin:
     get:
       summary: Queries a list of OutputCoin items.
@@ -30724,6 +30893,9 @@ paths:
                       type: string
                     is_confidential_asset:
                       type: boolean
+                    pub_key:
+                      type: string
+                      format: byte
                     value:
                       type: string
                       format: byte
@@ -30819,16 +30991,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/privacy/privacy/output_coin/{index}':
@@ -30850,6 +31012,9 @@ paths:
                     type: string
                   is_confidential_asset:
                     type: boolean
+                  pub_key:
+                    type: string
+                    format: byte
                   value:
                     type: string
                     format: byte
@@ -31030,16 +31195,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/privacy/privacy/serial_number/{index}':
@@ -31207,16 +31362,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -31403,16 +31548,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -52928,6 +53063,16 @@ definitions:
     type: object
   privacy.privacy.MsgUpdateTxPrivacyDataResponse:
     type: object
+  privacy.privacy.OTACoin:
+    type: object
+    properties:
+      index:
+        type: string
+      output_coin_index:
+        type: string
+      height:
+        type: string
+        format: byte
   privacy.privacy.OnetimeAddress:
     type: object
     properties:
@@ -52955,6 +53100,9 @@ definitions:
         type: string
       is_confidential_asset:
         type: boolean
+      pub_key:
+        type: string
+        format: byte
       value:
         type: string
         format: byte
@@ -53013,6 +53161,46 @@ definitions:
             is_confidential_asset:
               type: boolean
             value:
+              type: string
+              format: byte
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  privacy.privacy.QueryAllOTACoinResponse:
+    type: object
+    properties:
+      oTACoin:
+        type: array
+        items:
+          type: object
+          properties:
+            index:
+              type: string
+            output_coin_index:
+              type: string
+            height:
               type: string
               format: byte
       pagination:
@@ -53102,6 +53290,9 @@ definitions:
               type: string
             is_confidential_asset:
               type: boolean
+            pub_key:
+              type: string
+              format: byte
             value:
               type: string
               format: byte
@@ -53277,6 +53468,12 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
+  privacy.privacy.QueryBalanceResponse:
+    type: object
+    properties:
+      value:
+        type: string
+        format: byte
   privacy.privacy.QueryGetCommitmentIndexResponse:
     type: object
     properties:
@@ -53300,6 +53497,19 @@ definitions:
           is_confidential_asset:
             type: boolean
           value:
+            type: string
+            format: byte
+  privacy.privacy.QueryGetOTACoinResponse:
+    type: object
+    properties:
+      oTACoin:
+        type: object
+        properties:
+          index:
+            type: string
+          output_coin_index:
+            type: string
+          height:
             type: string
             format: byte
   privacy.privacy.QueryGetOnetimeAddressResponse:
@@ -53335,6 +53545,9 @@ definitions:
             type: string
           is_confidential_asset:
             type: boolean
+          pub_key:
+            type: string
+            format: byte
           value:
             type: string
             format: byte

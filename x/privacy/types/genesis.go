@@ -17,6 +17,7 @@ func DefaultGenesis() *GenesisState {
 		TokenList:           []Token{},
 		OnetimeAddressList:  []OnetimeAddress{},
 		TxPrivacyDataList:   []TxPrivacyData{},
+		OTACoinList:         []OTACoin{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -94,6 +95,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for txPrivacyData")
 		}
 		txPrivacyDataIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in oTACoin
+	oTACoinIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.OTACoinList {
+		index := string(OTACoinKey(elem.Index))
+		if _, ok := oTACoinIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for oTACoin")
+		}
+		oTACoinIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

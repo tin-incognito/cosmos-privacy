@@ -12,6 +12,7 @@ import { CommitmentIndex } from "../privacy/commitment_index";
 import { Token } from "../privacy/token";
 import { OnetimeAddress } from "../privacy/onetime_address";
 import { TxPrivacyData } from "../privacy/tx_privacy_data";
+import { OTACoin } from "../privacy/ota_coin";
 
 export const protobufPackage = "privacy.privacy";
 
@@ -140,6 +141,31 @@ export interface QueryAllTxPrivacyDataRequest {
 
 export interface QueryAllTxPrivacyDataResponse {
   txPrivacyData: TxPrivacyData[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryBalanceRequest {
+  privateKey: string;
+}
+
+export interface QueryBalanceResponse {
+  value: Uint8Array;
+}
+
+export interface QueryGetOTACoinRequest {
+  index: string;
+}
+
+export interface QueryGetOTACoinResponse {
+  oTACoin: OTACoin | undefined;
+}
+
+export interface QueryAllOTACoinRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllOTACoinResponse {
+  oTACoin: OTACoin[];
   pagination: PageResponse | undefined;
 }
 
@@ -2438,6 +2464,413 @@ export const QueryAllTxPrivacyDataResponse = {
   },
 };
 
+const baseQueryBalanceRequest: object = { privateKey: "" };
+
+export const QueryBalanceRequest = {
+  encode(
+    message: QueryBalanceRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.privateKey !== "") {
+      writer.uint32(10).string(message.privateKey);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryBalanceRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryBalanceRequest } as QueryBalanceRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.privateKey = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryBalanceRequest {
+    const message = { ...baseQueryBalanceRequest } as QueryBalanceRequest;
+    if (object.privateKey !== undefined && object.privateKey !== null) {
+      message.privateKey = String(object.privateKey);
+    } else {
+      message.privateKey = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryBalanceRequest): unknown {
+    const obj: any = {};
+    message.privateKey !== undefined && (obj.privateKey = message.privateKey);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryBalanceRequest>): QueryBalanceRequest {
+    const message = { ...baseQueryBalanceRequest } as QueryBalanceRequest;
+    if (object.privateKey !== undefined && object.privateKey !== null) {
+      message.privateKey = object.privateKey;
+    } else {
+      message.privateKey = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryBalanceResponse: object = {};
+
+export const QueryBalanceResponse = {
+  encode(
+    message: QueryBalanceResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.value.length !== 0) {
+      writer.uint32(10).bytes(message.value);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryBalanceResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryBalanceResponse } as QueryBalanceResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.value = reader.bytes();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryBalanceResponse {
+    const message = { ...baseQueryBalanceResponse } as QueryBalanceResponse;
+    if (object.value !== undefined && object.value !== null) {
+      message.value = bytesFromBase64(object.value);
+    }
+    return message;
+  },
+
+  toJSON(message: QueryBalanceResponse): unknown {
+    const obj: any = {};
+    message.value !== undefined &&
+      (obj.value = base64FromBytes(
+        message.value !== undefined ? message.value : new Uint8Array()
+      ));
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryBalanceResponse>): QueryBalanceResponse {
+    const message = { ...baseQueryBalanceResponse } as QueryBalanceResponse;
+    if (object.value !== undefined && object.value !== null) {
+      message.value = object.value;
+    } else {
+      message.value = new Uint8Array();
+    }
+    return message;
+  },
+};
+
+const baseQueryGetOTACoinRequest: object = { index: "" };
+
+export const QueryGetOTACoinRequest = {
+  encode(
+    message: QueryGetOTACoinRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.index !== "") {
+      writer.uint32(10).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetOTACoinRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetOTACoinRequest } as QueryGetOTACoinRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetOTACoinRequest {
+    const message = { ...baseQueryGetOTACoinRequest } as QueryGetOTACoinRequest;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index);
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetOTACoinRequest): unknown {
+    const obj: any = {};
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetOTACoinRequest>
+  ): QueryGetOTACoinRequest {
+    const message = { ...baseQueryGetOTACoinRequest } as QueryGetOTACoinRequest;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index;
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetOTACoinResponse: object = {};
+
+export const QueryGetOTACoinResponse = {
+  encode(
+    message: QueryGetOTACoinResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.oTACoin !== undefined) {
+      OTACoin.encode(message.oTACoin, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetOTACoinResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetOTACoinResponse,
+    } as QueryGetOTACoinResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.oTACoin = OTACoin.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetOTACoinResponse {
+    const message = {
+      ...baseQueryGetOTACoinResponse,
+    } as QueryGetOTACoinResponse;
+    if (object.oTACoin !== undefined && object.oTACoin !== null) {
+      message.oTACoin = OTACoin.fromJSON(object.oTACoin);
+    } else {
+      message.oTACoin = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetOTACoinResponse): unknown {
+    const obj: any = {};
+    message.oTACoin !== undefined &&
+      (obj.oTACoin = message.oTACoin
+        ? OTACoin.toJSON(message.oTACoin)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetOTACoinResponse>
+  ): QueryGetOTACoinResponse {
+    const message = {
+      ...baseQueryGetOTACoinResponse,
+    } as QueryGetOTACoinResponse;
+    if (object.oTACoin !== undefined && object.oTACoin !== null) {
+      message.oTACoin = OTACoin.fromPartial(object.oTACoin);
+    } else {
+      message.oTACoin = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllOTACoinRequest: object = {};
+
+export const QueryAllOTACoinRequest = {
+  encode(
+    message: QueryAllOTACoinRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllOTACoinRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllOTACoinRequest } as QueryAllOTACoinRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllOTACoinRequest {
+    const message = { ...baseQueryAllOTACoinRequest } as QueryAllOTACoinRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllOTACoinRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllOTACoinRequest>
+  ): QueryAllOTACoinRequest {
+    const message = { ...baseQueryAllOTACoinRequest } as QueryAllOTACoinRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllOTACoinResponse: object = {};
+
+export const QueryAllOTACoinResponse = {
+  encode(
+    message: QueryAllOTACoinResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.oTACoin) {
+      OTACoin.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllOTACoinResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllOTACoinResponse,
+    } as QueryAllOTACoinResponse;
+    message.oTACoin = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.oTACoin.push(OTACoin.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllOTACoinResponse {
+    const message = {
+      ...baseQueryAllOTACoinResponse,
+    } as QueryAllOTACoinResponse;
+    message.oTACoin = [];
+    if (object.oTACoin !== undefined && object.oTACoin !== null) {
+      for (const e of object.oTACoin) {
+        message.oTACoin.push(OTACoin.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllOTACoinResponse): unknown {
+    const obj: any = {};
+    if (message.oTACoin) {
+      obj.oTACoin = message.oTACoin.map((e) =>
+        e ? OTACoin.toJSON(e) : undefined
+      );
+    } else {
+      obj.oTACoin = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllOTACoinResponse>
+  ): QueryAllOTACoinResponse {
+    const message = {
+      ...baseQueryAllOTACoinResponse,
+    } as QueryAllOTACoinResponse;
+    message.oTACoin = [];
+    if (object.oTACoin !== undefined && object.oTACoin !== null) {
+      for (const e of object.oTACoin) {
+        message.oTACoin.push(OTACoin.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -2494,6 +2927,12 @@ export interface Query {
   TxPrivacyDataAll(
     request: QueryAllTxPrivacyDataRequest
   ): Promise<QueryAllTxPrivacyDataResponse>;
+  /** Queries a list of Balance items. */
+  Balance(request: QueryBalanceRequest): Promise<QueryBalanceResponse>;
+  /** Queries a OTACoin by index. */
+  OTACoin(request: QueryGetOTACoinRequest): Promise<QueryGetOTACoinResponse>;
+  /** Queries a list of OTACoin items. */
+  OTACoinAll(request: QueryAllOTACoinRequest): Promise<QueryAllOTACoinResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -2690,6 +3129,36 @@ export class QueryClientImpl implements Query {
       QueryAllTxPrivacyDataResponse.decode(new Reader(data))
     );
   }
+
+  Balance(request: QueryBalanceRequest): Promise<QueryBalanceResponse> {
+    const data = QueryBalanceRequest.encode(request).finish();
+    const promise = this.rpc.request("privacy.privacy.Query", "Balance", data);
+    return promise.then((data) =>
+      QueryBalanceResponse.decode(new Reader(data))
+    );
+  }
+
+  OTACoin(request: QueryGetOTACoinRequest): Promise<QueryGetOTACoinResponse> {
+    const data = QueryGetOTACoinRequest.encode(request).finish();
+    const promise = this.rpc.request("privacy.privacy.Query", "OTACoin", data);
+    return promise.then((data) =>
+      QueryGetOTACoinResponse.decode(new Reader(data))
+    );
+  }
+
+  OTACoinAll(
+    request: QueryAllOTACoinRequest
+  ): Promise<QueryAllOTACoinResponse> {
+    const data = QueryAllOTACoinRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Query",
+      "OTACoinAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllOTACoinResponse.decode(new Reader(data))
+    );
+  }
 }
 
 interface Rpc {
@@ -2698,6 +3167,39 @@ interface Rpc {
     method: string,
     data: Uint8Array
   ): Promise<Uint8Array>;
+}
+
+declare var self: any | undefined;
+declare var window: any | undefined;
+var globalThis: any = (() => {
+  if (typeof globalThis !== "undefined") return globalThis;
+  if (typeof self !== "undefined") return self;
+  if (typeof window !== "undefined") return window;
+  if (typeof global !== "undefined") return global;
+  throw "Unable to locate global object";
+})();
+
+const atob: (b64: string) => string =
+  globalThis.atob ||
+  ((b64) => globalThis.Buffer.from(b64, "base64").toString("binary"));
+function bytesFromBase64(b64: string): Uint8Array {
+  const bin = atob(b64);
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; ++i) {
+    arr[i] = bin.charCodeAt(i);
+  }
+  return arr;
+}
+
+const btoa: (bin: string) => string =
+  globalThis.btoa ||
+  ((bin) => globalThis.Buffer.from(bin, "binary").toString("base64"));
+function base64FromBytes(arr: Uint8Array): string {
+  const bin: string[] = [];
+  for (let i = 0; i < arr.byteLength; ++i) {
+    bin.push(String.fromCharCode(arr[i]));
+  }
+  return btoa(bin.join(""));
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | undefined;

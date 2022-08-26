@@ -100,7 +100,7 @@ func (c *Coin) ConcealInputCoin() {
 // Decrypt a coin using the corresponding KeySet
 func (c *Coin) Decrypt(keySet *key.KeySet) (*Coin, error) {
 	if keySet == nil {
-		return nil, fmt.Errorf("cannot Decrypt CoinV2: Keyset is empty")
+		return nil, fmt.Errorf("cannot Decrypt Coin: Keyset is empty")
 	}
 
 	// Must parse keyImage first in any situation
@@ -118,7 +118,7 @@ func (c *Coin) Decrypt(keySet *key.KeySet) (*Coin, error) {
 
 	viewKey := keySet.ReadonlyKey
 	if len(viewKey.Rk) == 0 && len(keySet.PrivateKey) == 0 {
-		return nil, fmt.Errorf("cannot Decrypt CoinV2: Keyset does not contain viewkey or privatekey")
+		return nil, fmt.Errorf("cannot Decrypt Coin: Keyset does not contain viewkey or privatekey")
 	}
 
 	if viewKey.GetPrivateView() != nil {
@@ -326,7 +326,7 @@ func (c Coin) Bytes() []byte {
 func (c *Coin) SetBytes(coinBytes []byte) error {
 	var err error
 	if c == nil {
-		return fmt.Errorf("cannot set bytes for unallocated CoinV2")
+		return fmt.Errorf("cannot set bytes for unallocated Coin")
 	}
 	if len(coinBytes) == 0 {
 		return fmt.Errorf("coinBytes is empty")
@@ -335,58 +335,58 @@ func (c *Coin) SetBytes(coinBytes []byte) error {
 	offset := 0
 	c.Info, err = parseInfoForSetBytes(&coinBytes, &offset)
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 info error: %v", err)
+		return fmt.Errorf("setBytes Coin info error: %v", err)
 	}
 
 	c.PublicKey, err = parsePointForSetBytes(&coinBytes, &offset)
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 publicKey error: %v", err)
+		return fmt.Errorf("setBytes Coin publicKey error: %v", err)
 	}
 	c.Commitment, err = parsePointForSetBytes(&coinBytes, &offset)
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 commitment error: %v", err)
+		return fmt.Errorf("setBytes Coin commitment error: %v", err)
 	}
 	c.KeyImage, err = parsePointForSetBytes(&coinBytes, &offset)
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 keyImage error: %v", err)
+		return fmt.Errorf("setBytes Coin keyImage error: %v", err)
 	}
 	c.SharedRandom, err = parseScalarForSetBytes(&coinBytes, &offset)
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 mask error: %v", err)
+		return fmt.Errorf("setBytes Coin mask error: %v", err)
 	}
 
 	c.SharedConcealRandom, err = parseScalarForSetBytes(&coinBytes, &offset)
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 mask error: %v", err)
+		return fmt.Errorf("setBytes Coin mask error: %v", err)
 	}
 
 	if offset >= len(coinBytes) {
 		return fmt.Errorf("offset is larger than len(bytes), cannot parse txRandom")
 	}
 	if coinBytes[offset] != TxRandomGroupSize {
-		return fmt.Errorf("setBytes CoinV2 TxRandomGroup error: length of TxRandomGroup is not correct")
+		return fmt.Errorf("setBytes Coin TxRandomGroup error: length of TxRandomGroup is not correct")
 	}
 	offset++
 	if offset+TxRandomGroupSize > len(coinBytes) {
-		return fmt.Errorf("setBytes CoinV2 TxRandomGroup error: length of coinBytes is too small")
+		return fmt.Errorf("setBytes Coin TxRandomGroup error: length of coinBytes is too small")
 	}
 	c.TxRandom = NewTxRandom()
 	err = c.TxRandom.SetBytes(coinBytes[offset : offset+TxRandomGroupSize])
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 TxRandomGroup error: %v", err)
+		return fmt.Errorf("setBytes Coin TxRandomGroup error: %v", err)
 	}
 	offset += TxRandomGroupSize
 
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 txRandom error: %v", err)
+		return fmt.Errorf("setBytes Coin txRandom error: %v", err)
 	}
 	c.Mask, err = parseScalarForSetBytes(&coinBytes, &offset)
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 mask error: %v", err)
+		return fmt.Errorf("setBytes Coin mask error: %v", err)
 	}
 	c.Amount, err = parseScalarForSetBytes(&coinBytes, &offset)
 	if err != nil {
-		return fmt.Errorf("setBytes CoinV2 amount error: %v", err)
+		return fmt.Errorf("setBytes Coin amount error: %v", err)
 	}
 
 	if offset >= len(coinBytes) {
@@ -395,7 +395,7 @@ func (c *Coin) SetBytes(coinBytes []byte) error {
 	} else {
 		c.AssetTag, err = parsePointForSetBytes(&coinBytes, &offset)
 		if err != nil {
-			return fmt.Errorf("setBytes CoinV2 assetTag error: %v", err)
+			return fmt.Errorf("setBytes Coin assetTag error: %v", err)
 		}
 	}
 	return nil

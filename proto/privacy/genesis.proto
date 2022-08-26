@@ -10,6 +10,7 @@ import "privacy/commitment_index.proto";
 import "privacy/token.proto";
 import "privacy/onetime_address.proto";
 import "privacy/tx_privacy_data.proto";
+import "privacy/ota_coin.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "privacy/x/privacy/types";
@@ -24,5 +25,6 @@ message GenesisState {
   repeated Token tokenList = 6 [(gogoproto.nullable) = false];
   repeated OnetimeAddress onetimeAddressList = 7 [(gogoproto.nullable) = false];
   repeated TxPrivacyData txPrivacyDataList = 8 [(gogoproto.nullable) = false];
+  repeated OTACoin oTACoinList = 9 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

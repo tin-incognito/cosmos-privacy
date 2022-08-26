@@ -892,6 +892,8 @@ github.com/imdario/mergo v0.3.12 h1:b6R2BslTbIEToALKP7LxUvijTsNI9TAe80pLWN2g/HU=
 github.com/imdario/mergo v0.3.12/go.mod h1:jmQim1M+e3UYxmgPu/WyfjB3N3VflVyUjjjwH0dnCYA=
 github.com/improbable-eng/grpc-web v0.14.1 h1:NrN4PY71A6tAz2sKDvC5JCauENWp0ykG8Oq1H3cpFvw=
 github.com/improbable-eng/grpc-web v0.14.1/go.mod h1:zEjGHa8DAlkoOXmswrNvhUGEYQA9UI7DhrGeHR1DMGU=
+github.com/incognitochain/go-incognito-sdk-v2 v1.0.1-beta h1:2xnxwX5q4oLzjtakvQWoQ/NrSxwgC50qWXfp7Zpgmsw=
+github.com/incognitochain/go-incognito-sdk-v2 v1.0.1-beta/go.mod h1:0XlkZq9f+RuBMr9uCiYHJjVHQY0/cbRddnbaLC11Djc=
 github.com/incognitochain/go-libp2p-grpc v0.0.0-20181024123959-d1f24bf49b50/go.mod h1:5riooInEdamsXRruHSbk5aScSOFvreGwiYCdLOPOETY=
 github.com/incognitochain/go-libp2p-pubsub v0.2.7-0.20210126072501-9870234752e4/go.mod h1:VBmC+rS6BugyDYO7nSLQQVZ3AbHRGeyE4o8kT1zuvXo=
 github.com/incognitochain/incognito-chain v0.0.0-20220822100437-caa1415c4c95 h1:K7p5xymRMRzfVkBnaZtiJDiWeZ3kVeyLw9daiC4VLSM=
@@ -1715,6 +1717,8 @@ github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqri
 github.com/tv42/httpunix v0.0.0-20191220191345-2ba4b9c3382c/go.mod h1:hzIxponao9Kjc7aWznkXaL4U4TWaDSs8zcsY4Ka08nM=
 github.com/tyler-smith/go-bip39 v1.0.1-0.20181017060643-dbb3b84ba2ef/go.mod h1:sJ5fKU0s6JVwZjjcUEX2zFOnvq0ASQ2K9Zr6cf67kNs=
 github.com/tyler-smith/go-bip39 v1.0.2/go.mod h1:sJ5fKU0s6JVwZjjcUEX2zFOnvq0ASQ2K9Zr6cf67kNs=
+github.com/tyler-smith/go-bip39 v1.1.0 h1:5eUemwrMargf3BSLRRCalXT93Ns6pQJIjYQN2nyfOP8=
+github.com/tyler-smith/go-bip39 v1.1.0/go.mod h1:gUYDtqQw1JS3ZJ8UWVcGTGqqr6YIN3CWg+kkNaLt55U=
 github.com/ugorji/go v1.1.4/go.mod h1:uQMGLiO92mf5W77hV/PUCpI3pbzQx3CRekS0kk+RGrc=
 github.com/ugorji/go v1.1.7 h1:/68gy2h+1mWMrwZFeD1kQialdSzAb432dtpeJ42ovdo=
 github.com/ugorji/go v1.1.7/go.mod h1:kZn38zHttfInRq0xu/PH0az30d+z6vm202qpg1oXVMw=
@@ -1734,6 +1738,8 @@ github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df/go.mod h1:JP3t17
 github.com/vishvananda/netns v0.0.0-20200728191858-db3c7e526aae/go.mod h1:DD4vA1DwXk04H54A1oHXtwZmA0grkVMdPxx/VGLCah0=
 github.com/vmihailenco/msgpack/v5 v5.1.4/go.mod h1:C5gboKD0TJPqWDTVTtrQNfRbiBwHZGo8UTqP/9/XvLI=
 github.com/vmihailenco/tagparser v0.1.2/go.mod h1:OeAg3pn3UbLjkWt+rN9oFYB6u/cQgqMEUPoW2WPyhdI=
+github.com/wemeetagain/go-hdwallet v0.1.0 h1:ELpLLaz47CgYyXfyLDGnZgGJSkG9eWvK/RF4f0WmLyM=
+github.com/wemeetagain/go-hdwallet v0.1.0/go.mod h1:V2AxcXVscy8NML27VJNpnqpkU68pJfuPFSCIIzWnrKU=
 github.com/whyrusleeping/go-keyspace v0.0.0-20160322163242-5b898ac5add1/go.mod h1:8UvriyWtv5Q5EOgjHaSseUEdkQfvwFv1I/In/O2M9gc=
 github.com/whyrusleeping/go-logging v0.0.0-20170515211332-0457bb6b88fc/go.mod h1:bopw91TMyo8J3tvftk8xmU2kPmlrt4nScJQZU2hE5EM=
 github.com/whyrusleeping/go-logging v0.0.1/go.mod h1:lDPYj54zutzG1XYfHAhcc7oNXEburHQBn+Iqd4yS4vE=

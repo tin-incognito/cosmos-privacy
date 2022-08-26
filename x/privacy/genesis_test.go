@@ -70,6 +70,14 @@ func TestGenesis(t *testing.T) {
 				Index: "1",
 			},
 		},
+		OTACoinList: []types.OTACoin{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -88,5 +96,6 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.TokenList, got.TokenList)
 	require.ElementsMatch(t, genesisState.OnetimeAddressList, got.OnetimeAddressList)
 	require.ElementsMatch(t, genesisState.TxPrivacyDataList, got.TxPrivacyDataList)
+	require.ElementsMatch(t, genesisState.OTACoinList, got.OTACoinList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }
