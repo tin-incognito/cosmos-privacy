@@ -85,7 +85,7 @@ func NewCoinFromAmountAndTxRandomBytes(
 ) *Coin {
 	c := NewCoin()
 	c.SetPublicKey(publicKey)
-	c.SetAmount(new(operation.Scalar).FromBytesS(amount.Bytes()))
+	c.SetAmount(new(operation.Scalar).FromUint64(amount.Uint64()))
 	c.SetRandomness(operation.RandomScalar())
 	c.SetTxRandom(txRandom)
 	c.SetCommitment(operation.PedCom.CommitAtIndex(c.GetAmount(), c.GetRandomness(), operation.PedersenValueIndex))

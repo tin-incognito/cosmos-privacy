@@ -8,6 +8,6 @@ message Token {
   string creator = 2;
   string name = 3;
   string symbol = 4;
-  bytes amount = 5;
+  uint64 amount = 5;
   bytes token_id = 6;
 }

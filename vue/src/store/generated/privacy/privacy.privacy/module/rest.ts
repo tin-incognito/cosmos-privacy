@@ -230,7 +230,7 @@ export interface PrivacyQueryAllTxPrivacyDataResponse {
 }
 
 export interface PrivacyQueryBalanceResponse {
-  /** @format byte */
+  /** @format uint64 */
   value?: string;
 }
 
@@ -289,7 +289,7 @@ export interface PrivacyToken {
   name?: string;
   symbol?: string;
 
-  /** @format byte */
+  /** @format uint64 */
   amount?: string;
 
   /** @format byte */

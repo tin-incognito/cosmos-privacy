@@ -10,7 +10,7 @@ import (
 )
 
 func TestOTAReceiver_FromAddress(t *testing.T) {
-	privateKey := "112t8rnXRPyemR9hMhXTite72b4b2HPcDPUjyncNT5z77wsRwfE9Z3ACgzbC1pZBmFAqmjEaL4HN472o39LptVqhC9gjR8tEeJatFGhcN1vC"
+	privateKey := "112t8rnXTGzFGr37DmxThwmDXu6g2GMg9wcdXyJg3KpftpQrfhadfCo1FeurNX4JhwHgiG1C8bucQXbZUDEfvWQRsyvBKQyzRZUwGGsGLcDk"
 
 	keyWallet, err := wallet.Base58CheckDeserialize(privateKey)
 	if err != nil {

@@ -251,7 +251,7 @@ message QueryBalanceRequest {
 }
 
 message QueryBalanceResponse {
-  bytes value = 1;
+  uint64 value = 1;
 }
 
 message QueryGetOTACoinRequest {

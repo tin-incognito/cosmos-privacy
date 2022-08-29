@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { Writer, Reader } from "protobufjs/minimal";
+import * as Long from "long";
+import { util, configure, Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "privacy.privacy";
 
@@ -8,11 +9,17 @@ export interface Token {
   creator: string;
   name: string;
   symbol: string;
-  amount: Uint8Array;
+  amount: number;
   token_id: Uint8Array;
 }
 
-const baseToken: object = { index: "", creator: "", name: "", symbol: "" };
+const baseToken: object = {
+  index: "",
+  creator: "",
+  name: "",
+  symbol: "",
+  amount: 0,
+};
 
 export const Token = {
   encode(message: Token, writer: Writer = Writer.create()): Writer {
@@ -28,8 +35,8 @@ export const Token = {
     if (message.symbol !== "") {
       writer.uint32(34).string(message.symbol);
     }
-    if (message.amount.length !== 0) {
-      writer.uint32(42).bytes(message.amount);
+    if (message.amount !== 0) {
+      writer.uint32(40).uint64(message.amount);
     }
     if (message.token_id.length !== 0) {
       writer.uint32(50).bytes(message.token_id);
@@ -57,7 +64,7 @@ export const Token = {
           message.symbol = reader.string();
           break;
         case 5:
-          message.amount = reader.bytes();
+          message.amount = longToNumber(reader.uint64() as Long);
           break;
         case 6:
           message.token_id = reader.bytes();
@@ -93,7 +100,9 @@ export const Token = {
       message.symbol = "";
     }
     if (object.amount !== undefined && object.amount !== null) {
-      message.amount = bytesFromBase64(object.amount);
+      message.amount = Number(object.amount);
+    } else {
+      message.amount = 0;
     }
     if (object.token_id !== undefined && object.token_id !== null) {
       message.token_id = bytesFromBase64(object.token_id);
@@ -107,10 +116,7 @@ export const Token = {
     message.creator !== undefined && (obj.creator = message.creator);
     message.name !== undefined && (obj.name = message.name);
     message.symbol !== undefined && (obj.symbol = message.symbol);
-    message.amount !== undefined &&
-      (obj.amount = base64FromBytes(
-        message.amount !== undefined ? message.amount : new Uint8Array()
-      ));
+    message.amount !== undefined && (obj.amount = message.amount);
     message.token_id !== undefined &&
       (obj.token_id = base64FromBytes(
         message.token_id !== undefined ? message.token_id : new Uint8Array()
@@ -143,7 +149,7 @@ export const Token = {
     if (object.amount !== undefined && object.amount !== null) {
       message.amount = object.amount;
     } else {
-      message.amount = new Uint8Array();
+      message.amount = 0;
     }
     if (object.token_id !== undefined && object.token_id !== null) {
       message.token_id = object.token_id;
@@ -197,3 +203,15 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
+
+function longToNumber(long: Long): number {
+  if (long.gt(Number.MAX_SAFE_INTEGER)) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  }
+  return long.toNumber();
+}
+
+if (util.Long !== Long) {
+  util.Long = Long as any;
+  configure();
+}

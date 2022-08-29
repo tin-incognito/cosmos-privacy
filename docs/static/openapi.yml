@@ -30188,7 +30188,7 @@ paths:
             properties:
               value:
                 type: string
-                format: byte
+                format: uint64
         default:
           description: An unexpected error response.
           schema:
@@ -30327,6 +30327,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -30487,6 +30497,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -30653,6 +30673,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -30825,6 +30855,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/privacy/privacy/ota_coin/{index}':
@@ -30988,6 +31028,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -31195,6 +31245,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/privacy/privacy/serial_number/{index}':
@@ -31269,7 +31329,7 @@ paths:
                       type: string
                     amount:
                       type: string
-                      format: byte
+                      format: uint64
                     token_id:
                       type: string
                       format: byte
@@ -31365,6 +31425,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/privacy/privacy/token/{index}':
@@ -31390,7 +31460,7 @@ paths:
                     type: string
                   amount:
                     type: string
-                    format: byte
+                    format: uint64
                   token_id:
                     type: string
                     format: byte
@@ -31548,6 +31618,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -53381,7 +53461,7 @@ definitions:
               type: string
             amount:
               type: string
-              format: byte
+              format: uint64
             token_id:
               type: string
               format: byte
@@ -53473,7 +53553,7 @@ definitions:
     properties:
       value:
         type: string
-        format: byte
+        format: uint64
   privacy.privacy.QueryGetCommitmentIndexResponse:
     type: object
     properties:
@@ -53582,7 +53662,7 @@ definitions:
             type: string
           amount:
             type: string
-            format: byte
+            format: uint64
           token_id:
             type: string
             format: byte
@@ -53649,7 +53729,7 @@ definitions:
         type: string
       amount:
         type: string
-        format: byte
+        format: uint64
       token_id:
         type: string
         format: byte

@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { Reader, Writer } from "protobufjs/minimal";
+import { Reader, util, configure, Writer } from "protobufjs/minimal";
+import * as Long from "long";
 import { Params } from "../privacy/params";
 import { SerialNumber } from "../privacy/serial_number";
 import {
@@ -149,7 +150,7 @@ export interface QueryBalanceRequest {
 }
 
 export interface QueryBalanceResponse {
-  value: Uint8Array;
+  value: number;
 }
 
 export interface QueryGetOTACoinRequest {
@@ -2522,15 +2523,15 @@ export const QueryBalanceRequest = {
   },
 };
 
-const baseQueryBalanceResponse: object = {};
+const baseQueryBalanceResponse: object = { value: 0 };
 
 export const QueryBalanceResponse = {
   encode(
     message: QueryBalanceResponse,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.value.length !== 0) {
-      writer.uint32(10).bytes(message.value);
+    if (message.value !== 0) {
+      writer.uint32(8).uint64(message.value);
     }
     return writer;
   },
@@ -2543,7 +2544,7 @@ export const QueryBalanceResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.value = reader.bytes();
+          message.value = longToNumber(reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -2556,17 +2557,16 @@ export const QueryBalanceResponse = {
   fromJSON(object: any): QueryBalanceResponse {
     const message = { ...baseQueryBalanceResponse } as QueryBalanceResponse;
     if (object.value !== undefined && object.value !== null) {
-      message.value = bytesFromBase64(object.value);
+      message.value = Number(object.value);
+    } else {
+      message.value = 0;
     }
     return message;
   },
 
   toJSON(message: QueryBalanceResponse): unknown {
     const obj: any = {};
-    message.value !== undefined &&
-      (obj.value = base64FromBytes(
-        message.value !== undefined ? message.value : new Uint8Array()
-      ));
+    message.value !== undefined && (obj.value = message.value);
     return obj;
   },
 
@@ -2575,7 +2575,7 @@ export const QueryBalanceResponse = {
     if (object.value !== undefined && object.value !== null) {
       message.value = object.value;
     } else {
-      message.value = new Uint8Array();
+      message.value = 0;
     }
     return message;
   },
@@ -3179,29 +3179,6 @@ var globalThis: any = (() => {
   throw "Unable to locate global object";
 })();
 
-const atob: (b64: string) => string =
-  globalThis.atob ||
-  ((b64) => globalThis.Buffer.from(b64, "base64").toString("binary"));
-function bytesFromBase64(b64: string): Uint8Array {
-  const bin = atob(b64);
-  const arr = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; ++i) {
-    arr[i] = bin.charCodeAt(i);
-  }
-  return arr;
-}
-
-const btoa: (bin: string) => string =
-  globalThis.btoa ||
-  ((bin) => globalThis.Buffer.from(bin, "binary").toString("base64"));
-function base64FromBytes(arr: Uint8Array): string {
-  const bin: string[] = [];
-  for (let i = 0; i < arr.byteLength; ++i) {
-    bin.push(String.fromCharCode(arr[i]));
-  }
-  return btoa(bin.join(""));
-}
-
 type Builtin = Date | Function | Uint8Array | string | number | undefined;
 export type DeepPartial<T> = T extends Builtin
   ? T
@@ -3212,3 +3189,15 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
+
+function longToNumber(long: Long): number {
+  if (long.gt(Number.MAX_SAFE_INTEGER)) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  }
+  return long.toNumber();
+}
+
+if (util.Long !== Long) {
+  util.Long = Long as any;
+  configure();
+}

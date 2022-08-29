@@ -2,7 +2,8 @@ package keeper
 
 import (
 	"context"
-	"math/big"
+	"fmt"
+	"strconv"
 
 	"privacy/x/privacy/repos/coin"
 	"privacy/x/privacy/repos/key"
@@ -31,25 +32,28 @@ func (k Keeper) Balance(goCtx context.Context, req *types.QueryBalanceRequest) (
 		return nil, err
 	}
 
-	balance := big.NewInt(0)
+	var balance uint64
 
 	for _, outputCoin := range outputCoins {
 		o := &coin.Coin{}
 		err := o.SetBytes(outputCoin.Value)
-		//err := proto.Unmarshal(outputCoin.Value, o)
 		if err != nil {
 			return nil, err
 		}
 		o, err = o.Decrypt(&keySet)
 		if err == nil {
-			balance = balance.Add(balance, big.NewInt(0).SetUint64(o.GetValue()))
+			temp := balance + o.GetValue()
+			if temp < balance {
+				return nil, fmt.Errorf("balance is out of range")
+			}
+			balance = temp
 		}
 	}
 
-	ctx.Logger().Info("[incognito] 100")
-	ctx.Logger().Info(balance.String())
+	ctx.Logger().Info("[incognito] balance")
+	ctx.Logger().Info(strconv.Itoa(int(balance)))
 
 	return &types.QueryBalanceResponse{
-		Value: balance.Bytes(),
+		Value: balance,
 	}, nil
 }
