@@ -3,15 +3,16 @@ package privacy
 import (
 	"math/rand"
 
+	"privacy/testutil/sample"
+	privacysimulation "privacy/x/privacy/simulation"
+	"privacy/x/privacy/types"
+
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"privacy/testutil/sample"
-	privacysimulation "privacy/x/privacy/simulation"
-	"privacy/x/privacy/types"
 )
 
 // avoid unused import issue
@@ -116,6 +117,22 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgAirdrop int = 100
 
+	opWeightMsgTransfer = "op_weight_msg_transfer"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgTransfer int = 100
+
+	opWeightMsgCreateOutputCoinSerialNumber = "op_weight_msg_output_coin_serial_number"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateOutputCoinSerialNumber int = 100
+
+	opWeightMsgUpdateOutputCoinSerialNumber = "op_weight_msg_output_coin_serial_number"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateOutputCoinSerialNumber int = 100
+
+	opWeightMsgDeleteOutputCoinSerialNumber = "op_weight_msg_output_coin_serial_number"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgDeleteOutputCoinSerialNumber int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -139,12 +156,10 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		},
 		OutputCoinList: []types.OutputCoin{
 			{
-				Creator: sample.AccAddress(),
-				Index:   "0",
+				Index: "0",
 			},
 			{
-				Creator: sample.AccAddress(),
-				Index:   "1",
+				Index: "1",
 			},
 		},
 		CommitmentList: []types.Commitment{
@@ -471,6 +486,50 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgAirdrop,
 		privacysimulation.SimulateMsgAirdrop(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgTransfer int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgTransfer, &weightMsgTransfer, nil,
+		func(_ *rand.Rand) {
+			weightMsgTransfer = defaultWeightMsgTransfer
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgTransfer,
+		privacysimulation.SimulateMsgTransfer(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgCreateOutputCoinSerialNumber int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateOutputCoinSerialNumber, &weightMsgCreateOutputCoinSerialNumber, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateOutputCoinSerialNumber = defaultWeightMsgCreateOutputCoinSerialNumber
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateOutputCoinSerialNumber,
+		privacysimulation.SimulateMsgCreateOutputCoinSerialNumber(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgUpdateOutputCoinSerialNumber int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateOutputCoinSerialNumber, &weightMsgUpdateOutputCoinSerialNumber, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateOutputCoinSerialNumber = defaultWeightMsgUpdateOutputCoinSerialNumber
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateOutputCoinSerialNumber,
+		privacysimulation.SimulateMsgUpdateOutputCoinSerialNumber(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgDeleteOutputCoinSerialNumber int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteOutputCoinSerialNumber, &weightMsgDeleteOutputCoinSerialNumber, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteOutputCoinSerialNumber = defaultWeightMsgDeleteOutputCoinSerialNumber
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteOutputCoinSerialNumber,
+		privacysimulation.SimulateMsgDeleteOutputCoinSerialNumber(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

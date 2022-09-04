@@ -2,17 +2,15 @@ package types
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 const TypeMsgCreateTx = "create_tx"
 
 var _ sdk.Msg = &MsgCreateTx{}
 
-func NewMsgCreateTx(creator string, value []byte) *MsgCreateTx {
+func NewMsgCreateTx(value []byte) *MsgCreateTx {
 	return &MsgCreateTx{
-		Creator: creator,
-		Value:   value,
+		Value: value,
 	}
 }
 
@@ -25,11 +23,7 @@ func (msg *MsgCreateTx) Type() string {
 }
 
 func (msg *MsgCreateTx) GetSigners() []sdk.AccAddress {
-	creator, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		panic(err)
-	}
-	return []sdk.AccAddress{creator}
+	return []sdk.AccAddress{}
 }
 
 func (msg *MsgCreateTx) GetSignBytes() []byte {
@@ -38,9 +32,5 @@ func (msg *MsgCreateTx) GetSignBytes() []byte {
 }
 
 func (msg *MsgCreateTx) ValidateBasic() error {
-	_, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
-	}
 	return nil
 }

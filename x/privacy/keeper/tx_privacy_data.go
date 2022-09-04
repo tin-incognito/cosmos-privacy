@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"fmt"
+	"math/big"
 	"privacy/x/privacy/models"
 	"privacy/x/privacy/types"
 
@@ -66,16 +67,25 @@ func (k Keeper) GetAllTxPrivacyData(ctx sdk.Context) (list []types.TxPrivacyData
 }
 
 func (k Keeper) setPrivacyData(ctx sdk.Context, txPrivacyData []byte) error {
+
+	outputCoinLength := big.NewInt(0)
+
+	outputCoinSerialNumber, ok := k.GetOutputCoinSerialNumber(ctx)
+	if ok {
+		outputCoinLength.SetBytes(outputCoinSerialNumber.Value)
+	}
+
 	// parse data
-	serialNumbers, commitments, outputCoins, otaCoins, err := models.FetchDataFromTx(ctx, txPrivacyData)
+	serialNumbers, commitments, outputCoins, otaCoins, newOutputCoinLength, err := models.FetchDataFromTx(ctx, txPrivacyData, *outputCoinLength)
 	if err != nil {
 		return err
 	}
 
-	// Store data
-
 	// store serialNumber
 	for _, serialNumber := range serialNumbers {
+		if _, ok := k.GetSerialNumber(ctx, serialNumber.Index); ok {
+			return fmt.Errorf("Duplicate serialNumber")
+		}
 		k.SetSerialNumber(ctx, serialNumber)
 	}
 
@@ -98,9 +108,15 @@ func (k Keeper) setPrivacyData(ctx sdk.Context, txPrivacyData []byte) error {
 	// store commitment
 	for _, commitment := range commitments {
 		for _, c := range commitment {
+			if _, ok := k.GetCommitment(ctx, c.Index); ok {
+				return fmt.Errorf("Duplicate commitment")
+			}
 			k.SetCommitment(ctx, c)
 		}
 	}
+
+	// store output coin length
+	k.SetOutputCoinSerialNumber(ctx, types.OutputCoinSerialNumber{Value: newOutputCoinLength.Bytes()})
 
 	return nil
 }

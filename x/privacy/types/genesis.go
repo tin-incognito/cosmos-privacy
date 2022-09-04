@@ -10,14 +10,15 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		SerialNumberList:    []SerialNumber{},
-		OutputCoinList:      []OutputCoin{},
-		CommitmentList:      []Commitment{},
-		CommitmentIndexList: []CommitmentIndex{},
-		TokenList:           []Token{},
-		OnetimeAddressList:  []OnetimeAddress{},
-		TxPrivacyDataList:   []TxPrivacyData{},
-		OTACoinList:         []OTACoin{},
+		SerialNumberList:       []SerialNumber{},
+		OutputCoinList:         []OutputCoin{},
+		CommitmentList:         []Commitment{},
+		CommitmentIndexList:    []CommitmentIndex{},
+		TokenList:              []Token{},
+		OnetimeAddressList:     []OnetimeAddress{},
+		TxPrivacyDataList:      []TxPrivacyData{},
+		OTACoinList:            []OTACoin{},
+		OutputCoinSerialNumber: nil,
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}

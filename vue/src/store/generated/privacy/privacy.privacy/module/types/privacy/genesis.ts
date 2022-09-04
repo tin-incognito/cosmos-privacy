@@ -8,6 +8,7 @@ import { Token } from "../privacy/token";
 import { OnetimeAddress } from "../privacy/onetime_address";
 import { TxPrivacyData } from "../privacy/tx_privacy_data";
 import { OTACoin } from "../privacy/ota_coin";
+import { OutputCoinSerialNumber } from "../privacy/output_coin_serial_number";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "privacy.privacy";
@@ -22,8 +23,9 @@ export interface GenesisState {
   tokenList: Token[];
   onetimeAddressList: OnetimeAddress[];
   txPrivacyDataList: TxPrivacyData[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   oTACoinList: OTACoin[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  outputCoinSerialNumber: OutputCoinSerialNumber | undefined;
 }
 
 const baseGenesisState: object = {};
@@ -56,6 +58,12 @@ export const GenesisState = {
     }
     for (const v of message.oTACoinList) {
       OTACoin.encode(v!, writer.uint32(74).fork()).ldelim();
+    }
+    if (message.outputCoinSerialNumber !== undefined) {
+      OutputCoinSerialNumber.encode(
+        message.outputCoinSerialNumber,
+        writer.uint32(82).fork()
+      ).ldelim();
     }
     return writer;
   },
@@ -113,6 +121,12 @@ export const GenesisState = {
           break;
         case 9:
           message.oTACoinList.push(OTACoin.decode(reader, reader.uint32()));
+          break;
+        case 10:
+          message.outputCoinSerialNumber = OutputCoinSerialNumber.decode(
+            reader,
+            reader.uint32()
+          );
           break;
         default:
           reader.skipType(tag & 7);
@@ -189,6 +203,16 @@ export const GenesisState = {
         message.oTACoinList.push(OTACoin.fromJSON(e));
       }
     }
+    if (
+      object.outputCoinSerialNumber !== undefined &&
+      object.outputCoinSerialNumber !== null
+    ) {
+      message.outputCoinSerialNumber = OutputCoinSerialNumber.fromJSON(
+        object.outputCoinSerialNumber
+      );
+    } else {
+      message.outputCoinSerialNumber = undefined;
+    }
     return message;
   },
 
@@ -252,6 +276,10 @@ export const GenesisState = {
     } else {
       obj.oTACoinList = [];
     }
+    message.outputCoinSerialNumber !== undefined &&
+      (obj.outputCoinSerialNumber = message.outputCoinSerialNumber
+        ? OutputCoinSerialNumber.toJSON(message.outputCoinSerialNumber)
+        : undefined);
     return obj;
   },
 
@@ -321,6 +349,16 @@ export const GenesisState = {
       for (const e of object.oTACoinList) {
         message.oTACoinList.push(OTACoin.fromPartial(e));
       }
+    }
+    if (
+      object.outputCoinSerialNumber !== undefined &&
+      object.outputCoinSerialNumber !== null
+    ) {
+      message.outputCoinSerialNumber = OutputCoinSerialNumber.fromPartial(
+        object.outputCoinSerialNumber
+      );
+    } else {
+      message.outputCoinSerialNumber = undefined;
     }
     return message;
   },

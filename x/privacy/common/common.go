@@ -78,3 +78,8 @@ func RandBytes(length int) []byte {
 	rand.Read(rbytes)
 	return rbytes
 }
+
+// RandBigIntMaxRange generates a big int with maximum value
+func RandBigIntMaxRange(max *big.Int) (*big.Int, error) {
+	return rand.Int(rand.Reader, max)
+}

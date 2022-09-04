@@ -53,6 +53,10 @@ func GetTxCmd() *cobra.Command {
 	cmd.AddCommand(CmdUpdateTxPrivacyData())
 	cmd.AddCommand(CmdDeleteTxPrivacyData())
 	cmd.AddCommand(CmdAirdrop())
+	cmd.AddCommand(CmdTransfer())
+	cmd.AddCommand(CmdCreateOutputCoinSerialNumber())
+	cmd.AddCommand(CmdUpdateOutputCoinSerialNumber())
+	cmd.AddCommand(CmdDeleteOutputCoinSerialNumber())
 	// this line is used by starport scaffolding # 1
 
 	return cmd

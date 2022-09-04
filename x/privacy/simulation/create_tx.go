@@ -3,11 +3,12 @@ package simulation
 import (
 	"math/rand"
 
+	"privacy/x/privacy/keeper"
+	"privacy/x/privacy/types"
+
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"privacy/x/privacy/keeper"
-	"privacy/x/privacy/types"
 )
 
 func SimulateMsgCreateTx(
@@ -17,9 +18,9 @@ func SimulateMsgCreateTx(
 ) simtypes.Operation {
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
-		simAccount, _ := simtypes.RandomAcc(r, accs)
+		//simAccount, _ := simtypes.RandomAcc(r, accs)
 		msg := &types.MsgCreateTx{
-			Creator: simAccount.Address.String(),
+			//Creator: simAccount.Address.String(),
 		}
 
 		// TODO: Handling the CreateTx simulation

@@ -5,25 +5,21 @@ export const protobufPackage = "privacy.privacy";
 
 export interface OutputCoin {
   index: string;
-  creator: string;
+  serial_number: Uint8Array;
   is_confidential_asset: boolean;
   pub_key: Uint8Array;
   value: Uint8Array;
 }
 
-const baseOutputCoin: object = {
-  index: "",
-  creator: "",
-  is_confidential_asset: false,
-};
+const baseOutputCoin: object = { index: "", is_confidential_asset: false };
 
 export const OutputCoin = {
   encode(message: OutputCoin, writer: Writer = Writer.create()): Writer {
     if (message.index !== "") {
       writer.uint32(10).string(message.index);
     }
-    if (message.creator !== "") {
-      writer.uint32(18).string(message.creator);
+    if (message.serial_number.length !== 0) {
+      writer.uint32(18).bytes(message.serial_number);
     }
     if (message.is_confidential_asset === true) {
       writer.uint32(24).bool(message.is_confidential_asset);
@@ -48,7 +44,7 @@ export const OutputCoin = {
           message.index = reader.string();
           break;
         case 2:
-          message.creator = reader.string();
+          message.serial_number = reader.bytes();
           break;
         case 3:
           message.is_confidential_asset = reader.bool();
@@ -74,10 +70,8 @@ export const OutputCoin = {
     } else {
       message.index = "";
     }
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
-    } else {
-      message.creator = "";
+    if (object.serial_number !== undefined && object.serial_number !== null) {
+      message.serial_number = bytesFromBase64(object.serial_number);
     }
     if (
       object.is_confidential_asset !== undefined &&
@@ -99,7 +93,12 @@ export const OutputCoin = {
   toJSON(message: OutputCoin): unknown {
     const obj: any = {};
     message.index !== undefined && (obj.index = message.index);
-    message.creator !== undefined && (obj.creator = message.creator);
+    message.serial_number !== undefined &&
+      (obj.serial_number = base64FromBytes(
+        message.serial_number !== undefined
+          ? message.serial_number
+          : new Uint8Array()
+      ));
     message.is_confidential_asset !== undefined &&
       (obj.is_confidential_asset = message.is_confidential_asset);
     message.pub_key !== undefined &&
@@ -120,10 +119,10 @@ export const OutputCoin = {
     } else {
       message.index = "";
     }
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
+    if (object.serial_number !== undefined && object.serial_number !== null) {
+      message.serial_number = object.serial_number;
     } else {
-      message.creator = "";
+      message.serial_number = new Uint8Array();
     }
     if (
       object.is_confidential_asset !== undefined &&

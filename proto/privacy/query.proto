@@ -13,6 +13,7 @@ import "privacy/token.proto";
 import "privacy/onetime_address.proto";
 import "privacy/tx_privacy_data.proto";
 import "privacy/ota_coin.proto";
+import "privacy/output_coin_serial_number.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "privacy/x/privacy/types";
@@ -108,6 +109,10 @@ service Query {
 		option (google.api.http).get = "/privacy/privacy/ota_coin";
 	}
 
+// Queries a OutputCoinSerialNumber by index.
+	rpc OutputCoinSerialNumber(QueryGetOutputCoinSerialNumberRequest) returns (QueryGetOutputCoinSerialNumberResponse) {
+		option (google.api.http).get = "/privacy/privacy/output_coin_serial_number";
+	}
 // this line is used by starport scaffolding # 2
 }
 
@@ -272,4 +277,9 @@ message QueryAllOTACoinResponse {
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
+message QueryGetOutputCoinSerialNumberRequest {}
+
+message QueryGetOutputCoinSerialNumberResponse {
+	OutputCoinSerialNumber OutputCoinSerialNumber = 1 [(gogoproto.nullable) = false];
+}
 // this line is used by starport scaffolding # 3

@@ -8,6 +8,7 @@ import "privacy/commitment_index.proto";
 import "privacy/token.proto";
 import "privacy/onetime_address.proto";
 import "privacy/tx_privacy_data.proto";
+import "privacy/output_coin_serial_number.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "privacy/x/privacy/types";
@@ -37,6 +38,10 @@ service Msg {
   rpc UpdateTxPrivacyData(MsgUpdateTxPrivacyData) returns (MsgUpdateTxPrivacyDataResponse);
   rpc DeleteTxPrivacyData(MsgDeleteTxPrivacyData) returns (MsgDeleteTxPrivacyDataResponse);
   rpc Airdrop(MsgAirdrop) returns (MsgAirdropResponse);
+  rpc Transfer(MsgTransfer) returns (MsgTransferResponse);
+  rpc CreateOutputCoinSerialNumber(MsgCreateOutputCoinSerialNumber) returns (MsgCreateOutputCoinSerialNumberResponse);
+  rpc UpdateOutputCoinSerialNumber(MsgUpdateOutputCoinSerialNumber) returns (MsgUpdateOutputCoinSerialNumberResponse);
+  rpc DeleteOutputCoinSerialNumber(MsgDeleteOutputCoinSerialNumber) returns (MsgDeleteOutputCoinSerialNumberResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -161,8 +166,7 @@ message MsgDeleteOnetimeAddress {
 message MsgDeleteOnetimeAddressResponse {}
 
 message MsgCreateTx {
-  string creator = 1;
-  bytes value = 2;
+  bytes value = 1;
 }
 
 message MsgCreateTxResponse {
@@ -189,7 +193,6 @@ message MsgDeleteTxPrivacyData {
 message MsgDeleteTxPrivacyDataResponse {}
 
 message MsgAirdrop {
-  string creator = 1;
   string ota_receiver = 2;
   bytes amount = 3;
   bytes info = 4;
@@ -198,4 +201,33 @@ message MsgAirdrop {
 message MsgAirdropResponse {
 }
 
+message MsgTransfer {
+  string private_key = 1;
+  message PaymentInfo {
+    string payment_address = 1;
+    uint64 amount = 2;
+    bytes info = 3;
+  }
+  repeated PaymentInfo payment_infos = 2;
+}
+
+message MsgTransferResponse {
+  string msg = 1;
+  bool is_error = 2;
+}
+
+message MsgCreateOutputCoinSerialNumber {
+  string creator = 1;
+}
+message MsgCreateOutputCoinSerialNumberResponse {}
+
+message MsgUpdateOutputCoinSerialNumber {
+  string creator = 1;
+}
+message MsgUpdateOutputCoinSerialNumberResponse {}
+
+message MsgDeleteOutputCoinSerialNumber {
+  string creator = 1;
+}
+message MsgDeleteOutputCoinSerialNumberResponse {}
 // this line is used by starport scaffolding # proto/tx/message

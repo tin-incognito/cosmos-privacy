@@ -30330,16 +30330,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/privacy/privacy/commitment/{index}':
@@ -30497,16 +30487,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -30673,16 +30653,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -30855,16 +30825,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/privacy/privacy/ota_coin/{index}':
@@ -30929,8 +30889,9 @@ paths:
                   properties:
                     index:
                       type: string
-                    creator:
+                    serial_number:
                       type: string
+                      format: byte
                     is_confidential_asset:
                       type: boolean
                     pub_key:
@@ -31031,16 +30992,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/privacy/privacy/output_coin/{index}':
@@ -31058,8 +31009,9 @@ paths:
                 properties:
                   index:
                     type: string
-                  creator:
+                  serial_number:
                     type: string
+                    format: byte
                   is_confidential_asset:
                     type: boolean
                   pub_key:
@@ -31091,6 +31043,42 @@ paths:
           in: path
           required: true
           type: string
+      tags:
+        - Query
+  /privacy/privacy/output_coin_serial_number:
+    get:
+      summary: Queries a OutputCoinSerialNumber by index.
+      operationId: PrivacyPrivacyOutputCoinSerialNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              OutputCoinSerialNumber:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       tags:
         - Query
   /privacy/privacy/params:
@@ -31242,16 +31230,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -31422,16 +31400,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -31618,16 +31586,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -53107,6 +53065,8 @@ definitions:
     type: object
   privacy.privacy.MsgCreateOutputCoinResponse:
     type: object
+  privacy.privacy.MsgCreateOutputCoinSerialNumberResponse:
+    type: object
   privacy.privacy.MsgCreateSerialNumberResponse:
     type: object
   privacy.privacy.MsgCreateTokenResponse:
@@ -53123,12 +53083,32 @@ definitions:
     type: object
   privacy.privacy.MsgDeleteOutputCoinResponse:
     type: object
+  privacy.privacy.MsgDeleteOutputCoinSerialNumberResponse:
+    type: object
   privacy.privacy.MsgDeleteSerialNumberResponse:
     type: object
   privacy.privacy.MsgDeleteTokenResponse:
     type: object
   privacy.privacy.MsgDeleteTxPrivacyDataResponse:
     type: object
+  privacy.privacy.MsgTransfer.PaymentInfo:
+    type: object
+    properties:
+      payment_address:
+        type: string
+      amount:
+        type: string
+        format: uint64
+      info:
+        type: string
+        format: byte
+  privacy.privacy.MsgTransferResponse:
+    type: object
+    properties:
+      msg:
+        type: string
+      is_error:
+        type: boolean
   privacy.privacy.MsgUpdateCommitmentIndexResponse:
     type: object
   privacy.privacy.MsgUpdateCommitmentResponse:
@@ -53136,6 +53116,8 @@ definitions:
   privacy.privacy.MsgUpdateOnetimeAddressResponse:
     type: object
   privacy.privacy.MsgUpdateOutputCoinResponse:
+    type: object
+  privacy.privacy.MsgUpdateOutputCoinSerialNumberResponse:
     type: object
   privacy.privacy.MsgUpdateSerialNumberResponse:
     type: object
@@ -53176,13 +53158,20 @@ definitions:
     properties:
       index:
         type: string
-      creator:
+      serial_number:
         type: string
+        format: byte
       is_confidential_asset:
         type: boolean
       pub_key:
         type: string
         format: byte
+      value:
+        type: string
+        format: byte
+  privacy.privacy.OutputCoinSerialNumber:
+    type: object
+    properties:
       value:
         type: string
         format: byte
@@ -53366,8 +53355,9 @@ definitions:
           properties:
             index:
               type: string
-            creator:
+            serial_number:
               type: string
+              format: byte
             is_confidential_asset:
               type: boolean
             pub_key:
@@ -53621,13 +53611,23 @@ definitions:
         properties:
           index:
             type: string
-          creator:
+          serial_number:
             type: string
+            format: byte
           is_confidential_asset:
             type: boolean
           pub_key:
             type: string
             format: byte
+          value:
+            type: string
+            format: byte
+  privacy.privacy.QueryGetOutputCoinSerialNumberResponse:
+    type: object
+    properties:
+      OutputCoinSerialNumber:
+        type: object
+        properties:
           value:
             type: string
             format: byte

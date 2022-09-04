@@ -3,7 +3,10 @@ package coin
 import (
 	"fmt"
 	"math/big"
+	"privacy/x/privacy/repos/key"
 	"privacy/x/privacy/repos/operation"
+
+	"github.com/incognitochain/incognito-chain/common"
 )
 
 func getMin(a, b int) int {
@@ -92,4 +95,43 @@ func NewCoinFromAmountAndTxRandomBytes(
 	c.SetSharedRandom(nil)
 	c.SetInfo(info)
 	return c
+}
+
+func NewCoinFromPaymentInfo(paymentInfo *key.PaymentInfo) (*Coin, error) {
+	c := NewCoin()
+	// Amount, Randomness, SharedRandom are transparency until we call concealData
+	c.SetAmount(new(operation.Scalar).FromUint64(paymentInfo.Amount))
+	c.SetRandomness(operation.RandomScalar())
+	c.SetSharedRandom(operation.RandomScalar())        // shared randomness for creating one-time-address
+	c.SetSharedConcealRandom(operation.RandomScalar()) // shared randomness for concealing amount and blinding asset tag
+	c.SetInfo(paymentInfo.Message)
+	c.SetCommitment(operation.PedCom.CommitAtIndex(c.GetAmount(), c.GetRandomness(), operation.PedersenValueIndex))
+
+	/*// If this is going to burning address then dont need to create ota*/
+	/*if common.IsPublicKeyBurningAddress(p.PaymentAddress.Pk) {*/
+	/*publicKey, err := new(operation.Point).FromBytesS(p.PaymentAddress.Pk)*/
+	/*if err != nil {*/
+	/*panic("Something is wrong with info.paymentAddress.pk, burning address should be a valid point")*/
+	/*}*/
+	/*c.SetPublicKey(publicKey)*/
+	/*return c, nil*/
+	/*}*/
+
+	index := uint32(0)
+	publicOTA := paymentInfo.PaymentAddress.GetOTAPublicKey()
+	if publicOTA == nil {
+		return nil, fmt.Errorf("public OTA from payment address is nil")
+	}
+	publicSpend := paymentInfo.PaymentAddress.GetPublicSpend()
+	rK := new(operation.Point).ScalarMult(publicOTA, c.GetSharedRandom())
+
+	// Get publickey
+	hash := operation.HashToScalar(append(rK.ToBytesS(), common.Uint32ToBytes(index)...))
+	HrKG := new(operation.Point).ScalarMultBase(hash)
+	publicKey := new(operation.Point).Add(HrKG, publicSpend)
+	c.SetPublicKey(publicKey)
+	otaRandomPoint := new(operation.Point).ScalarMultBase(c.GetSharedRandom())
+	concealRandomPoint := new(operation.Point).ScalarMultBase(c.GetSharedConcealRandom())
+	c.SetTxRandomDetail(concealRandomPoint, otaRandomPoint, index)
+	return c, nil
 }

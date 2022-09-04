@@ -14,6 +14,7 @@ import { Token } from "../privacy/token";
 import { OnetimeAddress } from "../privacy/onetime_address";
 import { TxPrivacyData } from "../privacy/tx_privacy_data";
 import { OTACoin } from "../privacy/ota_coin";
+import { OutputCoinSerialNumber } from "../privacy/output_coin_serial_number";
 
 export const protobufPackage = "privacy.privacy";
 
@@ -168,6 +169,12 @@ export interface QueryAllOTACoinRequest {
 export interface QueryAllOTACoinResponse {
   oTACoin: OTACoin[];
   pagination: PageResponse | undefined;
+}
+
+export interface QueryGetOutputCoinSerialNumberRequest {}
+
+export interface QueryGetOutputCoinSerialNumberResponse {
+  OutputCoinSerialNumber: OutputCoinSerialNumber | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -2871,6 +2878,146 @@ export const QueryAllOTACoinResponse = {
   },
 };
 
+const baseQueryGetOutputCoinSerialNumberRequest: object = {};
+
+export const QueryGetOutputCoinSerialNumberRequest = {
+  encode(
+    _: QueryGetOutputCoinSerialNumberRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetOutputCoinSerialNumberRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetOutputCoinSerialNumberRequest,
+    } as QueryGetOutputCoinSerialNumberRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryGetOutputCoinSerialNumberRequest {
+    const message = {
+      ...baseQueryGetOutputCoinSerialNumberRequest,
+    } as QueryGetOutputCoinSerialNumberRequest;
+    return message;
+  },
+
+  toJSON(_: QueryGetOutputCoinSerialNumberRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<QueryGetOutputCoinSerialNumberRequest>
+  ): QueryGetOutputCoinSerialNumberRequest {
+    const message = {
+      ...baseQueryGetOutputCoinSerialNumberRequest,
+    } as QueryGetOutputCoinSerialNumberRequest;
+    return message;
+  },
+};
+
+const baseQueryGetOutputCoinSerialNumberResponse: object = {};
+
+export const QueryGetOutputCoinSerialNumberResponse = {
+  encode(
+    message: QueryGetOutputCoinSerialNumberResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.OutputCoinSerialNumber !== undefined) {
+      OutputCoinSerialNumber.encode(
+        message.OutputCoinSerialNumber,
+        writer.uint32(10).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetOutputCoinSerialNumberResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetOutputCoinSerialNumberResponse,
+    } as QueryGetOutputCoinSerialNumberResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.OutputCoinSerialNumber = OutputCoinSerialNumber.decode(
+            reader,
+            reader.uint32()
+          );
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetOutputCoinSerialNumberResponse {
+    const message = {
+      ...baseQueryGetOutputCoinSerialNumberResponse,
+    } as QueryGetOutputCoinSerialNumberResponse;
+    if (
+      object.OutputCoinSerialNumber !== undefined &&
+      object.OutputCoinSerialNumber !== null
+    ) {
+      message.OutputCoinSerialNumber = OutputCoinSerialNumber.fromJSON(
+        object.OutputCoinSerialNumber
+      );
+    } else {
+      message.OutputCoinSerialNumber = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetOutputCoinSerialNumberResponse): unknown {
+    const obj: any = {};
+    message.OutputCoinSerialNumber !== undefined &&
+      (obj.OutputCoinSerialNumber = message.OutputCoinSerialNumber
+        ? OutputCoinSerialNumber.toJSON(message.OutputCoinSerialNumber)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetOutputCoinSerialNumberResponse>
+  ): QueryGetOutputCoinSerialNumberResponse {
+    const message = {
+      ...baseQueryGetOutputCoinSerialNumberResponse,
+    } as QueryGetOutputCoinSerialNumberResponse;
+    if (
+      object.OutputCoinSerialNumber !== undefined &&
+      object.OutputCoinSerialNumber !== null
+    ) {
+      message.OutputCoinSerialNumber = OutputCoinSerialNumber.fromPartial(
+        object.OutputCoinSerialNumber
+      );
+    } else {
+      message.OutputCoinSerialNumber = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -2933,6 +3080,10 @@ export interface Query {
   OTACoin(request: QueryGetOTACoinRequest): Promise<QueryGetOTACoinResponse>;
   /** Queries a list of OTACoin items. */
   OTACoinAll(request: QueryAllOTACoinRequest): Promise<QueryAllOTACoinResponse>;
+  /** Queries a OutputCoinSerialNumber by index. */
+  OutputCoinSerialNumber(
+    request: QueryGetOutputCoinSerialNumberRequest
+  ): Promise<QueryGetOutputCoinSerialNumberResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -3157,6 +3308,20 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllOTACoinResponse.decode(new Reader(data))
+    );
+  }
+
+  OutputCoinSerialNumber(
+    request: QueryGetOutputCoinSerialNumberRequest
+  ): Promise<QueryGetOutputCoinSerialNumberResponse> {
+    const data = QueryGetOutputCoinSerialNumberRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Query",
+      "OutputCoinSerialNumber",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetOutputCoinSerialNumberResponse.decode(new Reader(data))
     );
   }
 }

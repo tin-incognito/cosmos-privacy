@@ -127,6 +127,14 @@ func (addr PaymentAddress) String() string {
 	return hex.EncodeToString(byteArrays)
 }
 
+func (addr *PaymentAddress) FromString(str string) error {
+	byteArrays, err := hex.DecodeString(str)
+	if err != nil {
+		return err
+	}
+	return addr.SetBytes(byteArrays)
+}
+
 func (addr PaymentAddress) GetPublicSpend() *operation.Point {
 	pubSpend, _ := new(operation.Point).FromBytesS(addr.Pk)
 	return pubSpend

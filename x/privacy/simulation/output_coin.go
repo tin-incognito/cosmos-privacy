@@ -4,13 +4,14 @@ import (
 	"math/rand"
 	"strconv"
 
+	"privacy/x/privacy/keeper"
+	"privacy/x/privacy/types"
+
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"privacy/x/privacy/keeper"
-	"privacy/x/privacy/types"
 )
 
 // Prevent strconv unused error
@@ -69,7 +70,7 @@ func SimulateMsgUpdateOutputCoin(
 			found         = false
 		)
 		for _, obj := range allOutputCoin {
-			simAccount, found = FindAccount(accs, obj.Creator)
+			simAccount, found = FindAccount(accs, "")
 			if found {
 				outputCoin = obj
 				break
@@ -115,7 +116,7 @@ func SimulateMsgDeleteOutputCoin(
 			found         = false
 		)
 		for _, obj := range allOutputCoin {
-			simAccount, found = FindAccount(accs, obj.Creator)
+			simAccount, found = FindAccount(accs, "")
 			if found {
 				outputCoin = obj
 				break

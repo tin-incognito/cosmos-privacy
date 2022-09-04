@@ -9,6 +9,16 @@
  * ---------------------------------------------------------------
  */
 
+export interface MsgTransferPaymentInfo {
+  payment_address?: string;
+
+  /** @format uint64 */
+  amount?: string;
+
+  /** @format byte */
+  info?: string;
+}
+
 export interface PrivacyCommitment {
   index?: string;
   creator?: string;
@@ -33,6 +43,8 @@ export type PrivacyMsgCreateOnetimeAddressResponse = object;
 
 export type PrivacyMsgCreateOutputCoinResponse = object;
 
+export type PrivacyMsgCreateOutputCoinSerialNumberResponse = object;
+
 export type PrivacyMsgCreateSerialNumberResponse = object;
 
 export type PrivacyMsgCreateTokenResponse = object;
@@ -49,11 +61,18 @@ export type PrivacyMsgDeleteOnetimeAddressResponse = object;
 
 export type PrivacyMsgDeleteOutputCoinResponse = object;
 
+export type PrivacyMsgDeleteOutputCoinSerialNumberResponse = object;
+
 export type PrivacyMsgDeleteSerialNumberResponse = object;
 
 export type PrivacyMsgDeleteTokenResponse = object;
 
 export type PrivacyMsgDeleteTxPrivacyDataResponse = object;
+
+export interface PrivacyMsgTransferResponse {
+  msg?: string;
+  is_error?: boolean;
+}
 
 export type PrivacyMsgUpdateCommitmentIndexResponse = object;
 
@@ -62,6 +81,8 @@ export type PrivacyMsgUpdateCommitmentResponse = object;
 export type PrivacyMsgUpdateOnetimeAddressResponse = object;
 
 export type PrivacyMsgUpdateOutputCoinResponse = object;
+
+export type PrivacyMsgUpdateOutputCoinSerialNumberResponse = object;
 
 export type PrivacyMsgUpdateSerialNumberResponse = object;
 
@@ -94,12 +115,19 @@ export interface PrivacyOnetimeAddress {
 
 export interface PrivacyOutputCoin {
   index?: string;
-  creator?: string;
+
+  /** @format byte */
+  serial_number?: string;
   is_confidential_asset?: boolean;
 
   /** @format byte */
   pub_key?: string;
 
+  /** @format byte */
+  value?: string;
+}
+
+export interface PrivacyOutputCoinSerialNumber {
   /** @format byte */
   value?: string;
 }
@@ -254,6 +282,10 @@ export interface PrivacyQueryGetOutputCoinResponse {
   outputCoin?: PrivacyOutputCoin;
 }
 
+export interface PrivacyQueryGetOutputCoinSerialNumberResponse {
+  OutputCoinSerialNumber?: PrivacyOutputCoinSerialNumber;
+}
+
 export interface PrivacyQueryGetSerialNumberResponse {
   serialNumber?: PrivacySerialNumber;
 }
@@ -370,13 +402,6 @@ export interface V1Beta1PageRequest {
    * is set.
    */
   count_total?: boolean;
-
-  /**
-   * reverse is set to true if results are to be returned in the descending order.
-   *
-   * Since: cosmos-sdk 0.43
-   */
-  reverse?: boolean;
 }
 
 /**
@@ -622,7 +647,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -664,7 +688,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -706,7 +729,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -748,7 +770,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -790,7 +811,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -813,6 +833,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryOutputCoin = (index: string, params: RequestParams = {}) =>
     this.request<PrivacyQueryGetOutputCoinResponse, RpcStatus>({
       path: `/privacy/privacy/output_coin/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryOutputCoinSerialNumber
+   * @summary Queries a OutputCoinSerialNumber by index.
+   * @request GET:/privacy/privacy/output_coin_serial_number
+   */
+  queryOutputCoinSerialNumber = (params: RequestParams = {}) =>
+    this.request<PrivacyQueryGetOutputCoinSerialNumberResponse, RpcStatus>({
+      path: `/privacy/privacy/output_coin_serial_number`,
       method: "GET",
       format: "json",
       ...params,
@@ -848,7 +884,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -890,7 +925,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -932,7 +966,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.offset"?: string;
       "pagination.limit"?: string;
       "pagination.count_total"?: boolean;
-      "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
   ) =>

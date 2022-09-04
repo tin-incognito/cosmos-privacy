@@ -31,6 +31,10 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgUpdateTxPrivacyData{}, "privacy/UpdateTxPrivacyData", nil)
 	cdc.RegisterConcrete(&MsgDeleteTxPrivacyData{}, "privacy/DeleteTxPrivacyData", nil)
 	cdc.RegisterConcrete(&MsgAirdrop{}, "privacy/Airdrop", nil)
+	cdc.RegisterConcrete(&MsgTransfer{}, "privacy/Transfer", nil)
+	cdc.RegisterConcrete(&MsgCreateOutputCoinSerialNumber{}, "privacy/CreateOutputCoinSerialNumber", nil)
+	cdc.RegisterConcrete(&MsgUpdateOutputCoinSerialNumber{}, "privacy/UpdateOutputCoinSerialNumber", nil)
+	cdc.RegisterConcrete(&MsgDeleteOutputCoinSerialNumber{}, "privacy/DeleteOutputCoinSerialNumber", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -75,6 +79,14 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgAirdrop{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgTransfer{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateOutputCoinSerialNumber{},
+		&MsgUpdateOutputCoinSerialNumber{},
+		&MsgDeleteOutputCoinSerialNumber{},
 	)
 	// this line is used by starport scaffolding # 3
 

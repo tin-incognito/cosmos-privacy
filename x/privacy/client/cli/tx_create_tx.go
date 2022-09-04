@@ -28,7 +28,6 @@ func CmdCreateTx() *cobra.Command {
 			txPrivacyData := []byte{}
 
 			msg := types.NewMsgCreateTx(
-				clientCtx.GetFromAddress().String(),
 				txPrivacyData,
 			)
 			if err := msg.ValidateBasic(); err != nil {

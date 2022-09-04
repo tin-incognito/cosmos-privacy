@@ -35,7 +35,6 @@ func CmdAirdrop() *cobra.Command {
 			}
 
 			msg := types.NewMsgAirdrop(
-				clientCtx.GetFromAddress().String(),
 				argOTAReceiver,
 				amount.Bytes(),
 				nil,

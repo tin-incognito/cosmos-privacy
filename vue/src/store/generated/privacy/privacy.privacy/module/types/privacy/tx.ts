@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { Reader, Writer } from "protobufjs/minimal";
+import { Reader, util, configure, Writer } from "protobufjs/minimal";
+import * as Long from "long";
 
 export const protobufPackage = "privacy.privacy";
 
@@ -130,7 +131,6 @@ export interface MsgDeleteOnetimeAddress {
 export interface MsgDeleteOnetimeAddressResponse {}
 
 export interface MsgCreateTx {
-  creator: string;
   value: Uint8Array;
 }
 
@@ -158,13 +158,46 @@ export interface MsgDeleteTxPrivacyData {
 export interface MsgDeleteTxPrivacyDataResponse {}
 
 export interface MsgAirdrop {
-  creator: string;
   ota_receiver: string;
   amount: Uint8Array;
   info: Uint8Array;
 }
 
 export interface MsgAirdropResponse {}
+
+export interface MsgTransfer {
+  private_key: string;
+  payment_infos: MsgTransfer_PaymentInfo[];
+}
+
+export interface MsgTransfer_PaymentInfo {
+  payment_address: string;
+  amount: number;
+  info: Uint8Array;
+}
+
+export interface MsgTransferResponse {
+  msg: string;
+  is_error: boolean;
+}
+
+export interface MsgCreateOutputCoinSerialNumber {
+  creator: string;
+}
+
+export interface MsgCreateOutputCoinSerialNumberResponse {}
+
+export interface MsgUpdateOutputCoinSerialNumber {
+  creator: string;
+}
+
+export interface MsgUpdateOutputCoinSerialNumberResponse {}
+
+export interface MsgDeleteOutputCoinSerialNumber {
+  creator: string;
+}
+
+export interface MsgDeleteOutputCoinSerialNumberResponse {}
 
 const baseMsgCreateSerialNumber: object = { creator: "", index: "" };
 
@@ -2464,15 +2497,12 @@ export const MsgDeleteOnetimeAddressResponse = {
   },
 };
 
-const baseMsgCreateTx: object = { creator: "" };
+const baseMsgCreateTx: object = {};
 
 export const MsgCreateTx = {
   encode(message: MsgCreateTx, writer: Writer = Writer.create()): Writer {
-    if (message.creator !== "") {
-      writer.uint32(10).string(message.creator);
-    }
     if (message.value.length !== 0) {
-      writer.uint32(18).bytes(message.value);
+      writer.uint32(10).bytes(message.value);
     }
     return writer;
   },
@@ -2485,9 +2515,6 @@ export const MsgCreateTx = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.creator = reader.string();
-          break;
-        case 2:
           message.value = reader.bytes();
           break;
         default:
@@ -2500,11 +2527,6 @@ export const MsgCreateTx = {
 
   fromJSON(object: any): MsgCreateTx {
     const message = { ...baseMsgCreateTx } as MsgCreateTx;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
-    } else {
-      message.creator = "";
-    }
     if (object.value !== undefined && object.value !== null) {
       message.value = bytesFromBase64(object.value);
     }
@@ -2513,7 +2535,6 @@ export const MsgCreateTx = {
 
   toJSON(message: MsgCreateTx): unknown {
     const obj: any = {};
-    message.creator !== undefined && (obj.creator = message.creator);
     message.value !== undefined &&
       (obj.value = base64FromBytes(
         message.value !== undefined ? message.value : new Uint8Array()
@@ -2523,11 +2544,6 @@ export const MsgCreateTx = {
 
   fromPartial(object: DeepPartial<MsgCreateTx>): MsgCreateTx {
     const message = { ...baseMsgCreateTx } as MsgCreateTx;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
-    } else {
-      message.creator = "";
-    }
     if (object.value !== undefined && object.value !== null) {
       message.value = object.value;
     } else {
@@ -2962,13 +2978,10 @@ export const MsgDeleteTxPrivacyDataResponse = {
   },
 };
 
-const baseMsgAirdrop: object = { creator: "", ota_receiver: "" };
+const baseMsgAirdrop: object = { ota_receiver: "" };
 
 export const MsgAirdrop = {
   encode(message: MsgAirdrop, writer: Writer = Writer.create()): Writer {
-    if (message.creator !== "") {
-      writer.uint32(10).string(message.creator);
-    }
     if (message.ota_receiver !== "") {
       writer.uint32(18).string(message.ota_receiver);
     }
@@ -2988,9 +3001,6 @@ export const MsgAirdrop = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        case 1:
-          message.creator = reader.string();
-          break;
         case 2:
           message.ota_receiver = reader.string();
           break;
@@ -3010,11 +3020,6 @@ export const MsgAirdrop = {
 
   fromJSON(object: any): MsgAirdrop {
     const message = { ...baseMsgAirdrop } as MsgAirdrop;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
-    } else {
-      message.creator = "";
-    }
     if (object.ota_receiver !== undefined && object.ota_receiver !== null) {
       message.ota_receiver = String(object.ota_receiver);
     } else {
@@ -3031,7 +3036,6 @@ export const MsgAirdrop = {
 
   toJSON(message: MsgAirdrop): unknown {
     const obj: any = {};
-    message.creator !== undefined && (obj.creator = message.creator);
     message.ota_receiver !== undefined &&
       (obj.ota_receiver = message.ota_receiver);
     message.amount !== undefined &&
@@ -3047,11 +3051,6 @@ export const MsgAirdrop = {
 
   fromPartial(object: DeepPartial<MsgAirdrop>): MsgAirdrop {
     const message = { ...baseMsgAirdrop } as MsgAirdrop;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
-    } else {
-      message.creator = "";
-    }
     if (object.ota_receiver !== undefined && object.ota_receiver !== null) {
       message.ota_receiver = object.ota_receiver;
     } else {
@@ -3105,6 +3104,636 @@ export const MsgAirdropResponse = {
 
   fromPartial(_: DeepPartial<MsgAirdropResponse>): MsgAirdropResponse {
     const message = { ...baseMsgAirdropResponse } as MsgAirdropResponse;
+    return message;
+  },
+};
+
+const baseMsgTransfer: object = { private_key: "" };
+
+export const MsgTransfer = {
+  encode(message: MsgTransfer, writer: Writer = Writer.create()): Writer {
+    if (message.private_key !== "") {
+      writer.uint32(10).string(message.private_key);
+    }
+    for (const v of message.payment_infos) {
+      MsgTransfer_PaymentInfo.encode(v!, writer.uint32(18).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgTransfer {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgTransfer } as MsgTransfer;
+    message.payment_infos = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.private_key = reader.string();
+          break;
+        case 2:
+          message.payment_infos.push(
+            MsgTransfer_PaymentInfo.decode(reader, reader.uint32())
+          );
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgTransfer {
+    const message = { ...baseMsgTransfer } as MsgTransfer;
+    message.payment_infos = [];
+    if (object.private_key !== undefined && object.private_key !== null) {
+      message.private_key = String(object.private_key);
+    } else {
+      message.private_key = "";
+    }
+    if (object.payment_infos !== undefined && object.payment_infos !== null) {
+      for (const e of object.payment_infos) {
+        message.payment_infos.push(MsgTransfer_PaymentInfo.fromJSON(e));
+      }
+    }
+    return message;
+  },
+
+  toJSON(message: MsgTransfer): unknown {
+    const obj: any = {};
+    message.private_key !== undefined &&
+      (obj.private_key = message.private_key);
+    if (message.payment_infos) {
+      obj.payment_infos = message.payment_infos.map((e) =>
+        e ? MsgTransfer_PaymentInfo.toJSON(e) : undefined
+      );
+    } else {
+      obj.payment_infos = [];
+    }
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgTransfer>): MsgTransfer {
+    const message = { ...baseMsgTransfer } as MsgTransfer;
+    message.payment_infos = [];
+    if (object.private_key !== undefined && object.private_key !== null) {
+      message.private_key = object.private_key;
+    } else {
+      message.private_key = "";
+    }
+    if (object.payment_infos !== undefined && object.payment_infos !== null) {
+      for (const e of object.payment_infos) {
+        message.payment_infos.push(MsgTransfer_PaymentInfo.fromPartial(e));
+      }
+    }
+    return message;
+  },
+};
+
+const baseMsgTransfer_PaymentInfo: object = { payment_address: "", amount: 0 };
+
+export const MsgTransfer_PaymentInfo = {
+  encode(
+    message: MsgTransfer_PaymentInfo,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.payment_address !== "") {
+      writer.uint32(10).string(message.payment_address);
+    }
+    if (message.amount !== 0) {
+      writer.uint32(16).uint64(message.amount);
+    }
+    if (message.info.length !== 0) {
+      writer.uint32(26).bytes(message.info);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgTransfer_PaymentInfo {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgTransfer_PaymentInfo,
+    } as MsgTransfer_PaymentInfo;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.payment_address = reader.string();
+          break;
+        case 2:
+          message.amount = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.info = reader.bytes();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgTransfer_PaymentInfo {
+    const message = {
+      ...baseMsgTransfer_PaymentInfo,
+    } as MsgTransfer_PaymentInfo;
+    if (
+      object.payment_address !== undefined &&
+      object.payment_address !== null
+    ) {
+      message.payment_address = String(object.payment_address);
+    } else {
+      message.payment_address = "";
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Number(object.amount);
+    } else {
+      message.amount = 0;
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = bytesFromBase64(object.info);
+    }
+    return message;
+  },
+
+  toJSON(message: MsgTransfer_PaymentInfo): unknown {
+    const obj: any = {};
+    message.payment_address !== undefined &&
+      (obj.payment_address = message.payment_address);
+    message.amount !== undefined && (obj.amount = message.amount);
+    message.info !== undefined &&
+      (obj.info = base64FromBytes(
+        message.info !== undefined ? message.info : new Uint8Array()
+      ));
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgTransfer_PaymentInfo>
+  ): MsgTransfer_PaymentInfo {
+    const message = {
+      ...baseMsgTransfer_PaymentInfo,
+    } as MsgTransfer_PaymentInfo;
+    if (
+      object.payment_address !== undefined &&
+      object.payment_address !== null
+    ) {
+      message.payment_address = object.payment_address;
+    } else {
+      message.payment_address = "";
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = object.amount;
+    } else {
+      message.amount = 0;
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = object.info;
+    } else {
+      message.info = new Uint8Array();
+    }
+    return message;
+  },
+};
+
+const baseMsgTransferResponse: object = { msg: "", is_error: false };
+
+export const MsgTransferResponse = {
+  encode(
+    message: MsgTransferResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.msg !== "") {
+      writer.uint32(10).string(message.msg);
+    }
+    if (message.is_error === true) {
+      writer.uint32(16).bool(message.is_error);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgTransferResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgTransferResponse } as MsgTransferResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.msg = reader.string();
+          break;
+        case 2:
+          message.is_error = reader.bool();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgTransferResponse {
+    const message = { ...baseMsgTransferResponse } as MsgTransferResponse;
+    if (object.msg !== undefined && object.msg !== null) {
+      message.msg = String(object.msg);
+    } else {
+      message.msg = "";
+    }
+    if (object.is_error !== undefined && object.is_error !== null) {
+      message.is_error = Boolean(object.is_error);
+    } else {
+      message.is_error = false;
+    }
+    return message;
+  },
+
+  toJSON(message: MsgTransferResponse): unknown {
+    const obj: any = {};
+    message.msg !== undefined && (obj.msg = message.msg);
+    message.is_error !== undefined && (obj.is_error = message.is_error);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgTransferResponse>): MsgTransferResponse {
+    const message = { ...baseMsgTransferResponse } as MsgTransferResponse;
+    if (object.msg !== undefined && object.msg !== null) {
+      message.msg = object.msg;
+    } else {
+      message.msg = "";
+    }
+    if (object.is_error !== undefined && object.is_error !== null) {
+      message.is_error = object.is_error;
+    } else {
+      message.is_error = false;
+    }
+    return message;
+  },
+};
+
+const baseMsgCreateOutputCoinSerialNumber: object = { creator: "" };
+
+export const MsgCreateOutputCoinSerialNumber = {
+  encode(
+    message: MsgCreateOutputCoinSerialNumber,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgCreateOutputCoinSerialNumber {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgCreateOutputCoinSerialNumber,
+    } as MsgCreateOutputCoinSerialNumber;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgCreateOutputCoinSerialNumber {
+    const message = {
+      ...baseMsgCreateOutputCoinSerialNumber,
+    } as MsgCreateOutputCoinSerialNumber;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgCreateOutputCoinSerialNumber): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgCreateOutputCoinSerialNumber>
+  ): MsgCreateOutputCoinSerialNumber {
+    const message = {
+      ...baseMsgCreateOutputCoinSerialNumber,
+    } as MsgCreateOutputCoinSerialNumber;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgCreateOutputCoinSerialNumberResponse: object = {};
+
+export const MsgCreateOutputCoinSerialNumberResponse = {
+  encode(
+    _: MsgCreateOutputCoinSerialNumberResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgCreateOutputCoinSerialNumberResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgCreateOutputCoinSerialNumberResponse,
+    } as MsgCreateOutputCoinSerialNumberResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgCreateOutputCoinSerialNumberResponse {
+    const message = {
+      ...baseMsgCreateOutputCoinSerialNumberResponse,
+    } as MsgCreateOutputCoinSerialNumberResponse;
+    return message;
+  },
+
+  toJSON(_: MsgCreateOutputCoinSerialNumberResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgCreateOutputCoinSerialNumberResponse>
+  ): MsgCreateOutputCoinSerialNumberResponse {
+    const message = {
+      ...baseMsgCreateOutputCoinSerialNumberResponse,
+    } as MsgCreateOutputCoinSerialNumberResponse;
+    return message;
+  },
+};
+
+const baseMsgUpdateOutputCoinSerialNumber: object = { creator: "" };
+
+export const MsgUpdateOutputCoinSerialNumber = {
+  encode(
+    message: MsgUpdateOutputCoinSerialNumber,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateOutputCoinSerialNumber {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgUpdateOutputCoinSerialNumber,
+    } as MsgUpdateOutputCoinSerialNumber;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgUpdateOutputCoinSerialNumber {
+    const message = {
+      ...baseMsgUpdateOutputCoinSerialNumber,
+    } as MsgUpdateOutputCoinSerialNumber;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgUpdateOutputCoinSerialNumber): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgUpdateOutputCoinSerialNumber>
+  ): MsgUpdateOutputCoinSerialNumber {
+    const message = {
+      ...baseMsgUpdateOutputCoinSerialNumber,
+    } as MsgUpdateOutputCoinSerialNumber;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgUpdateOutputCoinSerialNumberResponse: object = {};
+
+export const MsgUpdateOutputCoinSerialNumberResponse = {
+  encode(
+    _: MsgUpdateOutputCoinSerialNumberResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgUpdateOutputCoinSerialNumberResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgUpdateOutputCoinSerialNumberResponse,
+    } as MsgUpdateOutputCoinSerialNumberResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgUpdateOutputCoinSerialNumberResponse {
+    const message = {
+      ...baseMsgUpdateOutputCoinSerialNumberResponse,
+    } as MsgUpdateOutputCoinSerialNumberResponse;
+    return message;
+  },
+
+  toJSON(_: MsgUpdateOutputCoinSerialNumberResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgUpdateOutputCoinSerialNumberResponse>
+  ): MsgUpdateOutputCoinSerialNumberResponse {
+    const message = {
+      ...baseMsgUpdateOutputCoinSerialNumberResponse,
+    } as MsgUpdateOutputCoinSerialNumberResponse;
+    return message;
+  },
+};
+
+const baseMsgDeleteOutputCoinSerialNumber: object = { creator: "" };
+
+export const MsgDeleteOutputCoinSerialNumber = {
+  encode(
+    message: MsgDeleteOutputCoinSerialNumber,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgDeleteOutputCoinSerialNumber {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgDeleteOutputCoinSerialNumber,
+    } as MsgDeleteOutputCoinSerialNumber;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteOutputCoinSerialNumber {
+    const message = {
+      ...baseMsgDeleteOutputCoinSerialNumber,
+    } as MsgDeleteOutputCoinSerialNumber;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgDeleteOutputCoinSerialNumber): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<MsgDeleteOutputCoinSerialNumber>
+  ): MsgDeleteOutputCoinSerialNumber {
+    const message = {
+      ...baseMsgDeleteOutputCoinSerialNumber,
+    } as MsgDeleteOutputCoinSerialNumber;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgDeleteOutputCoinSerialNumberResponse: object = {};
+
+export const MsgDeleteOutputCoinSerialNumberResponse = {
+  encode(
+    _: MsgDeleteOutputCoinSerialNumberResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): MsgDeleteOutputCoinSerialNumberResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgDeleteOutputCoinSerialNumberResponse,
+    } as MsgDeleteOutputCoinSerialNumberResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteOutputCoinSerialNumberResponse {
+    const message = {
+      ...baseMsgDeleteOutputCoinSerialNumberResponse,
+    } as MsgDeleteOutputCoinSerialNumberResponse;
+    return message;
+  },
+
+  toJSON(_: MsgDeleteOutputCoinSerialNumberResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgDeleteOutputCoinSerialNumberResponse>
+  ): MsgDeleteOutputCoinSerialNumberResponse {
+    const message = {
+      ...baseMsgDeleteOutputCoinSerialNumberResponse,
+    } as MsgDeleteOutputCoinSerialNumberResponse;
     return message;
   },
 };
@@ -3169,8 +3798,18 @@ export interface Msg {
   DeleteTxPrivacyData(
     request: MsgDeleteTxPrivacyData
   ): Promise<MsgDeleteTxPrivacyDataResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   Airdrop(request: MsgAirdrop): Promise<MsgAirdropResponse>;
+  Transfer(request: MsgTransfer): Promise<MsgTransferResponse>;
+  CreateOutputCoinSerialNumber(
+    request: MsgCreateOutputCoinSerialNumber
+  ): Promise<MsgCreateOutputCoinSerialNumberResponse>;
+  UpdateOutputCoinSerialNumber(
+    request: MsgUpdateOutputCoinSerialNumber
+  ): Promise<MsgUpdateOutputCoinSerialNumberResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  DeleteOutputCoinSerialNumber(
+    request: MsgDeleteOutputCoinSerialNumber
+  ): Promise<MsgDeleteOutputCoinSerialNumberResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -3477,6 +4116,54 @@ export class MsgClientImpl implements Msg {
     const promise = this.rpc.request("privacy.privacy.Msg", "Airdrop", data);
     return promise.then((data) => MsgAirdropResponse.decode(new Reader(data)));
   }
+
+  Transfer(request: MsgTransfer): Promise<MsgTransferResponse> {
+    const data = MsgTransfer.encode(request).finish();
+    const promise = this.rpc.request("privacy.privacy.Msg", "Transfer", data);
+    return promise.then((data) => MsgTransferResponse.decode(new Reader(data)));
+  }
+
+  CreateOutputCoinSerialNumber(
+    request: MsgCreateOutputCoinSerialNumber
+  ): Promise<MsgCreateOutputCoinSerialNumberResponse> {
+    const data = MsgCreateOutputCoinSerialNumber.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Msg",
+      "CreateOutputCoinSerialNumber",
+      data
+    );
+    return promise.then((data) =>
+      MsgCreateOutputCoinSerialNumberResponse.decode(new Reader(data))
+    );
+  }
+
+  UpdateOutputCoinSerialNumber(
+    request: MsgUpdateOutputCoinSerialNumber
+  ): Promise<MsgUpdateOutputCoinSerialNumberResponse> {
+    const data = MsgUpdateOutputCoinSerialNumber.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Msg",
+      "UpdateOutputCoinSerialNumber",
+      data
+    );
+    return promise.then((data) =>
+      MsgUpdateOutputCoinSerialNumberResponse.decode(new Reader(data))
+    );
+  }
+
+  DeleteOutputCoinSerialNumber(
+    request: MsgDeleteOutputCoinSerialNumber
+  ): Promise<MsgDeleteOutputCoinSerialNumberResponse> {
+    const data = MsgDeleteOutputCoinSerialNumber.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Msg",
+      "DeleteOutputCoinSerialNumber",
+      data
+    );
+    return promise.then((data) =>
+      MsgDeleteOutputCoinSerialNumberResponse.decode(new Reader(data))
+    );
+  }
 }
 
 interface Rpc {
@@ -3530,3 +4217,15 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
+
+function longToNumber(long: Long): number {
+  if (long.gt(Number.MAX_SAFE_INTEGER)) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  }
+  return long.toNumber();
+}
+
+if (util.Long !== Long) {
+  util.Long = Long as any;
+  configure();
+}
