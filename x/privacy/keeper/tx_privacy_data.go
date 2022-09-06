@@ -67,9 +67,7 @@ func (k Keeper) GetAllTxPrivacyData(ctx sdk.Context) (list []types.TxPrivacyData
 }
 
 func (k Keeper) setPrivacyData(ctx sdk.Context, txPrivacyData []byte) error {
-
 	outputCoinLength := big.NewInt(0)
-
 	outputCoinSerialNumber, ok := k.GetOutputCoinSerialNumber(ctx)
 	if ok {
 		outputCoinLength.SetBytes(outputCoinSerialNumber.Value)

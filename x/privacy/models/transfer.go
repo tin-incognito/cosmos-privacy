@@ -16,7 +16,7 @@ import (
 )
 
 func BuildTransferTx(
-	outcoins []types.OutputCoin, keySet key.KeySet, msg *types.MsgTransfer,
+	outcoins []types.OutputCoin, keySet key.KeySet, msg *types.MsgTransfer, hashedMessage common.Hash,
 	lenOTACoins big.Int, mCoins map[string]types.OutputCoin, lCoins []types.OutputCoin,
 ) (*types.MsgCreateTx, error) {
 	var amount uint64
@@ -27,35 +27,23 @@ func BuildTransferTx(
 			return nil, err
 		}
 	}
-	coins, err := chooseCoinsByKeySet(outcoins, keySet, amount)
+	coins, paymentInfos, err := chooseCoinsByKeySet(outcoins, keySet, amount, msg.PaymentInfos)
 	if err != nil {
 		return nil, err
 	}
-	return buildTransferTx(coins, keySet, msg, lenOTACoins, mCoins, lCoins)
+	return buildTransferTx(coins, keySet, paymentInfos, hashedMessage, lenOTACoins, mCoins, lCoins)
 }
 
 func buildTransferTx(
-	inputCoins []*coin.Coin, keySet key.KeySet, msg *types.MsgTransfer,
+	inputCoins []*coin.Coin, keySet key.KeySet, paymentInfos []*key.PaymentInfo, hashedMessage common.Hash,
 	lenOTACoins big.Int, mCoins map[string]types.OutputCoin, lCoins []types.OutputCoin,
 ) (*types.MsgCreateTx, error) {
-	paymentInfos := make([]*key.PaymentInfo, len(msg.PaymentInfos))
-	for index, info := range msg.PaymentInfos {
-		paymentAddress := key.PaymentAddress{}
-		if err := paymentAddress.FromString(info.PaymentAddress); err != nil {
-			return nil, err
-		}
-		paymentInfos[index] = &key.PaymentInfo{
-			Amount:         info.Amount,
-			Message:        info.Info,
-			PaymentAddress: paymentAddress,
-		}
-	}
 	proof, outputCoins, err := Prove(inputCoins, paymentInfos)
 	if err != nil {
 		return nil, err
 	}
 
-	txPrivacyData, err := SignOnMessage(inputCoins, outputCoins, &keySet.PrivateKey, nil, lenOTACoins, mCoins, lCoins)
+	txPrivacyData, err := SignOnMessage(inputCoins, outputCoins, &keySet.PrivateKey, hashedMessage.Bytes(), lenOTACoins, mCoins, lCoins)
 	if err != nil {
 		return nil, err
 	}
@@ -65,6 +53,7 @@ func buildTransferTx(
 	if err != nil {
 		return nil, err
 	}
+
 	res := &types.MsgCreateTx{
 		Value: txPrivacyDataBytes,
 	}
@@ -80,6 +69,7 @@ func Prove(
 	if err != nil {
 		return nil, nil, err
 	}
+
 	proof, err := prove(inputCoins, outputCoins, nil, false, paymentInfos)
 	if err != nil {
 		return nil, nil, err
@@ -260,8 +250,9 @@ func generateMlsagRingWithIndexes(
 			}
 		} else {
 			for j := 0; j < len(inputCoins); j++ {
-				coinDB := new(coin.Coin)
+				var coinDB *coin.Coin
 				for attempts < coin.MaxAttempts { // The chance of infinite loop is negligible
+					coinDB = new(coin.Coin)
 					rowIndexes[j], _ = common.RandBigIntMaxRange(&lenOTACoins)
 					c := lCoins[rowIndexes[j].Uint64()]
 					if err := coinDB.SetBytes(c.Value); err != nil {
@@ -274,7 +265,7 @@ func generateMlsagRingWithIndexes(
 					/*}*/
 					attempts++
 				}
-				if attempts == coin.MaxAttempts {
+				if attempts == coin.MaxAttempts && coinDB == nil {
 					return nil, nil, nil, fmt.Errorf("cannot form decoys")
 				}
 

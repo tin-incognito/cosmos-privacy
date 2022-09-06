@@ -193,6 +193,7 @@ message MsgDeleteTxPrivacyData {
 message MsgDeleteTxPrivacyDataResponse {}
 
 message MsgAirdrop {
+  string creator = 1;
   string ota_receiver = 2;
   bytes amount = 3;
   bytes info = 4;
@@ -202,13 +203,14 @@ message MsgAirdropResponse {
 }
 
 message MsgTransfer {
-  string private_key = 1;
+  string creator = 1;
+  string private_key = 2;
   message PaymentInfo {
     string payment_address = 1;
     uint64 amount = 2;
     bytes info = 3;
   }
-  repeated PaymentInfo payment_infos = 2;
+  repeated PaymentInfo payment_infos = 3;
 }
 
 message MsgTransferResponse {

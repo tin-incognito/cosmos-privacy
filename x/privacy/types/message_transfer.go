@@ -2,14 +2,19 @@ package types
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 const TypeMsgTransfer = "transfer"
 
 var _ sdk.Msg = &MsgTransfer{}
 
-func NewMsgTransfer() *MsgTransfer {
-	return &MsgTransfer{}
+func NewMsgTransfer(creator, privateKey string, paymentInfos []*MsgTransfer_PaymentInfo) *MsgTransfer {
+	return &MsgTransfer{
+		Creator:      creator,
+		PrivateKey:   privateKey,
+		PaymentInfos: paymentInfos,
+	}
 }
 
 func (msg *MsgTransfer) Route() string {
@@ -21,7 +26,11 @@ func (msg *MsgTransfer) Type() string {
 }
 
 func (msg *MsgTransfer) GetSigners() []sdk.AccAddress {
-	return []sdk.AccAddress{}
+	creator, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		panic(err)
+	}
+	return []sdk.AccAddress{creator}
 }
 
 func (msg *MsgTransfer) GetSignBytes() []byte {
@@ -30,5 +39,9 @@ func (msg *MsgTransfer) GetSignBytes() []byte {
 }
 
 func (msg *MsgTransfer) ValidateBasic() error {
+	_, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
 	return nil
 }

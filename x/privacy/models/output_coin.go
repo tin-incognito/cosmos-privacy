@@ -7,6 +7,8 @@ import (
 	"privacy/x/privacy/repos/key"
 	"privacy/x/privacy/types"
 	"sort"
+
+	"github.com/incognitochain/go-incognito-sdk-v2/wallet"
 )
 
 func GenerateOutputCoin(amount big.Int, info []byte, otaReceiver coin.OTAReceiver) (*coin.Coin, error) {
@@ -26,18 +28,49 @@ func GenerateOutputCoinsByPaymentInfos(paymentInfos []*key.PaymentInfo) ([]*coin
 	return res, nil
 }
 
-func chooseCoinsByKeySet(coins []types.OutputCoin, keySet key.KeySet, amount uint64) ([]*coin.Coin, error) {
+func chooseCoinsByKeySet(
+	coins []types.OutputCoin, keySet key.KeySet, amount uint64,
+	paymentInfos []*types.MsgTransfer_PaymentInfo,
+) ([]*coin.Coin, []*key.PaymentInfo, error) {
 	var res []*coin.Coin
+	var resPaymentInfos []*key.PaymentInfo
 	res, err := getCoinsByKeySet(coins, keySet)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	res, err = chooseBestOutCoinsToSpent(res, amount)
+	var candidateOutputCoinAmount uint64
+	res, candidateOutputCoinAmount, err = chooseBestOutCoinsToSpent(res, amount)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return res, nil
+	for _, info := range paymentInfos {
+		paymentAddress := key.PaymentAddress{}
+		keyWallet, err := wallet.Base58CheckDeserialize(info.PaymentAddress)
+		if err != nil {
+			return nil, nil, err
+		}
+		err = paymentAddress.SetBytes(keyWallet.KeySet.PaymentAddress.Bytes())
+		if err != nil {
+			return nil, nil, err
+		}
+		resPaymentInfos = append(resPaymentInfos, &key.PaymentInfo{
+			Amount:         info.Amount,
+			Message:        info.Info,
+			PaymentAddress: paymentAddress,
+		})
+	}
+
+	overBalanceAmount := candidateOutputCoinAmount - amount
+	if overBalanceAmount > 0 {
+		// add more into output for estimate fee
+		resPaymentInfos = append(resPaymentInfos, &key.PaymentInfo{
+			PaymentAddress: keySet.PaymentAddress,
+			Amount:         overBalanceAmount,
+		})
+	}
+	return res, resPaymentInfos, nil
+
 }
 
 func getCoinsByKeySet(coins []types.OutputCoin, keySet key.KeySet) ([]*coin.Coin, error) {
@@ -48,15 +81,19 @@ func getCoinsByKeySet(coins []types.OutputCoin, keySet key.KeySet) ([]*coin.Coin
 		if err != nil {
 			return nil, err
 		}
-		o, err = o.Decrypt(&keySet)
-		if err == nil {
-			res = append(res, o)
+		if ok, _ := o.DoesCoinBelongToKeySet(&keySet); !ok {
+			continue
 		}
+		o, err = o.Decrypt(&keySet)
+		if err != nil {
+			return nil, err
+		}
+		res = append(res, o)
 	}
 	return res, nil
 }
 
-func chooseBestOutCoinsToSpent(coins []*coin.Coin, amount uint64) ([]*coin.Coin, error) {
+func chooseBestOutCoinsToSpent(coins []*coin.Coin, amount uint64) ([]*coin.Coin, uint64, error) {
 	resultOutputCoins := []*coin.Coin{}
 	totalResultOutputCoinAmount := uint64(0)
 
@@ -88,8 +125,8 @@ func chooseBestOutCoinsToSpent(coins []*coin.Coin, amount uint64) ([]*coin.Coin,
 		totalResultOutputCoinAmount = outCoinOverLimit.GetValue()
 	}
 	if totalResultOutputCoinAmount < amount {
-		return resultOutputCoins, fmt.Errorf("Not enought coin")
+		return resultOutputCoins, totalResultOutputCoinAmount, fmt.Errorf("Not enought coin")
 	} else {
-		return resultOutputCoins, nil
+		return resultOutputCoins, totalResultOutputCoinAmount, nil
 	}
 }

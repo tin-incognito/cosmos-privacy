@@ -34,3 +34,15 @@ func CalculateSumOutputsWithFee(outputCoins []*coin.Coin, fee uint64) *operation
 	sumOutputsWithFee.Add(sumOutputsWithFee, feeCommitment)
 	return sumOutputsWithFee
 }
+
+func DebugCoins(coins []*coin.Coin) {
+	for _, v := range coins {
+		fmt.Println("commitment:", v.GetCommitment().String())
+	}
+}
+
+func DebugCoins1(coins []coin.Coin) {
+	for _, v := range coins {
+		fmt.Println("commitment:", v.GetCommitment().String())
+	}
+}

@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 
+	"privacy/x/privacy/common"
 	"privacy/x/privacy/models"
 	"privacy/x/privacy/repos/key"
 	"privacy/x/privacy/types"
@@ -30,7 +31,14 @@ func (k Keeper) Balance(goCtx context.Context, req *types.QueryBalanceRequest) (
 		return nil, err
 	}
 
-	balance, err := models.BalanceByKeySet(outputCoins, keySet)
+	serialNumbers := k.GetAllSerialNumber(ctx)
+	mSerialNumbers := make(map[string]types.SerialNumber)
+	for _, v := range serialNumbers {
+		hash := common.HashH(append([]byte{common.BoolToByte(v.IsConfidentialAsset)}, v.Value...))
+		mSerialNumbers[hash.String()] = v
+	}
+
+	balance, err := models.BalanceByKeySet(outputCoins, keySet, mSerialNumbers)
 	if err != nil {
 		return nil, err
 	}

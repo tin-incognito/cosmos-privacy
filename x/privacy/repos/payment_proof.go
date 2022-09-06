@@ -218,7 +218,8 @@ func (p *PaymentProof) SetInputCoinAtIndex(index int, c *coin.Coin) error {
 	if index >= len(p.inputCoins) {
 		return fmt.Errorf("Index out of range")
 	}
-	p.inputCoins[index] = c
+	p.inputCoins[index] = new(coin.Coin)
+	*p.inputCoins[index] = *c
 	return nil
 }
 
@@ -226,7 +227,8 @@ func (p *PaymentProof) SetOutputCoinAtIndex(index int, c *coin.Coin) error {
 	if index >= len(p.outputCoins) {
 		return fmt.Errorf("Index out of range")
 	}
-	p.outputCoins[index] = c
+	p.outputCoins[index] = new(coin.Coin)
+	*p.outputCoins[index] = *c
 	return nil
 }
 

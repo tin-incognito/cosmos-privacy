@@ -158,6 +158,7 @@ export interface MsgDeleteTxPrivacyData {
 export interface MsgDeleteTxPrivacyDataResponse {}
 
 export interface MsgAirdrop {
+  creator: string;
   ota_receiver: string;
   amount: Uint8Array;
   info: Uint8Array;
@@ -166,6 +167,7 @@ export interface MsgAirdrop {
 export interface MsgAirdropResponse {}
 
 export interface MsgTransfer {
+  creator: string;
   private_key: string;
   payment_infos: MsgTransfer_PaymentInfo[];
 }
@@ -2978,10 +2980,13 @@ export const MsgDeleteTxPrivacyDataResponse = {
   },
 };
 
-const baseMsgAirdrop: object = { ota_receiver: "" };
+const baseMsgAirdrop: object = { creator: "", ota_receiver: "" };
 
 export const MsgAirdrop = {
   encode(message: MsgAirdrop, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
     if (message.ota_receiver !== "") {
       writer.uint32(18).string(message.ota_receiver);
     }
@@ -3001,6 +3006,9 @@ export const MsgAirdrop = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
         case 2:
           message.ota_receiver = reader.string();
           break;
@@ -3020,6 +3028,11 @@ export const MsgAirdrop = {
 
   fromJSON(object: any): MsgAirdrop {
     const message = { ...baseMsgAirdrop } as MsgAirdrop;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
     if (object.ota_receiver !== undefined && object.ota_receiver !== null) {
       message.ota_receiver = String(object.ota_receiver);
     } else {
@@ -3036,6 +3049,7 @@ export const MsgAirdrop = {
 
   toJSON(message: MsgAirdrop): unknown {
     const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
     message.ota_receiver !== undefined &&
       (obj.ota_receiver = message.ota_receiver);
     message.amount !== undefined &&
@@ -3051,6 +3065,11 @@ export const MsgAirdrop = {
 
   fromPartial(object: DeepPartial<MsgAirdrop>): MsgAirdrop {
     const message = { ...baseMsgAirdrop } as MsgAirdrop;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
     if (object.ota_receiver !== undefined && object.ota_receiver !== null) {
       message.ota_receiver = object.ota_receiver;
     } else {
@@ -3108,15 +3127,18 @@ export const MsgAirdropResponse = {
   },
 };
 
-const baseMsgTransfer: object = { private_key: "" };
+const baseMsgTransfer: object = { creator: "", private_key: "" };
 
 export const MsgTransfer = {
   encode(message: MsgTransfer, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
     if (message.private_key !== "") {
-      writer.uint32(10).string(message.private_key);
+      writer.uint32(18).string(message.private_key);
     }
     for (const v of message.payment_infos) {
-      MsgTransfer_PaymentInfo.encode(v!, writer.uint32(18).fork()).ldelim();
+      MsgTransfer_PaymentInfo.encode(v!, writer.uint32(26).fork()).ldelim();
     }
     return writer;
   },
@@ -3130,9 +3152,12 @@ export const MsgTransfer = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.private_key = reader.string();
+          message.creator = reader.string();
           break;
         case 2:
+          message.private_key = reader.string();
+          break;
+        case 3:
           message.payment_infos.push(
             MsgTransfer_PaymentInfo.decode(reader, reader.uint32())
           );
@@ -3148,6 +3173,11 @@ export const MsgTransfer = {
   fromJSON(object: any): MsgTransfer {
     const message = { ...baseMsgTransfer } as MsgTransfer;
     message.payment_infos = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
     if (object.private_key !== undefined && object.private_key !== null) {
       message.private_key = String(object.private_key);
     } else {
@@ -3163,6 +3193,7 @@ export const MsgTransfer = {
 
   toJSON(message: MsgTransfer): unknown {
     const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
     message.private_key !== undefined &&
       (obj.private_key = message.private_key);
     if (message.payment_infos) {
@@ -3178,6 +3209,11 @@ export const MsgTransfer = {
   fromPartial(object: DeepPartial<MsgTransfer>): MsgTransfer {
     const message = { ...baseMsgTransfer } as MsgTransfer;
     message.payment_infos = [];
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
     if (object.private_key !== undefined && object.private_key !== null) {
       message.private_key = object.private_key;
     } else {

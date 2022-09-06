@@ -70,6 +70,7 @@ func parseDataFromProof(proof *repos.PaymentProof, outputCoinLength big.Int) (
 		acceptedSerialNumbers = append(acceptedSerialNumbers, serialNumber)
 	}
 	outputCoins := proof.OutputCoins()
+
 	for _, item := range outputCoins {
 		outputCoinLength.Add(&outputCoinLength, big.NewInt(1))
 		isConfidentialAsset := item.AssetTag != nil
