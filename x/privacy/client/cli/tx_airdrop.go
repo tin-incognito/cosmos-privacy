@@ -1,11 +1,12 @@
 package cli
 
 import (
-	"fmt"
-	"math/big"
+	"encoding/json"
 	"strconv"
 
-	"privacy/x/privacy/types"
+	"privacy/x/privacy/common"
+	"privacy/x/privacy/models"
+	"privacy/x/privacy/repos/coin"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -23,9 +24,13 @@ func CmdAirdrop() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argOTAReceiver := args[0]
 			argAmount := args[1]
-			amount, ok := big.NewInt(0).SetString(argAmount, 10)
-			if !ok {
-				err = fmt.Errorf("Invalid amount")
+			amount, err := strconv.ParseUint(argAmount, 10, 64)
+			if err != nil {
+				return err
+			}
+			otaReceiver := coin.OTAReceiver{}
+			err = otaReceiver.FromString(argOTAReceiver)
+			if err != nil {
 				return err
 			}
 
@@ -34,12 +39,29 @@ func CmdAirdrop() *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgAirdrop(
-				clientCtx.GetFromAddress().String(),
-				argOTAReceiver,
-				amount.Bytes(),
-				nil,
-			)
+			type Message struct {
+				OtaReceiver string `json:"ota_receiver"`
+				Amount      uint64 `json:"amount"`
+				Info        []byte `json:"info"`
+			}
+			m := Message{
+				OtaReceiver: argOTAReceiver,
+				Amount:      amount,
+				Info:        nil,
+			}
+
+			msgBytes, err := json.Marshal(m)
+			if err != nil {
+				return err
+			}
+			hash := common.HashH(msgBytes)
+
+			msg, err := models.BuildMintTx(otaReceiver, amount, nil, nil, hash)
+			if err != nil {
+				return err
+			}
+			msg.Creator = clientCtx.GetFromAddress().String()
+
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}

@@ -3,9 +3,10 @@ package keeper
 import (
 	"context"
 
+	"privacy/x/privacy/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"privacy/x/privacy/types"
 )
 
 func (k msgServer) CreateOnetimeAddress(goCtx context.Context, msg *types.MsgCreateOnetimeAddress) (*types.MsgCreateOnetimeAddressResponse, error) {
@@ -21,8 +22,7 @@ func (k msgServer) CreateOnetimeAddress(goCtx context.Context, msg *types.MsgCre
 	}
 
 	var onetimeAddress = types.OnetimeAddress{
-		Creator: msg.Creator,
-		Index:   msg.Index,
+		Index: msg.Index,
 	}
 
 	k.SetOnetimeAddress(
@@ -36,7 +36,7 @@ func (k msgServer) UpdateOnetimeAddress(goCtx context.Context, msg *types.MsgUpd
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Check if the value exists
-	valFound, isFound := k.GetOnetimeAddress(
+	_, isFound := k.GetOnetimeAddress(
 		ctx,
 		msg.Index,
 	)
@@ -44,14 +44,8 @@ func (k msgServer) UpdateOnetimeAddress(goCtx context.Context, msg *types.MsgUpd
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
-	// Checks if the the msg creator is the same as the current owner
-	if msg.Creator != valFound.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
-	}
-
 	var onetimeAddress = types.OnetimeAddress{
-		Creator: msg.Creator,
-		Index:   msg.Index,
+		Index: msg.Index,
 	}
 
 	k.SetOnetimeAddress(ctx, onetimeAddress)
@@ -63,17 +57,12 @@ func (k msgServer) DeleteOnetimeAddress(goCtx context.Context, msg *types.MsgDel
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Check if the value exists
-	valFound, isFound := k.GetOnetimeAddress(
+	_, isFound := k.GetOnetimeAddress(
 		ctx,
 		msg.Index,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
-	}
-
-	// Checks if the the msg creator is the same as the current owner
-	if msg.Creator != valFound.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
 	k.RemoveOnetimeAddress(

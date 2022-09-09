@@ -3,9 +3,10 @@ package keeper
 import (
 	"context"
 
+	"privacy/x/privacy/types"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"privacy/x/privacy/types"
 )
 
 func (k msgServer) CreateSerialNumber(goCtx context.Context, msg *types.MsgCreateSerialNumber) (*types.MsgCreateSerialNumberResponse, error) {
@@ -21,8 +22,7 @@ func (k msgServer) CreateSerialNumber(goCtx context.Context, msg *types.MsgCreat
 	}
 
 	var serialNumber = types.SerialNumber{
-		Creator: msg.Creator,
-		Index:   msg.Index,
+		Index: msg.Index,
 	}
 
 	k.SetSerialNumber(
@@ -36,7 +36,7 @@ func (k msgServer) UpdateSerialNumber(goCtx context.Context, msg *types.MsgUpdat
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Check if the value exists
-	valFound, isFound := k.GetSerialNumber(
+	_, isFound := k.GetSerialNumber(
 		ctx,
 		msg.Index,
 	)
@@ -44,14 +44,8 @@ func (k msgServer) UpdateSerialNumber(goCtx context.Context, msg *types.MsgUpdat
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
-	// Checks if the the msg creator is the same as the current owner
-	if msg.Creator != valFound.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
-	}
-
 	var serialNumber = types.SerialNumber{
-		Creator: msg.Creator,
-		Index:   msg.Index,
+		Index: msg.Index,
 	}
 
 	k.SetSerialNumber(ctx, serialNumber)
@@ -63,17 +57,12 @@ func (k msgServer) DeleteSerialNumber(goCtx context.Context, msg *types.MsgDelet
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// Check if the value exists
-	valFound, isFound := k.GetSerialNumber(
+	_, isFound := k.GetSerialNumber(
 		ctx,
 		msg.Index,
 	)
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
-	}
-
-	// Checks if the the msg creator is the same as the current owner
-	if msg.Creator != valFound.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
 	k.RemoveSerialNumber(

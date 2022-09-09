@@ -8,40 +8,33 @@ import (
 	"privacy/x/privacy/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/golang/protobuf/proto"
 )
 
-func FetchDataFromTx(ctx sdk.Context, txData []byte, outputCoinLength big.Int) (
+func FetchDataFromTx(ctx sdk.Context, data *types.MsgPrivacyData, outputCoinLength big.Int) (
 	[]types.SerialNumber,
 	map[string][]types.Commitment,
 	map[string][]types.OutputCoin,
 	map[string][]types.OTACoin,
+	map[string][]types.OnetimeAddress,
 	*big.Int,
 	error,
 ) {
-	txPrivacyData := types.TxPrivacyData{}
-	err := proto.Unmarshal(txData, &txPrivacyData)
-	if err != nil {
-		ctx.Logger().Error("[incognito] fail to unmarshal by protobuf tx privacy data:")
-		ctx.Logger().Error(err.Error())
-		return nil, nil, nil, nil, nil, err
-	}
 	proof := repos.NewPaymentProof()
-	err = proof.SetBytes(txPrivacyData.Proof)
+	err := proof.SetBytes(data.Proof)
 	if err != nil {
 		ctx.Logger().Error("[incognito] fail to unmarshal by protobuf proof:")
 		ctx.Logger().Error(err.Error())
-		return nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, err
 	}
 
-	serialNumbers, commitments, outCoins, otaCoins, newOutputCoinLength, err := parseDataFromProof(proof, outputCoinLength)
+	serialNumbers, commitments, outCoins, otaCoins, onetimeAddresses, newOutputCoinLength, err := parseDataFromProof(proof, outputCoinLength)
 	if err != nil {
 		ctx.Logger().Error("fail to parse info from privacy datav")
 		ctx.Logger().Error(err.Error())
-		return nil, nil, nil, nil, nil, err
+		return nil, nil, nil, nil, nil, nil, err
 	}
 
-	return serialNumbers, commitments, outCoins, otaCoins, newOutputCoinLength, nil
+	return serialNumbers, commitments, outCoins, otaCoins, onetimeAddresses, newOutputCoinLength, nil
 }
 
 func parseDataFromProof(proof *repos.PaymentProof, outputCoinLength big.Int) (
@@ -49,6 +42,7 @@ func parseDataFromProof(proof *repos.PaymentProof, outputCoinLength big.Int) (
 	map[string][]types.Commitment,
 	map[string][]types.OutputCoin,
 	map[string][]types.OTACoin,
+	map[string][]types.OnetimeAddress,
 	*big.Int,
 	error,
 ) {
@@ -56,6 +50,7 @@ func parseDataFromProof(proof *repos.PaymentProof, outputCoinLength big.Int) (
 	acceptedCommitments := make(map[string][]types.Commitment)
 	acceptedOutputcoins := make(map[string][]types.OutputCoin)
 	acceptedOTACoins := make(map[string][]types.OTACoin)
+	acceptedOnetimeAddresses := make(map[string][]types.OnetimeAddress)
 
 	inputCoins := proof.InputCoins()
 	for _, item := range inputCoins {
@@ -72,7 +67,6 @@ func parseDataFromProof(proof *repos.PaymentProof, outputCoinLength big.Int) (
 	outputCoins := proof.OutputCoins()
 
 	for _, item := range outputCoins {
-		outputCoinLength.Add(&outputCoinLength, big.NewInt(1))
 		isConfidentialAsset := item.AssetTag != nil
 		pubkey := item.GetPublicKey().ToBytesS()
 		publicKeyStr := base58.Base58Check{}.Encode(pubkey, common.ZeroByte)
@@ -106,11 +100,19 @@ func parseDataFromProof(proof *repos.PaymentProof, outputCoinLength big.Int) (
 		acceptedOutputcoins[publicKeyStr] = append(acceptedOutputcoins[publicKeyStr], outputCoin)
 
 		otaCoin := types.OTACoin{
-			Index:           hash.String(),
+			Index:           outputCoinLength.String(),
 			OutputCoinIndex: hash.String(),
 		}
 		acceptedOTACoins[publicKeyStr] = append(acceptedOTACoins[publicKeyStr], otaCoin)
+
+		ota := types.OnetimeAddress{
+			Index:               hash.String(),
+			IsConfidentialAsset: isConfidentialAsset,
+			PublicKey:           pubkey,
+		}
+		outputCoinLength = *outputCoinLength.Add(&outputCoinLength, big.NewInt(1))
+		acceptedOnetimeAddresses[publicKeyStr] = append(acceptedOnetimeAddresses[publicKeyStr], ota)
 	}
 
-	return acceptedSerialNumbers, acceptedCommitments, acceptedOutputcoins, acceptedOTACoins, &outputCoinLength, nil
+	return acceptedSerialNumbers, acceptedCommitments, acceptedOutputcoins, acceptedOTACoins, acceptedOnetimeAddresses, &outputCoinLength, nil
 }

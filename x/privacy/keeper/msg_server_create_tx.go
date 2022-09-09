@@ -11,10 +11,7 @@ import (
 func (k msgServer) CreateTx(goCtx context.Context, msg *types.MsgCreateTx) (*types.MsgCreateTxResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	err := k.setPrivacyData(ctx, msg.Value)
-	if err != nil {
-		return nil, err
-	}
+	_ = ctx
 
 	return &types.MsgCreateTxResponse{}, nil
 }

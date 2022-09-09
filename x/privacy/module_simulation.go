@@ -133,6 +133,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDeleteOutputCoinSerialNumber int = 100
 
+	opWeightMsgPrivacyData = "op_weight_msg_privacy_data"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgPrivacyData int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -146,12 +150,10 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		Params: types.DefaultParams(),
 		SerialNumberList: []types.SerialNumber{
 			{
-				Creator: sample.AccAddress(),
-				Index:   "0",
+				Index: "0",
 			},
 			{
-				Creator: sample.AccAddress(),
-				Index:   "1",
+				Index: "1",
 			},
 		},
 		OutputCoinList: []types.OutputCoin{
@@ -194,12 +196,10 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		},
 		OnetimeAddressList: []types.OnetimeAddress{
 			{
-				Creator: sample.AccAddress(),
-				Index:   "0",
+				Index: "0",
 			},
 			{
-				Creator: sample.AccAddress(),
-				Index:   "1",
+				Index: "1",
 			},
 		},
 		TxPrivacyDataList: []types.TxPrivacyData{
@@ -530,6 +530,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgDeleteOutputCoinSerialNumber,
 		privacysimulation.SimulateMsgDeleteOutputCoinSerialNumber(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgPrivacyData int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgPrivacyData, &weightMsgPrivacyData, nil,
+		func(_ *rand.Rand) {
+			weightMsgPrivacyData = defaultWeightMsgPrivacyData
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgPrivacyData,
+		privacysimulation.SimulateMsgPrivacyData(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

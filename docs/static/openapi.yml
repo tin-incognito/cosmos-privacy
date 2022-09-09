@@ -30330,6 +30330,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/privacy/privacy/commitment/{index}':
@@ -30490,6 +30500,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/privacy/privacy/commitment_index/{index}':
@@ -30550,8 +30570,6 @@ paths:
                   type: object
                   properties:
                     index:
-                      type: string
-                    creator:
                       type: string
                     is_confidential_asset:
                       type: boolean
@@ -30656,6 +30674,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/privacy/privacy/onetime_address/{index}':
@@ -30672,8 +30700,6 @@ paths:
                 type: object
                 properties:
                   index:
-                    type: string
-                  creator:
                     type: string
                   is_confidential_asset:
                     type: boolean
@@ -30822,6 +30848,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -30992,6 +31028,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/privacy/privacy/output_coin/{index}':
@@ -31134,8 +31180,6 @@ paths:
                   properties:
                     index:
                       type: string
-                    creator:
-                      type: string
                     is_confidential_asset:
                       type: boolean
                     value:
@@ -31233,6 +31277,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/privacy/privacy/serial_number/{index}':
@@ -31249,8 +31303,6 @@ paths:
                 type: object
                 properties:
                   index:
-                    type: string
-                  creator:
                     type: string
                   is_confidential_asset:
                     type: boolean
@@ -31400,6 +31452,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -31586,6 +31648,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -53091,6 +53163,8 @@ definitions:
     type: object
   privacy.privacy.MsgDeleteTxPrivacyDataResponse:
     type: object
+  privacy.privacy.MsgPrivacyDataResponse:
+    type: object
   privacy.privacy.MsgTransfer.PaymentInfo:
     type: object
     properties:
@@ -53139,8 +53213,6 @@ definitions:
     type: object
     properties:
       index:
-        type: string
-      creator:
         type: string
       is_confidential_asset:
         type: boolean
@@ -53307,8 +53379,6 @@ definitions:
           properties:
             index:
               type: string
-            creator:
-              type: string
             is_confidential_asset:
               type: boolean
             public_key:
@@ -53400,8 +53470,6 @@ definitions:
           type: object
           properties:
             index:
-              type: string
-            creator:
               type: string
             is_confidential_asset:
               type: boolean
@@ -53590,8 +53658,6 @@ definitions:
         properties:
           index:
             type: string
-          creator:
-            type: string
           is_confidential_asset:
             type: boolean
           public_key:
@@ -53638,8 +53704,6 @@ definitions:
         type: object
         properties:
           index:
-            type: string
-          creator:
             type: string
           is_confidential_asset:
             type: boolean
@@ -53708,8 +53772,6 @@ definitions:
     type: object
     properties:
       index:
-        type: string
-      creator:
         type: string
       is_confidential_asset:
         type: boolean

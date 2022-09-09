@@ -1,15 +1,20 @@
 package cli
 
 import (
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
 
+	"privacy/x/privacy/common"
+	"privacy/x/privacy/models"
+	"privacy/x/privacy/repos/key"
 	"privacy/x/privacy/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
+	"github.com/incognitochain/go-incognito-sdk-v2/wallet"
 	"github.com/spf13/cobra"
 )
 
@@ -17,9 +22,9 @@ var _ = strconv.Itoa(0)
 
 func CmdTransfer() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "transfer [private_key] [payment_infos]",
+		Use:   "transfer [private_key] [payment_infos] [fee]",
 		Short: "Broadcast message transfer",
-		Args:  cobra.ExactArgs(2),
+		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -50,11 +55,38 @@ func CmdTransfer() *cobra.Command {
 				}
 				paymentInfos = append(paymentInfos, paymentInfo)
 			}
+			feeArgs := args[2]
+			fee, err := strconv.ParseUint(feeArgs, 10, 64)
+			if err != nil {
+				return err
+			}
 
-			msg := types.NewMsgTransfer(
-				clientCtx.GetFromAddress().String(),
-				privateKey, paymentInfos,
-			)
+			m := types.MsgTransfer{
+				PrivateKey:   privateKey,
+				PaymentInfos: paymentInfos,
+			}
+
+			msgBytes, err := json.Marshal(m)
+			if err != nil {
+				return err
+			}
+			hash := common.HashH(msgBytes)
+			keyWallet, err := wallet.Base58CheckDeserialize(privateKey)
+			if err != nil {
+				return err
+			}
+			keySet := key.KeySet{}
+			err = keySet.InitFromPrivateKeyByte(keyWallet.KeySet.PrivateKey)
+			if err != nil {
+				return err
+			}
+
+			msg, err := models.BuildTransferTx(keySet, paymentInfos, fee, hash)
+			if err != nil {
+				return err
+			}
+			msg.Creator = clientCtx.GetFromAddress().String()
+
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}

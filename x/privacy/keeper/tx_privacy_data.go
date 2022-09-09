@@ -66,7 +66,7 @@ func (k Keeper) GetAllTxPrivacyData(ctx sdk.Context) (list []types.TxPrivacyData
 	return
 }
 
-func (k Keeper) setPrivacyData(ctx sdk.Context, txPrivacyData []byte) error {
+func (k Keeper) setPrivacyData(ctx sdk.Context, data *types.MsgPrivacyData) error {
 	outputCoinLength := big.NewInt(0)
 	outputCoinSerialNumber, ok := k.GetOutputCoinSerialNumber(ctx)
 	if ok {
@@ -74,21 +74,22 @@ func (k Keeper) setPrivacyData(ctx sdk.Context, txPrivacyData []byte) error {
 	}
 
 	// parse data
-	serialNumbers, commitments, outputCoins, otaCoins, newOutputCoinLength, err := models.FetchDataFromTx(ctx, txPrivacyData, *outputCoinLength)
+	serialNumbers, commitments, outputCoins, otaCoins, onetimeAddresses, newOutputCoinLength, err := models.FetchDataFromTx(ctx, data, *outputCoinLength)
 	if err != nil {
 		return err
 	}
 
 	// store serialNumber
 	for _, serialNumber := range serialNumbers {
-		if _, ok := k.GetSerialNumber(ctx, serialNumber.Index); ok {
-			return fmt.Errorf("Duplicate serialNumber")
-		}
 		k.SetSerialNumber(ctx, serialNumber)
 	}
 
 	// store outputCoin
 	for key, outputCoin := range outputCoins {
+		otas, found := onetimeAddresses[key]
+		if !found {
+			return fmt.Errorf("Cannot find list otas with key %v", key)
+		}
 		otaCoin, found := otaCoins[key]
 		if !found {
 			return fmt.Errorf("Cannot find list otaCoin with key %v", key)
@@ -99,7 +100,15 @@ func (k Keeper) setPrivacyData(ctx sdk.Context, txPrivacyData []byte) error {
 				return fmt.Errorf("Cannot find otaCoin with key %v and index %v", key, i)
 			}
 			oa := otaCoin[i]
+			if _, ok := k.GetOTACoin(ctx, oa.Index); ok {
+				return fmt.Errorf("Duplicate ota coin")
+			}
 			k.SetOTACoin(ctx, oa)
+			ota := otas[i]
+			if _, ok := k.GetOnetimeAddress(ctx, ota.Index); ok {
+				return fmt.Errorf("Duplicate ota")
+			}
+			k.SetOnetimeAddress(ctx, ota)
 		}
 	}
 

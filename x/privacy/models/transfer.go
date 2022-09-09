@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/big"
 	"privacy/x/privacy/common"
+	"privacy/x/privacy/http"
 	"privacy/x/privacy/repos"
 	"privacy/x/privacy/repos/bulletproofs"
 	"privacy/x/privacy/repos/coin"
@@ -11,58 +12,57 @@ import (
 	"privacy/x/privacy/repos/mlsag"
 	"privacy/x/privacy/repos/operation"
 	"privacy/x/privacy/types"
-
-	"github.com/golang/protobuf/proto"
 )
 
 func BuildTransferTx(
-	outcoins []types.OutputCoin, keySet key.KeySet, msg *types.MsgTransfer, hashedMessage common.Hash,
-	lenOTACoins big.Int, mCoins map[string]types.OutputCoin, lCoins []types.OutputCoin,
-) (*types.MsgCreateTx, error) {
+	keySet key.KeySet,
+	msgTransferPaymentInfos []*types.MsgTransfer_PaymentInfo,
+	feePerKb uint64, hashedMessage common.Hash,
+) (*types.MsgPrivacyData, error) {
 	var amount uint64
 	var err error
-	for _, paymentInfo := range msg.PaymentInfos {
+	for _, paymentInfo := range msgTransferPaymentInfos {
 		amount, err = common.AddUint64(amount, paymentInfo.Amount)
 		if err != nil {
 			return nil, err
 		}
 	}
-	coins, paymentInfos, err := chooseCoinsByKeySet(outcoins, keySet, amount, msg.PaymentInfos)
+
+	httpClient := http.NewClient()
+	outcoins, err := httpClient.AllOutputCoin()
 	if err != nil {
 		return nil, err
 	}
-	return buildTransferTx(coins, keySet, paymentInfos, hashedMessage, lenOTACoins, mCoins, lCoins)
+
+	coins, paymentInfos, fee, err := chooseCoinsByKeySet(outcoins, keySet, amount, msgTransferPaymentInfos, feePerKb, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return buildTransferTx(coins, keySet, paymentInfos, fee, hashedMessage)
 }
 
 func buildTransferTx(
-	inputCoins []*coin.Coin, keySet key.KeySet, paymentInfos []*key.PaymentInfo, hashedMessage common.Hash,
-	lenOTACoins big.Int, mCoins map[string]types.OutputCoin, lCoins []types.OutputCoin,
-) (*types.MsgCreateTx, error) {
+	inputCoins []*OutputCoin, keySet key.KeySet, paymentInfos []*key.PaymentInfo, fee uint64, hashedMessage common.Hash,
+) (*types.MsgPrivacyData, error) {
 	proof, outputCoins, err := Prove(inputCoins, paymentInfos)
 	if err != nil {
 		return nil, err
 	}
 
-	txPrivacyData, err := SignOnMessage(inputCoins, outputCoins, &keySet.PrivateKey, hashedMessage.Bytes(), lenOTACoins, mCoins, lCoins)
+	res, err := SignOnMessage(inputCoins, outputCoins, &keySet.PrivateKey, hashedMessage.Bytes(), fee)
 	if err != nil {
 		return nil, err
 	}
-	txPrivacyData.Proof = proof.Bytes()
-
-	txPrivacyDataBytes, err := proto.Marshal(txPrivacyData)
-	if err != nil {
-		return nil, err
-	}
-
-	res := &types.MsgCreateTx{
-		Value: txPrivacyDataBytes,
-	}
+	res.Proof = proof.Bytes()
+	res.TxType = TxTransferType
+	res.Fee = fee
 
 	return res, nil
 }
 
 func Prove(
-	inputCoins []*coin.Coin,
+	inputCoins []*OutputCoin,
 	paymentInfos []*key.PaymentInfo,
 ) (*repos.PaymentProof, []*coin.Coin, error) {
 	outputCoins, err := GenerateOutputCoinsByPaymentInfos(paymentInfos)
@@ -79,13 +79,18 @@ func Prove(
 }
 
 func prove(
-	inputCoins, outputCoins []*coin.Coin,
+	inputCoins []*OutputCoin, outputCoins []*coin.Coin,
 	sharedSecrets []*operation.Point,
 	hasConfidentialAsset bool,
 	paymentInfos []*key.PaymentInfo,
 ) (*repos.PaymentProof, error) {
 	proof := repos.NewPaymentProof()
-	err := proof.SetInputCoins(inputCoins)
+	ic := make([]*coin.Coin, len(inputCoins))
+	for i, v := range inputCoins {
+		ic[i] = coin.NewCoin()
+		*ic[i] = *v.value
+	}
+	err := proof.SetInputCoins(ic)
 	if err != nil {
 		return nil, err
 	}
@@ -172,19 +177,17 @@ func prove(
 }
 
 func SignOnMessage(
-	inputCoins, outputCoins []*coin.Coin,
-	privateKey *key.PrivateKey, hashedMessage []byte,
-	lenOTACoins big.Int, dbCoins map[string]types.OutputCoin, lCoins []types.OutputCoin,
-) (*types.TxPrivacyData, error) {
-	tx := new(types.TxPrivacyData)
-
+	inputCoins []*OutputCoin, outputCoins []*coin.Coin,
+	privateKey *key.PrivateKey, hashedMessage []byte, fee uint64,
+) (*types.MsgPrivacyData, error) {
+	tx := new(types.MsgPrivacyData)
 	// Generate Ring
 	piBig, err := common.RandBigIntMaxRange(big.NewInt(int64(RingSize)))
 	if err != nil {
 		return nil, err
 	}
 	var pi int = int(piBig.Int64())
-	ring, indexes, commitmentToZero, err := generateMlsagRingWithIndexes(inputCoins, outputCoins, pi, lenOTACoins, dbCoins, lCoins)
+	ring, indexes, commitmentToZero, err := generateMlsagRingWithIndexes(inputCoins, outputCoins, pi, fee)
 	if err != nil {
 		return nil, err
 	}
@@ -214,24 +217,45 @@ func SignOnMessage(
 	mlsagSignature.SetKeyImages(nil)
 	tx.Sig, err = mlsagSignature.ToBytes()
 
-	return &types.TxPrivacyData{}, nil
+	return tx, nil
 }
 
 func generateMlsagRingWithIndexes(
-	inputCoins, outputCoins []*coin.Coin,
-	pi int,
-	lenOTACoins big.Int, mCoins map[string]types.OutputCoin, lCoins []types.OutputCoin,
+	inputCoins []*OutputCoin, outputCoins []*coin.Coin, pi int, fee uint64,
 ) (*mlsag.Ring, [][]*big.Int, *operation.Point, error) {
 	outputCoinsAsGeneric := make([]*coin.Coin, len(outputCoins))
 	for i := 0; i < len(outputCoins); i++ {
 		outputCoinsAsGeneric[i] = outputCoins[i]
 	}
-	var fee uint64
 	sumOutputsWithFee := CalculateSumOutputsWithFee(outputCoinsAsGeneric, fee)
 	indexes := make([][]*big.Int, RingSize)
 	ring := make([][]*operation.Point, RingSize)
 	var commitmentToZero *operation.Point
 	attempts := 0
+
+	httpClient := http.NewClient()
+	outputCoinSerialNumber, err := httpClient.OutputCoinSerialNumber()
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	otaCoinsLength := big.NewInt(0).SetBytes(outputCoinSerialNumber.Value)
+	allOutputCoins, err := httpClient.AllOutputCoin()
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	mOutputCoins := make(map[string]types.OutputCoin)
+	for _, v := range allOutputCoins {
+		mOutputCoins[v.Index] = v
+	}
+	otaCoins, err := httpClient.AllOtaCoins()
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	mOtaCoins := make(map[string]types.OTACoin)
+	for _, v := range otaCoins {
+		mOtaCoins[v.Index] = v
+	}
+
 	for i := 0; i < RingSize; i++ {
 		sumInputs := new(operation.Point).Identity()
 		sumInputs.Sub(sumInputs, sumOutputsWithFee)
@@ -240,21 +264,29 @@ func generateMlsagRingWithIndexes(
 		rowIndexes := make([]*big.Int, len(inputCoins))
 		if i == pi {
 			for j := 0; j < len(inputCoins); j++ {
-				row[j] = inputCoins[j].GetPublicKey()
-				isConfidentialAsset := inputCoins[j].AssetTag != nil
-				outputCoinBytes := inputCoins[j].Bytes()
-				temp := append([]byte{common.BoolToByte(isConfidentialAsset)}, row[j].ToBytesS()...)
-				hash := common.HashH(append(temp, outputCoinBytes...))
-				rowIndexes[j] = big.NewInt(0).SetBytes(mCoins[hash.String()].SerialNumber)
-				sumInputs.Add(sumInputs, inputCoins[j].GetCommitment())
+				row[j] = inputCoins[j].value.GetPublicKey()
+				c, found := mOutputCoins[inputCoins[j].index]
+				if !found {
+					return nil, nil, nil, fmt.Errorf("Cannot find inputCoin index")
+				}
+				rowIndexes[j] = big.NewInt(0).SetBytes(c.SerialNumber)
+				sumInputs.Add(sumInputs, inputCoins[j].value.GetCommitment())
 			}
 		} else {
 			for j := 0; j < len(inputCoins); j++ {
 				var coinDB *coin.Coin
 				for attempts < coin.MaxAttempts { // The chance of infinite loop is negligible
 					coinDB = new(coin.Coin)
-					rowIndexes[j], _ = common.RandBigIntMaxRange(&lenOTACoins)
-					c := lCoins[rowIndexes[j].Uint64()]
+					rowIndexes[j], _ = common.RandBigIntMaxRange(otaCoinsLength)
+					otaCoin, found := mOtaCoins[rowIndexes[j].String()]
+					if !found {
+						return nil, nil, nil, fmt.Errorf("Cannot find otaCoin")
+					}
+
+					c, found := mOutputCoins[otaCoin.OutputCoinIndex]
+					if !found {
+						return nil, nil, nil, fmt.Errorf("Cannot find outputCoin")
+					}
 					if err := coinDB.SetBytes(c.Value); err != nil {
 						return nil, nil, nil, err
 					}
@@ -284,12 +316,12 @@ func generateMlsagRingWithIndexes(
 }
 
 func createPrivKeyMlsag(
-	inputCoins, outputCoins []*coin.Coin,
+	inputCoins []*OutputCoin, outputCoins []*coin.Coin,
 	privateKey *key.PrivateKey, commitmentToZero *operation.Point,
 ) ([]*operation.Scalar, error) {
 	sumRand := new(operation.Scalar).FromUint64(0)
 	for _, in := range inputCoins {
-		sumRand.Add(sumRand, in.GetRandomness())
+		sumRand.Add(sumRand, in.value.GetRandomness())
 	}
 	for _, out := range outputCoins {
 		sumRand.Sub(sumRand, out.GetRandomness())
@@ -298,7 +330,7 @@ func createPrivKeyMlsag(
 	privKeyMlsag := make([]*operation.Scalar, len(inputCoins)+1)
 	for i := 0; i < len(inputCoins); i++ {
 		var err error
-		privKeyMlsag[i], err = inputCoins[i].ParsePrivateKeyOfCoin(*privateKey)
+		privKeyMlsag[i], err = inputCoins[i].value.ParsePrivateKeyOfCoin(*privateKey)
 		if err != nil {
 			return nil, err
 		}

@@ -5,30 +5,22 @@ export const protobufPackage = "privacy.privacy";
 
 export interface SerialNumber {
   index: string;
-  creator: string;
   is_confidential_asset: boolean;
   value: Uint8Array;
 }
 
-const baseSerialNumber: object = {
-  index: "",
-  creator: "",
-  is_confidential_asset: false,
-};
+const baseSerialNumber: object = { index: "", is_confidential_asset: false };
 
 export const SerialNumber = {
   encode(message: SerialNumber, writer: Writer = Writer.create()): Writer {
     if (message.index !== "") {
       writer.uint32(10).string(message.index);
     }
-    if (message.creator !== "") {
-      writer.uint32(18).string(message.creator);
-    }
     if (message.is_confidential_asset === true) {
-      writer.uint32(24).bool(message.is_confidential_asset);
+      writer.uint32(16).bool(message.is_confidential_asset);
     }
     if (message.value.length !== 0) {
-      writer.uint32(34).bytes(message.value);
+      writer.uint32(26).bytes(message.value);
     }
     return writer;
   },
@@ -44,12 +36,9 @@ export const SerialNumber = {
           message.index = reader.string();
           break;
         case 2:
-          message.creator = reader.string();
-          break;
-        case 3:
           message.is_confidential_asset = reader.bool();
           break;
-        case 4:
+        case 3:
           message.value = reader.bytes();
           break;
         default:
@@ -66,11 +55,6 @@ export const SerialNumber = {
       message.index = String(object.index);
     } else {
       message.index = "";
-    }
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
-    } else {
-      message.creator = "";
     }
     if (
       object.is_confidential_asset !== undefined &&
@@ -89,7 +73,6 @@ export const SerialNumber = {
   toJSON(message: SerialNumber): unknown {
     const obj: any = {};
     message.index !== undefined && (obj.index = message.index);
-    message.creator !== undefined && (obj.creator = message.creator);
     message.is_confidential_asset !== undefined &&
       (obj.is_confidential_asset = message.is_confidential_asset);
     message.value !== undefined &&
@@ -105,11 +88,6 @@ export const SerialNumber = {
       message.index = object.index;
     } else {
       message.index = "";
-    }
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
-    } else {
-      message.creator = "";
     }
     if (
       object.is_confidential_asset !== undefined &&

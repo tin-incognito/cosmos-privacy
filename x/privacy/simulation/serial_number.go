@@ -4,13 +4,14 @@ import (
 	"math/rand"
 	"strconv"
 
+	"privacy/x/privacy/keeper"
+	"privacy/x/privacy/types"
+
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	simappparams "github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"privacy/x/privacy/keeper"
-	"privacy/x/privacy/types"
 )
 
 // Prevent strconv unused error
@@ -27,8 +28,7 @@ func SimulateMsgCreateSerialNumber(
 
 		i := r.Int()
 		msg := &types.MsgCreateSerialNumber{
-			Creator: simAccount.Address.String(),
-			Index:   strconv.Itoa(i),
+			Index: strconv.Itoa(i),
 		}
 
 		_, found := k.GetSerialNumber(ctx, msg.Index)
@@ -69,7 +69,7 @@ func SimulateMsgUpdateSerialNumber(
 			found           = false
 		)
 		for _, obj := range allSerialNumber {
-			simAccount, found = FindAccount(accs, obj.Creator)
+			simAccount, found = FindAccount(accs, "")
 			if found {
 				serialNumber = obj
 				break
@@ -78,7 +78,6 @@ func SimulateMsgUpdateSerialNumber(
 		if !found {
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "serialNumber creator not found"), nil, nil
 		}
-		msg.Creator = simAccount.Address.String()
 
 		msg.Index = serialNumber.Index
 
@@ -115,7 +114,7 @@ func SimulateMsgDeleteSerialNumber(
 			found           = false
 		)
 		for _, obj := range allSerialNumber {
-			simAccount, found = FindAccount(accs, obj.Creator)
+			simAccount, found = FindAccount(accs, "")
 			if found {
 				serialNumber = obj
 				break
@@ -124,7 +123,6 @@ func SimulateMsgDeleteSerialNumber(
 		if !found {
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "serialNumber creator not found"), nil, nil
 		}
-		msg.Creator = simAccount.Address.String()
 
 		msg.Index = serialNumber.Index
 

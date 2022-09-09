@@ -35,6 +35,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateOutputCoinSerialNumber{}, "privacy/CreateOutputCoinSerialNumber", nil)
 	cdc.RegisterConcrete(&MsgUpdateOutputCoinSerialNumber{}, "privacy/UpdateOutputCoinSerialNumber", nil)
 	cdc.RegisterConcrete(&MsgDeleteOutputCoinSerialNumber{}, "privacy/DeleteOutputCoinSerialNumber", nil)
+	cdc.RegisterConcrete(&MsgPrivacyData{}, "privacy/PrivacyData", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -87,6 +88,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateOutputCoinSerialNumber{},
 		&MsgUpdateOutputCoinSerialNumber{},
 		&MsgDeleteOutputCoinSerialNumber{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgPrivacyData{},
 	)
 	// this line is used by starport scaffolding # 3
 

@@ -5,7 +5,6 @@ export const protobufPackage = "privacy.privacy";
 
 export interface OnetimeAddress {
   index: string;
-  creator: string;
   is_confidential_asset: boolean;
   public_key: Uint8Array;
   i: Uint8Array;
@@ -14,7 +13,6 @@ export interface OnetimeAddress {
 
 const baseOnetimeAddress: object = {
   index: "",
-  creator: "",
   is_confidential_asset: false,
   status: 0,
 };
@@ -24,20 +22,17 @@ export const OnetimeAddress = {
     if (message.index !== "") {
       writer.uint32(10).string(message.index);
     }
-    if (message.creator !== "") {
-      writer.uint32(18).string(message.creator);
-    }
     if (message.is_confidential_asset === true) {
-      writer.uint32(24).bool(message.is_confidential_asset);
+      writer.uint32(16).bool(message.is_confidential_asset);
     }
     if (message.public_key.length !== 0) {
-      writer.uint32(34).bytes(message.public_key);
+      writer.uint32(26).bytes(message.public_key);
     }
     if (message.i.length !== 0) {
-      writer.uint32(42).bytes(message.i);
+      writer.uint32(34).bytes(message.i);
     }
     if (message.status !== 0) {
-      writer.uint32(48).int32(message.status);
+      writer.uint32(40).int32(message.status);
     }
     return writer;
   },
@@ -53,18 +48,15 @@ export const OnetimeAddress = {
           message.index = reader.string();
           break;
         case 2:
-          message.creator = reader.string();
-          break;
-        case 3:
           message.is_confidential_asset = reader.bool();
           break;
-        case 4:
+        case 3:
           message.public_key = reader.bytes();
           break;
-        case 5:
+        case 4:
           message.i = reader.bytes();
           break;
-        case 6:
+        case 5:
           message.status = reader.int32();
           break;
         default:
@@ -81,11 +73,6 @@ export const OnetimeAddress = {
       message.index = String(object.index);
     } else {
       message.index = "";
-    }
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
-    } else {
-      message.creator = "";
     }
     if (
       object.is_confidential_asset !== undefined &&
@@ -112,7 +99,6 @@ export const OnetimeAddress = {
   toJSON(message: OnetimeAddress): unknown {
     const obj: any = {};
     message.index !== undefined && (obj.index = message.index);
-    message.creator !== undefined && (obj.creator = message.creator);
     message.is_confidential_asset !== undefined &&
       (obj.is_confidential_asset = message.is_confidential_asset);
     message.public_key !== undefined &&
@@ -133,11 +119,6 @@ export const OnetimeAddress = {
       message.index = object.index;
     } else {
       message.index = "";
-    }
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
-    } else {
-      message.creator = "";
     }
     if (
       object.is_confidential_asset !== undefined &&

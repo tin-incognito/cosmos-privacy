@@ -5,8 +5,7 @@ option go_package = "privacy/x/privacy/types";
 
 message SerialNumber {
   string index = 1; 
-  string creator = 2;
-  bool is_confidential_asset = 3;
-  bytes value = 4;
+  bool is_confidential_asset = 2;
+  bytes value = 3;
 }
 

@@ -69,6 +69,8 @@ export type PrivacyMsgDeleteTokenResponse = object;
 
 export type PrivacyMsgDeleteTxPrivacyDataResponse = object;
 
+export type PrivacyMsgPrivacyDataResponse = object;
+
 export interface PrivacyMsgTransferResponse {
   msg?: string;
   is_error?: boolean;
@@ -100,7 +102,6 @@ export interface PrivacyOTACoin {
 
 export interface PrivacyOnetimeAddress {
   index?: string;
-  creator?: string;
   is_confidential_asset?: boolean;
 
   /** @format byte */
@@ -308,7 +309,6 @@ export interface PrivacyQueryParamsResponse {
 
 export interface PrivacySerialNumber {
   index?: string;
-  creator?: string;
   is_confidential_asset?: boolean;
 
   /** @format byte */

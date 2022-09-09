@@ -42,6 +42,7 @@ service Msg {
   rpc CreateOutputCoinSerialNumber(MsgCreateOutputCoinSerialNumber) returns (MsgCreateOutputCoinSerialNumberResponse);
   rpc UpdateOutputCoinSerialNumber(MsgUpdateOutputCoinSerialNumber) returns (MsgUpdateOutputCoinSerialNumberResponse);
   rpc DeleteOutputCoinSerialNumber(MsgDeleteOutputCoinSerialNumber) returns (MsgDeleteOutputCoinSerialNumberResponse);
+  rpc PrivacyData(MsgPrivacyData) returns (MsgPrivacyDataResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -232,4 +233,19 @@ message MsgDeleteOutputCoinSerialNumber {
   string creator = 1;
 }
 message MsgDeleteOutputCoinSerialNumberResponse {}
+message MsgPrivacyData {
+  string creator = 1;
+  uint64 lock_time = 2;
+  uint64 fee = 3;
+  bytes info = 4;
+  bytes sig_pub_key = 5;
+  bytes sig = 6;
+  bytes proof = 7;
+  int32 tx_type = 8;
+  bytes metadata = 9;
+}
+
+message MsgPrivacyDataResponse {
+}
+
 // this line is used by starport scaffolding # proto/tx/message

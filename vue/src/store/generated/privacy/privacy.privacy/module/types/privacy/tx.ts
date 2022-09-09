@@ -201,6 +201,20 @@ export interface MsgDeleteOutputCoinSerialNumber {
 
 export interface MsgDeleteOutputCoinSerialNumberResponse {}
 
+export interface MsgPrivacyData {
+  creator: string;
+  lock_time: number;
+  fee: number;
+  info: Uint8Array;
+  sig_pub_key: Uint8Array;
+  sig: Uint8Array;
+  proof: Uint8Array;
+  tx_type: number;
+  metadata: Uint8Array;
+}
+
+export interface MsgPrivacyDataResponse {}
+
 const baseMsgCreateSerialNumber: object = { creator: "", index: "" };
 
 export const MsgCreateSerialNumber = {
@@ -3774,6 +3788,247 @@ export const MsgDeleteOutputCoinSerialNumberResponse = {
   },
 };
 
+const baseMsgPrivacyData: object = {
+  creator: "",
+  lock_time: 0,
+  fee: 0,
+  tx_type: 0,
+};
+
+export const MsgPrivacyData = {
+  encode(message: MsgPrivacyData, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.lock_time !== 0) {
+      writer.uint32(16).uint64(message.lock_time);
+    }
+    if (message.fee !== 0) {
+      writer.uint32(24).uint64(message.fee);
+    }
+    if (message.info.length !== 0) {
+      writer.uint32(34).bytes(message.info);
+    }
+    if (message.sig_pub_key.length !== 0) {
+      writer.uint32(42).bytes(message.sig_pub_key);
+    }
+    if (message.sig.length !== 0) {
+      writer.uint32(50).bytes(message.sig);
+    }
+    if (message.proof.length !== 0) {
+      writer.uint32(58).bytes(message.proof);
+    }
+    if (message.tx_type !== 0) {
+      writer.uint32(64).int32(message.tx_type);
+    }
+    if (message.metadata.length !== 0) {
+      writer.uint32(74).bytes(message.metadata);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgPrivacyData {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgPrivacyData } as MsgPrivacyData;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.lock_time = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.fee = longToNumber(reader.uint64() as Long);
+          break;
+        case 4:
+          message.info = reader.bytes();
+          break;
+        case 5:
+          message.sig_pub_key = reader.bytes();
+          break;
+        case 6:
+          message.sig = reader.bytes();
+          break;
+        case 7:
+          message.proof = reader.bytes();
+          break;
+        case 8:
+          message.tx_type = reader.int32();
+          break;
+        case 9:
+          message.metadata = reader.bytes();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgPrivacyData {
+    const message = { ...baseMsgPrivacyData } as MsgPrivacyData;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.lock_time !== undefined && object.lock_time !== null) {
+      message.lock_time = Number(object.lock_time);
+    } else {
+      message.lock_time = 0;
+    }
+    if (object.fee !== undefined && object.fee !== null) {
+      message.fee = Number(object.fee);
+    } else {
+      message.fee = 0;
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = bytesFromBase64(object.info);
+    }
+    if (object.sig_pub_key !== undefined && object.sig_pub_key !== null) {
+      message.sig_pub_key = bytesFromBase64(object.sig_pub_key);
+    }
+    if (object.sig !== undefined && object.sig !== null) {
+      message.sig = bytesFromBase64(object.sig);
+    }
+    if (object.proof !== undefined && object.proof !== null) {
+      message.proof = bytesFromBase64(object.proof);
+    }
+    if (object.tx_type !== undefined && object.tx_type !== null) {
+      message.tx_type = Number(object.tx_type);
+    } else {
+      message.tx_type = 0;
+    }
+    if (object.metadata !== undefined && object.metadata !== null) {
+      message.metadata = bytesFromBase64(object.metadata);
+    }
+    return message;
+  },
+
+  toJSON(message: MsgPrivacyData): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.lock_time !== undefined && (obj.lock_time = message.lock_time);
+    message.fee !== undefined && (obj.fee = message.fee);
+    message.info !== undefined &&
+      (obj.info = base64FromBytes(
+        message.info !== undefined ? message.info : new Uint8Array()
+      ));
+    message.sig_pub_key !== undefined &&
+      (obj.sig_pub_key = base64FromBytes(
+        message.sig_pub_key !== undefined
+          ? message.sig_pub_key
+          : new Uint8Array()
+      ));
+    message.sig !== undefined &&
+      (obj.sig = base64FromBytes(
+        message.sig !== undefined ? message.sig : new Uint8Array()
+      ));
+    message.proof !== undefined &&
+      (obj.proof = base64FromBytes(
+        message.proof !== undefined ? message.proof : new Uint8Array()
+      ));
+    message.tx_type !== undefined && (obj.tx_type = message.tx_type);
+    message.metadata !== undefined &&
+      (obj.metadata = base64FromBytes(
+        message.metadata !== undefined ? message.metadata : new Uint8Array()
+      ));
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgPrivacyData>): MsgPrivacyData {
+    const message = { ...baseMsgPrivacyData } as MsgPrivacyData;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.lock_time !== undefined && object.lock_time !== null) {
+      message.lock_time = object.lock_time;
+    } else {
+      message.lock_time = 0;
+    }
+    if (object.fee !== undefined && object.fee !== null) {
+      message.fee = object.fee;
+    } else {
+      message.fee = 0;
+    }
+    if (object.info !== undefined && object.info !== null) {
+      message.info = object.info;
+    } else {
+      message.info = new Uint8Array();
+    }
+    if (object.sig_pub_key !== undefined && object.sig_pub_key !== null) {
+      message.sig_pub_key = object.sig_pub_key;
+    } else {
+      message.sig_pub_key = new Uint8Array();
+    }
+    if (object.sig !== undefined && object.sig !== null) {
+      message.sig = object.sig;
+    } else {
+      message.sig = new Uint8Array();
+    }
+    if (object.proof !== undefined && object.proof !== null) {
+      message.proof = object.proof;
+    } else {
+      message.proof = new Uint8Array();
+    }
+    if (object.tx_type !== undefined && object.tx_type !== null) {
+      message.tx_type = object.tx_type;
+    } else {
+      message.tx_type = 0;
+    }
+    if (object.metadata !== undefined && object.metadata !== null) {
+      message.metadata = object.metadata;
+    } else {
+      message.metadata = new Uint8Array();
+    }
+    return message;
+  },
+};
+
+const baseMsgPrivacyDataResponse: object = {};
+
+export const MsgPrivacyDataResponse = {
+  encode(_: MsgPrivacyDataResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgPrivacyDataResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgPrivacyDataResponse } as MsgPrivacyDataResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgPrivacyDataResponse {
+    const message = { ...baseMsgPrivacyDataResponse } as MsgPrivacyDataResponse;
+    return message;
+  },
+
+  toJSON(_: MsgPrivacyDataResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgPrivacyDataResponse>): MsgPrivacyDataResponse {
+    const message = { ...baseMsgPrivacyDataResponse } as MsgPrivacyDataResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateSerialNumber(
@@ -3842,10 +4097,11 @@ export interface Msg {
   UpdateOutputCoinSerialNumber(
     request: MsgUpdateOutputCoinSerialNumber
   ): Promise<MsgUpdateOutputCoinSerialNumberResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DeleteOutputCoinSerialNumber(
     request: MsgDeleteOutputCoinSerialNumber
   ): Promise<MsgDeleteOutputCoinSerialNumberResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  PrivacyData(request: MsgPrivacyData): Promise<MsgPrivacyDataResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -4198,6 +4454,18 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgDeleteOutputCoinSerialNumberResponse.decode(new Reader(data))
+    );
+  }
+
+  PrivacyData(request: MsgPrivacyData): Promise<MsgPrivacyDataResponse> {
+    const data = MsgPrivacyData.encode(request).finish();
+    const promise = this.rpc.request(
+      "privacy.privacy.Msg",
+      "PrivacyData",
+      data
+    );
+    return promise.then((data) =>
+      MsgPrivacyDataResponse.decode(new Reader(data))
     );
   }
 }
