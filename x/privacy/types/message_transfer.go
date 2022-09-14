@@ -45,3 +45,7 @@ func (msg *MsgTransfer) ValidateBasic() error {
 	}
 	return nil
 }
+
+func (msg *MsgTransfer) IsPrivacy() bool {
+	return true
+}

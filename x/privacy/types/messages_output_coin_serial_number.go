@@ -19,6 +19,10 @@ func NewMsgCreateOutputCoinSerialNumber(creator string) *MsgCreateOutputCoinSeri
 	}
 }
 
+func (msg *MsgCreateOutputCoinSerialNumber) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgCreateOutputCoinSerialNumber) Route() string {
 	return RouterKey
 }
@@ -54,6 +58,10 @@ func NewMsgUpdateOutputCoinSerialNumber(creator string) *MsgUpdateOutputCoinSeri
 	return &MsgUpdateOutputCoinSerialNumber{
 		Creator: creator,
 	}
+}
+
+func (msg *MsgUpdateOutputCoinSerialNumber) IsPrivacy() bool {
+	return true
 }
 
 func (msg *MsgUpdateOutputCoinSerialNumber) Route() string {
@@ -92,6 +100,11 @@ func NewMsgDeleteOutputCoinSerialNumber(creator string) *MsgDeleteOutputCoinSeri
 		Creator: creator,
 	}
 }
+
+func (msg *MsgDeleteOutputCoinSerialNumber) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgDeleteOutputCoinSerialNumber) Route() string {
 	return RouterKey
 }

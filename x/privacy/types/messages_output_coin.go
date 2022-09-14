@@ -24,6 +24,10 @@ func NewMsgCreateOutputCoin(
 	}
 }
 
+func (msg *MsgCreateOutputCoin) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgCreateOutputCoin) Route() string {
 	return RouterKey
 }
@@ -55,6 +59,9 @@ func (msg *MsgCreateOutputCoin) ValidateBasic() error {
 
 var _ sdk.Msg = &MsgUpdateOutputCoin{}
 
+func (msg *MsgUpdateOutputCoin) IsPrivacy() bool {
+	return true
+}
 func NewMsgUpdateOutputCoin(
 	creator string,
 	index string,
@@ -134,4 +141,8 @@ func (msg *MsgDeleteOutputCoin) ValidateBasic() error {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
+}
+
+func (msg *MsgDeleteOutputCoin) IsPrivacy() bool {
+	return true
 }

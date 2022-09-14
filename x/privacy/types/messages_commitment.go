@@ -24,6 +24,10 @@ func NewMsgCreateCommitment(
 	}
 }
 
+func (msg *MsgCreateCommitment) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgCreateCommitment) Route() string {
 	return RouterKey
 }
@@ -64,6 +68,10 @@ func NewMsgUpdateCommitment(
 		Creator: creator,
 		Index:   index,
 	}
+}
+
+func (msg *MsgUpdateCommitment) IsPrivacy() bool {
+	return true
 }
 
 func (msg *MsgUpdateCommitment) Route() string {
@@ -134,4 +142,8 @@ func (msg *MsgDeleteCommitment) ValidateBasic() error {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
+}
+
+func (msg *MsgDeleteCommitment) IsPrivacy() bool {
+	return true
 }

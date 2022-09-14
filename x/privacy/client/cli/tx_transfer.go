@@ -85,7 +85,6 @@ func CmdTransfer() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			msg.Creator = clientCtx.GetFromAddress().String()
 
 			if err := msg.ValidateBasic(); err != nil {
 				return err

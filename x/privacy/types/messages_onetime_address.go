@@ -24,6 +24,10 @@ func NewMsgCreateOnetimeAddress(
 	}
 }
 
+func (msg *MsgCreateOnetimeAddress) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgCreateOnetimeAddress) Route() string {
 	return RouterKey
 }
@@ -64,6 +68,10 @@ func NewMsgUpdateOnetimeAddress(
 		Creator: creator,
 		Index:   index,
 	}
+}
+
+func (msg *MsgUpdateOnetimeAddress) IsPrivacy() bool {
+	return true
 }
 
 func (msg *MsgUpdateOnetimeAddress) Route() string {
@@ -107,6 +115,11 @@ func NewMsgDeleteOnetimeAddress(
 		Index:   index,
 	}
 }
+
+func (msg *MsgDeleteOnetimeAddress) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgDeleteOnetimeAddress) Route() string {
 	return RouterKey
 }

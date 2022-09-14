@@ -24,6 +24,10 @@ func NewMsgCreateCommitmentIndex(
 	}
 }
 
+func (msg *MsgCreateCommitmentIndex) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgCreateCommitmentIndex) Route() string {
 	return RouterKey
 }
@@ -64,6 +68,10 @@ func NewMsgUpdateCommitmentIndex(
 		Creator: creator,
 		Index:   index,
 	}
+}
+
+func (msg *MsgUpdateCommitmentIndex) IsPrivacy() bool {
+	return true
 }
 
 func (msg *MsgUpdateCommitmentIndex) Route() string {
@@ -107,6 +115,11 @@ func NewMsgDeleteCommitmentIndex(
 		Index:   index,
 	}
 }
+
+func (msg *MsgDeleteCommitmentIndex) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgDeleteCommitmentIndex) Route() string {
 	return RouterKey
 }

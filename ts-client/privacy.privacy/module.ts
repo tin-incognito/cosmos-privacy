@@ -7,82 +7,40 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
-import { MsgTransfer } from "./types/privacy/tx";
-import { MsgDeleteSerialNumber } from "./types/privacy/tx";
-import { MsgDeleteCommitmentIndex } from "./types/privacy/tx";
-import { MsgCreateOutputCoinSerialNumber } from "./types/privacy/tx";
 import { MsgDeleteOutputCoin } from "./types/privacy/tx";
-import { MsgCreateOnetimeAddress } from "./types/privacy/tx";
-import { MsgCreateOutputCoin } from "./types/privacy/tx";
-import { MsgUpdateOutputCoinSerialNumber } from "./types/privacy/tx";
 import { MsgDeleteTxPrivacyData } from "./types/privacy/tx";
-import { MsgPrivacyData } from "./types/privacy/tx";
-import { MsgUpdateCommitmentIndex } from "./types/privacy/tx";
-import { MsgUpdateSerialNumber } from "./types/privacy/tx";
-import { MsgCreateCommitment } from "./types/privacy/tx";
-import { MsgUpdateCommitment } from "./types/privacy/tx";
-import { MsgUpdateOnetimeAddress } from "./types/privacy/tx";
-import { MsgUpdateToken } from "./types/privacy/tx";
 import { MsgCreateTx } from "./types/privacy/tx";
-import { MsgAirdrop } from "./types/privacy/tx";
-import { MsgCreateToken } from "./types/privacy/tx";
+import { MsgUpdateCommitmentIndex } from "./types/privacy/tx";
+import { MsgCreateOutputCoinSerialNumber } from "./types/privacy/tx";
 import { MsgCreateSerialNumber } from "./types/privacy/tx";
-import { MsgUpdateOutputCoin } from "./types/privacy/tx";
-import { MsgCreateTxPrivacyData } from "./types/privacy/tx";
-import { MsgCreateCommitmentIndex } from "./types/privacy/tx";
-import { MsgUpdateTxPrivacyData } from "./types/privacy/tx";
+import { MsgCreateCommitment } from "./types/privacy/tx";
+import { MsgUpdateSerialNumber } from "./types/privacy/tx";
 import { MsgDeleteToken } from "./types/privacy/tx";
-import { MsgDeleteOnetimeAddress } from "./types/privacy/tx";
+import { MsgCreateOnetimeAddress } from "./types/privacy/tx";
 import { MsgDeleteOutputCoinSerialNumber } from "./types/privacy/tx";
+import { MsgPrivacyData } from "./types/privacy/tx";
 import { MsgDeleteCommitment } from "./types/privacy/tx";
+import { MsgDeleteSerialNumber } from "./types/privacy/tx";
+import { MsgUpdateOutputCoin } from "./types/privacy/tx";
+import { MsgDeleteCommitmentIndex } from "./types/privacy/tx";
+import { MsgDeleteOnetimeAddress } from "./types/privacy/tx";
+import { MsgCreateToken } from "./types/privacy/tx";
+import { MsgAirdrop } from "./types/privacy/tx";
+import { MsgCreateOutputCoin } from "./types/privacy/tx";
+import { MsgUpdateToken } from "./types/privacy/tx";
+import { MsgUpdateOnetimeAddress } from "./types/privacy/tx";
+import { MsgCreateCommitmentIndex } from "./types/privacy/tx";
+import { MsgUpdateCommitment } from "./types/privacy/tx";
+import { MsgCreateTxPrivacyData } from "./types/privacy/tx";
+import { MsgUpdateTxPrivacyData } from "./types/privacy/tx";
+import { MsgTransfer } from "./types/privacy/tx";
+import { MsgUpdateOutputCoinSerialNumber } from "./types/privacy/tx";
 
 
-export { MsgTransfer, MsgDeleteSerialNumber, MsgDeleteCommitmentIndex, MsgCreateOutputCoinSerialNumber, MsgDeleteOutputCoin, MsgCreateOnetimeAddress, MsgCreateOutputCoin, MsgUpdateOutputCoinSerialNumber, MsgDeleteTxPrivacyData, MsgPrivacyData, MsgUpdateCommitmentIndex, MsgUpdateSerialNumber, MsgCreateCommitment, MsgUpdateCommitment, MsgUpdateOnetimeAddress, MsgUpdateToken, MsgCreateTx, MsgAirdrop, MsgCreateToken, MsgCreateSerialNumber, MsgUpdateOutputCoin, MsgCreateTxPrivacyData, MsgCreateCommitmentIndex, MsgUpdateTxPrivacyData, MsgDeleteToken, MsgDeleteOnetimeAddress, MsgDeleteOutputCoinSerialNumber, MsgDeleteCommitment };
-
-type sendMsgTransferParams = {
-  value: MsgTransfer,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgDeleteSerialNumberParams = {
-  value: MsgDeleteSerialNumber,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgDeleteCommitmentIndexParams = {
-  value: MsgDeleteCommitmentIndex,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateOutputCoinSerialNumberParams = {
-  value: MsgCreateOutputCoinSerialNumber,
-  fee?: StdFee,
-  memo?: string
-};
+export { MsgDeleteOutputCoin, MsgDeleteTxPrivacyData, MsgCreateTx, MsgUpdateCommitmentIndex, MsgCreateOutputCoinSerialNumber, MsgCreateSerialNumber, MsgCreateCommitment, MsgUpdateSerialNumber, MsgDeleteToken, MsgCreateOnetimeAddress, MsgDeleteOutputCoinSerialNumber, MsgPrivacyData, MsgDeleteCommitment, MsgDeleteSerialNumber, MsgUpdateOutputCoin, MsgDeleteCommitmentIndex, MsgDeleteOnetimeAddress, MsgCreateToken, MsgAirdrop, MsgCreateOutputCoin, MsgUpdateToken, MsgUpdateOnetimeAddress, MsgCreateCommitmentIndex, MsgUpdateCommitment, MsgCreateTxPrivacyData, MsgUpdateTxPrivacyData, MsgTransfer, MsgUpdateOutputCoinSerialNumber };
 
 type sendMsgDeleteOutputCoinParams = {
   value: MsgDeleteOutputCoin,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateOnetimeAddressParams = {
-  value: MsgCreateOnetimeAddress,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateOutputCoinParams = {
-  value: MsgCreateOutputCoin,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgUpdateOutputCoinSerialNumberParams = {
-  value: MsgUpdateOutputCoinSerialNumber,
   fee?: StdFee,
   memo?: string
 };
@@ -93,8 +51,8 @@ type sendMsgDeleteTxPrivacyDataParams = {
   memo?: string
 };
 
-type sendMsgPrivacyDataParams = {
-  value: MsgPrivacyData,
+type sendMsgCreateTxParams = {
+  value: MsgCreateTx,
   fee?: StdFee,
   memo?: string
 };
@@ -105,50 +63,8 @@ type sendMsgUpdateCommitmentIndexParams = {
   memo?: string
 };
 
-type sendMsgUpdateSerialNumberParams = {
-  value: MsgUpdateSerialNumber,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateCommitmentParams = {
-  value: MsgCreateCommitment,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgUpdateCommitmentParams = {
-  value: MsgUpdateCommitment,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgUpdateOnetimeAddressParams = {
-  value: MsgUpdateOnetimeAddress,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgUpdateTokenParams = {
-  value: MsgUpdateToken,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateTxParams = {
-  value: MsgCreateTx,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgAirdropParams = {
-  value: MsgAirdrop,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateTokenParams = {
-  value: MsgCreateToken,
+type sendMsgCreateOutputCoinSerialNumberParams = {
+  value: MsgCreateOutputCoinSerialNumber,
   fee?: StdFee,
   memo?: string
 };
@@ -159,26 +75,14 @@ type sendMsgCreateSerialNumberParams = {
   memo?: string
 };
 
-type sendMsgUpdateOutputCoinParams = {
-  value: MsgUpdateOutputCoin,
+type sendMsgCreateCommitmentParams = {
+  value: MsgCreateCommitment,
   fee?: StdFee,
   memo?: string
 };
 
-type sendMsgCreateTxPrivacyDataParams = {
-  value: MsgCreateTxPrivacyData,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateCommitmentIndexParams = {
-  value: MsgCreateCommitmentIndex,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgUpdateTxPrivacyDataParams = {
-  value: MsgUpdateTxPrivacyData,
+type sendMsgUpdateSerialNumberParams = {
+  value: MsgUpdateSerialNumber,
   fee?: StdFee,
   memo?: string
 };
@@ -189,8 +93,8 @@ type sendMsgDeleteTokenParams = {
   memo?: string
 };
 
-type sendMsgDeleteOnetimeAddressParams = {
-  value: MsgDeleteOnetimeAddress,
+type sendMsgCreateOnetimeAddressParams = {
+  value: MsgCreateOnetimeAddress,
   fee?: StdFee,
   memo?: string
 };
@@ -201,123 +105,219 @@ type sendMsgDeleteOutputCoinSerialNumberParams = {
   memo?: string
 };
 
+type sendMsgPrivacyDataParams = {
+  value: MsgPrivacyData,
+  fee?: StdFee,
+  memo?: string
+};
+
 type sendMsgDeleteCommitmentParams = {
   value: MsgDeleteCommitment,
   fee?: StdFee,
   memo?: string
 };
 
-
-type msgTransferParams = {
-  value: MsgTransfer,
-};
-
-type msgDeleteSerialNumberParams = {
+type sendMsgDeleteSerialNumberParams = {
   value: MsgDeleteSerialNumber,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgDeleteCommitmentIndexParams = {
+type sendMsgUpdateOutputCoinParams = {
+  value: MsgUpdateOutputCoin,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgDeleteCommitmentIndexParams = {
   value: MsgDeleteCommitmentIndex,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgCreateOutputCoinSerialNumberParams = {
-  value: MsgCreateOutputCoinSerialNumber,
+type sendMsgDeleteOnetimeAddressParams = {
+  value: MsgDeleteOnetimeAddress,
+  fee?: StdFee,
+  memo?: string
 };
+
+type sendMsgCreateTokenParams = {
+  value: MsgCreateToken,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgAirdropParams = {
+  value: MsgAirdrop,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgCreateOutputCoinParams = {
+  value: MsgCreateOutputCoin,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgUpdateTokenParams = {
+  value: MsgUpdateToken,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgUpdateOnetimeAddressParams = {
+  value: MsgUpdateOnetimeAddress,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgCreateCommitmentIndexParams = {
+  value: MsgCreateCommitmentIndex,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgUpdateCommitmentParams = {
+  value: MsgUpdateCommitment,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgCreateTxPrivacyDataParams = {
+  value: MsgCreateTxPrivacyData,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgUpdateTxPrivacyDataParams = {
+  value: MsgUpdateTxPrivacyData,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgTransferParams = {
+  value: MsgTransfer,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgUpdateOutputCoinSerialNumberParams = {
+  value: MsgUpdateOutputCoinSerialNumber,
+  fee?: StdFee,
+  memo?: string
+};
+
 
 type msgDeleteOutputCoinParams = {
   value: MsgDeleteOutputCoin,
-};
-
-type msgCreateOnetimeAddressParams = {
-  value: MsgCreateOnetimeAddress,
-};
-
-type msgCreateOutputCoinParams = {
-  value: MsgCreateOutputCoin,
-};
-
-type msgUpdateOutputCoinSerialNumberParams = {
-  value: MsgUpdateOutputCoinSerialNumber,
 };
 
 type msgDeleteTxPrivacyDataParams = {
   value: MsgDeleteTxPrivacyData,
 };
 
-type msgPrivacyDataParams = {
-  value: MsgPrivacyData,
+type msgCreateTxParams = {
+  value: MsgCreateTx,
 };
 
 type msgUpdateCommitmentIndexParams = {
   value: MsgUpdateCommitmentIndex,
 };
 
-type msgUpdateSerialNumberParams = {
-  value: MsgUpdateSerialNumber,
-};
-
-type msgCreateCommitmentParams = {
-  value: MsgCreateCommitment,
-};
-
-type msgUpdateCommitmentParams = {
-  value: MsgUpdateCommitment,
-};
-
-type msgUpdateOnetimeAddressParams = {
-  value: MsgUpdateOnetimeAddress,
-};
-
-type msgUpdateTokenParams = {
-  value: MsgUpdateToken,
-};
-
-type msgCreateTxParams = {
-  value: MsgCreateTx,
-};
-
-type msgAirdropParams = {
-  value: MsgAirdrop,
-};
-
-type msgCreateTokenParams = {
-  value: MsgCreateToken,
+type msgCreateOutputCoinSerialNumberParams = {
+  value: MsgCreateOutputCoinSerialNumber,
 };
 
 type msgCreateSerialNumberParams = {
   value: MsgCreateSerialNumber,
 };
 
-type msgUpdateOutputCoinParams = {
-  value: MsgUpdateOutputCoin,
+type msgCreateCommitmentParams = {
+  value: MsgCreateCommitment,
 };
 
-type msgCreateTxPrivacyDataParams = {
-  value: MsgCreateTxPrivacyData,
-};
-
-type msgCreateCommitmentIndexParams = {
-  value: MsgCreateCommitmentIndex,
-};
-
-type msgUpdateTxPrivacyDataParams = {
-  value: MsgUpdateTxPrivacyData,
+type msgUpdateSerialNumberParams = {
+  value: MsgUpdateSerialNumber,
 };
 
 type msgDeleteTokenParams = {
   value: MsgDeleteToken,
 };
 
-type msgDeleteOnetimeAddressParams = {
-  value: MsgDeleteOnetimeAddress,
+type msgCreateOnetimeAddressParams = {
+  value: MsgCreateOnetimeAddress,
 };
 
 type msgDeleteOutputCoinSerialNumberParams = {
   value: MsgDeleteOutputCoinSerialNumber,
 };
 
+type msgPrivacyDataParams = {
+  value: MsgPrivacyData,
+};
+
 type msgDeleteCommitmentParams = {
   value: MsgDeleteCommitment,
+};
+
+type msgDeleteSerialNumberParams = {
+  value: MsgDeleteSerialNumber,
+};
+
+type msgUpdateOutputCoinParams = {
+  value: MsgUpdateOutputCoin,
+};
+
+type msgDeleteCommitmentIndexParams = {
+  value: MsgDeleteCommitmentIndex,
+};
+
+type msgDeleteOnetimeAddressParams = {
+  value: MsgDeleteOnetimeAddress,
+};
+
+type msgCreateTokenParams = {
+  value: MsgCreateToken,
+};
+
+type msgAirdropParams = {
+  value: MsgAirdrop,
+};
+
+type msgCreateOutputCoinParams = {
+  value: MsgCreateOutputCoin,
+};
+
+type msgUpdateTokenParams = {
+  value: MsgUpdateToken,
+};
+
+type msgUpdateOnetimeAddressParams = {
+  value: MsgUpdateOnetimeAddress,
+};
+
+type msgCreateCommitmentIndexParams = {
+  value: MsgCreateCommitmentIndex,
+};
+
+type msgUpdateCommitmentParams = {
+  value: MsgUpdateCommitment,
+};
+
+type msgCreateTxPrivacyDataParams = {
+  value: MsgCreateTxPrivacyData,
+};
+
+type msgUpdateTxPrivacyDataParams = {
+  value: MsgUpdateTxPrivacyData,
+};
+
+type msgTransferParams = {
+  value: MsgTransfer,
+};
+
+type msgUpdateOutputCoinSerialNumberParams = {
+  value: MsgUpdateOutputCoinSerialNumber,
 };
 
 
@@ -338,62 +338,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 
   return {
 		
-		async sendMsgTransfer({ value, fee, memo }: sendMsgTransferParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgTransfer: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgTransfer({ value: MsgTransfer.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgTransfer: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgDeleteSerialNumber({ value, fee, memo }: sendMsgDeleteSerialNumberParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgDeleteSerialNumber: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgDeleteSerialNumber({ value: MsgDeleteSerialNumber.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgDeleteSerialNumber: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgDeleteCommitmentIndex({ value, fee, memo }: sendMsgDeleteCommitmentIndexParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgDeleteCommitmentIndex: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgDeleteCommitmentIndex({ value: MsgDeleteCommitmentIndex.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgDeleteCommitmentIndex: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateOutputCoinSerialNumber({ value, fee, memo }: sendMsgCreateOutputCoinSerialNumberParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateOutputCoinSerialNumber: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateOutputCoinSerialNumber({ value: MsgCreateOutputCoinSerialNumber.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateOutputCoinSerialNumber: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
 		async sendMsgDeleteOutputCoin({ value, fee, memo }: sendMsgDeleteOutputCoinParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgDeleteOutputCoin: Unable to sign Tx. Signer is not present.')
@@ -405,48 +349,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
 				throw new Error('TxClient:sendMsgDeleteOutputCoin: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateOnetimeAddress({ value, fee, memo }: sendMsgCreateOnetimeAddressParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateOnetimeAddress: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateOnetimeAddress({ value: MsgCreateOnetimeAddress.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateOnetimeAddress: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateOutputCoin({ value, fee, memo }: sendMsgCreateOutputCoinParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateOutputCoin: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateOutputCoin({ value: MsgCreateOutputCoin.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateOutputCoin: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgUpdateOutputCoinSerialNumber({ value, fee, memo }: sendMsgUpdateOutputCoinSerialNumberParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateOutputCoinSerialNumber: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateOutputCoinSerialNumber({ value: MsgUpdateOutputCoinSerialNumber.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateOutputCoinSerialNumber: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -464,17 +366,17 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgPrivacyData({ value, fee, memo }: sendMsgPrivacyDataParams): Promise<DeliverTxResponse> {
+		async sendMsgCreateTx({ value, fee, memo }: sendMsgCreateTxParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgPrivacyData: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgCreateTx: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgPrivacyData({ value: MsgPrivacyData.fromPartial(value) })
+				let msg = this.msgCreateTx({ value: MsgCreateTx.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgPrivacyData: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgCreateTx: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -492,115 +394,17 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgUpdateSerialNumber({ value, fee, memo }: sendMsgUpdateSerialNumberParams): Promise<DeliverTxResponse> {
+		async sendMsgCreateOutputCoinSerialNumber({ value, fee, memo }: sendMsgCreateOutputCoinSerialNumberParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateSerialNumber: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgCreateOutputCoinSerialNumber: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateSerialNumber({ value: MsgUpdateSerialNumber.fromPartial(value) })
+				let msg = this.msgCreateOutputCoinSerialNumber({ value: MsgCreateOutputCoinSerialNumber.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateSerialNumber: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateCommitment({ value, fee, memo }: sendMsgCreateCommitmentParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateCommitment: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateCommitment({ value: MsgCreateCommitment.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateCommitment: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgUpdateCommitment({ value, fee, memo }: sendMsgUpdateCommitmentParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateCommitment: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateCommitment({ value: MsgUpdateCommitment.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateCommitment: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgUpdateOnetimeAddress({ value, fee, memo }: sendMsgUpdateOnetimeAddressParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateOnetimeAddress: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateOnetimeAddress({ value: MsgUpdateOnetimeAddress.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateOnetimeAddress: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgUpdateToken({ value, fee, memo }: sendMsgUpdateTokenParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateToken: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateToken({ value: MsgUpdateToken.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateToken: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateTx({ value, fee, memo }: sendMsgCreateTxParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateTx: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateTx({ value: MsgCreateTx.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateTx: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgAirdrop({ value, fee, memo }: sendMsgAirdropParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgAirdrop: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgAirdrop({ value: MsgAirdrop.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgAirdrop: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateToken({ value, fee, memo }: sendMsgCreateTokenParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateToken: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateToken({ value: MsgCreateToken.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateToken: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgCreateOutputCoinSerialNumber: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -618,59 +422,31 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgUpdateOutputCoin({ value, fee, memo }: sendMsgUpdateOutputCoinParams): Promise<DeliverTxResponse> {
+		async sendMsgCreateCommitment({ value, fee, memo }: sendMsgCreateCommitmentParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateOutputCoin: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgCreateCommitment: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateOutputCoin({ value: MsgUpdateOutputCoin.fromPartial(value) })
+				let msg = this.msgCreateCommitment({ value: MsgCreateCommitment.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateOutputCoin: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgCreateCommitment: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		async sendMsgCreateTxPrivacyData({ value, fee, memo }: sendMsgCreateTxPrivacyDataParams): Promise<DeliverTxResponse> {
+		async sendMsgUpdateSerialNumber({ value, fee, memo }: sendMsgUpdateSerialNumberParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateTxPrivacyData: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgUpdateSerialNumber: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateTxPrivacyData({ value: MsgCreateTxPrivacyData.fromPartial(value) })
+				let msg = this.msgUpdateSerialNumber({ value: MsgUpdateSerialNumber.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateTxPrivacyData: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateCommitmentIndex({ value, fee, memo }: sendMsgCreateCommitmentIndexParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateCommitmentIndex: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateCommitmentIndex({ value: MsgCreateCommitmentIndex.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateCommitmentIndex: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgUpdateTxPrivacyData({ value, fee, memo }: sendMsgUpdateTxPrivacyDataParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateTxPrivacyData: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateTxPrivacyData({ value: MsgUpdateTxPrivacyData.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateTxPrivacyData: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgUpdateSerialNumber: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -688,17 +464,17 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgDeleteOnetimeAddress({ value, fee, memo }: sendMsgDeleteOnetimeAddressParams): Promise<DeliverTxResponse> {
+		async sendMsgCreateOnetimeAddress({ value, fee, memo }: sendMsgCreateOnetimeAddressParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgDeleteOnetimeAddress: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgCreateOnetimeAddress: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgDeleteOnetimeAddress({ value: MsgDeleteOnetimeAddress.fromPartial(value) })
+				let msg = this.msgCreateOnetimeAddress({ value: MsgCreateOnetimeAddress.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgDeleteOnetimeAddress: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgCreateOnetimeAddress: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -716,6 +492,20 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		async sendMsgPrivacyData({ value, fee, memo }: sendMsgPrivacyDataParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgPrivacyData: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgPrivacyData({ value: MsgPrivacyData.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgPrivacyData: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		async sendMsgDeleteCommitment({ value, fee, memo }: sendMsgDeleteCommitmentParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgDeleteCommitment: Unable to sign Tx. Signer is not present.')
@@ -730,68 +520,222 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		
-		msgTransfer({ value }: msgTransferParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgTransfer", value: MsgTransfer.fromPartial( value ) }  
+		async sendMsgDeleteSerialNumber({ value, fee, memo }: sendMsgDeleteSerialNumberParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDeleteSerialNumber: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDeleteSerialNumber({ value: MsgDeleteSerialNumber.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgTransfer: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgDeleteSerialNumber: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgDeleteSerialNumber({ value }: msgDeleteSerialNumberParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgDeleteSerialNumber", value: MsgDeleteSerialNumber.fromPartial( value ) }  
+		async sendMsgUpdateOutputCoin({ value, fee, memo }: sendMsgUpdateOutputCoinParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpdateOutputCoin: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpdateOutputCoin({ value: MsgUpdateOutputCoin.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgDeleteSerialNumber: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgUpdateOutputCoin: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgDeleteCommitmentIndex({ value }: msgDeleteCommitmentIndexParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgDeleteCommitmentIndex", value: MsgDeleteCommitmentIndex.fromPartial( value ) }  
+		async sendMsgDeleteCommitmentIndex({ value, fee, memo }: sendMsgDeleteCommitmentIndexParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDeleteCommitmentIndex: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDeleteCommitmentIndex({ value: MsgDeleteCommitmentIndex.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgDeleteCommitmentIndex: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgDeleteCommitmentIndex: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgCreateOutputCoinSerialNumber({ value }: msgCreateOutputCoinSerialNumberParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgCreateOutputCoinSerialNumber", value: MsgCreateOutputCoinSerialNumber.fromPartial( value ) }  
+		async sendMsgDeleteOnetimeAddress({ value, fee, memo }: sendMsgDeleteOnetimeAddressParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDeleteOnetimeAddress: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDeleteOnetimeAddress({ value: MsgDeleteOnetimeAddress.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateOutputCoinSerialNumber: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgDeleteOnetimeAddress: Could not broadcast Tx: '+ e.message)
 			}
 		},
+		
+		async sendMsgCreateToken({ value, fee, memo }: sendMsgCreateTokenParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateToken: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateToken({ value: MsgCreateToken.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreateToken: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgAirdrop({ value, fee, memo }: sendMsgAirdropParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgAirdrop: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgAirdrop({ value: MsgAirdrop.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgAirdrop: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgCreateOutputCoin({ value, fee, memo }: sendMsgCreateOutputCoinParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateOutputCoin: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateOutputCoin({ value: MsgCreateOutputCoin.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreateOutputCoin: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgUpdateToken({ value, fee, memo }: sendMsgUpdateTokenParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpdateToken: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpdateToken({ value: MsgUpdateToken.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgUpdateToken: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgUpdateOnetimeAddress({ value, fee, memo }: sendMsgUpdateOnetimeAddressParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpdateOnetimeAddress: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpdateOnetimeAddress({ value: MsgUpdateOnetimeAddress.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgUpdateOnetimeAddress: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgCreateCommitmentIndex({ value, fee, memo }: sendMsgCreateCommitmentIndexParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateCommitmentIndex: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateCommitmentIndex({ value: MsgCreateCommitmentIndex.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreateCommitmentIndex: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgUpdateCommitment({ value, fee, memo }: sendMsgUpdateCommitmentParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpdateCommitment: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpdateCommitment({ value: MsgUpdateCommitment.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgUpdateCommitment: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgCreateTxPrivacyData({ value, fee, memo }: sendMsgCreateTxPrivacyDataParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateTxPrivacyData: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateTxPrivacyData({ value: MsgCreateTxPrivacyData.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreateTxPrivacyData: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgUpdateTxPrivacyData({ value, fee, memo }: sendMsgUpdateTxPrivacyDataParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpdateTxPrivacyData: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpdateTxPrivacyData({ value: MsgUpdateTxPrivacyData.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgUpdateTxPrivacyData: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgTransfer({ value, fee, memo }: sendMsgTransferParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgTransfer: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgTransfer({ value: MsgTransfer.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgTransfer: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgUpdateOutputCoinSerialNumber({ value, fee, memo }: sendMsgUpdateOutputCoinSerialNumberParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpdateOutputCoinSerialNumber: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpdateOutputCoinSerialNumber({ value: MsgUpdateOutputCoinSerialNumber.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgUpdateOutputCoinSerialNumber: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		
 		msgDeleteOutputCoin({ value }: msgDeleteOutputCoinParams): EncodeObject {
 			try {
 				return { typeUrl: "/privacy.privacy.MsgDeleteOutputCoin", value: MsgDeleteOutputCoin.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgDeleteOutputCoin: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgCreateOnetimeAddress({ value }: msgCreateOnetimeAddressParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgCreateOnetimeAddress", value: MsgCreateOnetimeAddress.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateOnetimeAddress: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgCreateOutputCoin({ value }: msgCreateOutputCoinParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgCreateOutputCoin", value: MsgCreateOutputCoin.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateOutputCoin: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgUpdateOutputCoinSerialNumber({ value }: msgUpdateOutputCoinSerialNumberParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgUpdateOutputCoinSerialNumber", value: MsgUpdateOutputCoinSerialNumber.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateOutputCoinSerialNumber: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -803,11 +747,11 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgPrivacyData({ value }: msgPrivacyDataParams): EncodeObject {
+		msgCreateTx({ value }: msgCreateTxParams): EncodeObject {
 			try {
-				return { typeUrl: "/privacy.privacy.MsgPrivacyData", value: MsgPrivacyData.fromPartial( value ) }  
+				return { typeUrl: "/privacy.privacy.MsgCreateTx", value: MsgCreateTx.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgPrivacyData: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgCreateTx: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -819,67 +763,11 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgUpdateSerialNumber({ value }: msgUpdateSerialNumberParams): EncodeObject {
+		msgCreateOutputCoinSerialNumber({ value }: msgCreateOutputCoinSerialNumberParams): EncodeObject {
 			try {
-				return { typeUrl: "/privacy.privacy.MsgUpdateSerialNumber", value: MsgUpdateSerialNumber.fromPartial( value ) }  
+				return { typeUrl: "/privacy.privacy.MsgCreateOutputCoinSerialNumber", value: MsgCreateOutputCoinSerialNumber.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateSerialNumber: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgCreateCommitment({ value }: msgCreateCommitmentParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgCreateCommitment", value: MsgCreateCommitment.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateCommitment: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgUpdateCommitment({ value }: msgUpdateCommitmentParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgUpdateCommitment", value: MsgUpdateCommitment.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateCommitment: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgUpdateOnetimeAddress({ value }: msgUpdateOnetimeAddressParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgUpdateOnetimeAddress", value: MsgUpdateOnetimeAddress.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateOnetimeAddress: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgUpdateToken({ value }: msgUpdateTokenParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgUpdateToken", value: MsgUpdateToken.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateToken: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgCreateTx({ value }: msgCreateTxParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgCreateTx", value: MsgCreateTx.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateTx: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgAirdrop({ value }: msgAirdropParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgAirdrop", value: MsgAirdrop.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgAirdrop: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgCreateToken({ value }: msgCreateTokenParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgCreateToken", value: MsgCreateToken.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateToken: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgCreateOutputCoinSerialNumber: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -891,35 +779,19 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgUpdateOutputCoin({ value }: msgUpdateOutputCoinParams): EncodeObject {
+		msgCreateCommitment({ value }: msgCreateCommitmentParams): EncodeObject {
 			try {
-				return { typeUrl: "/privacy.privacy.MsgUpdateOutputCoin", value: MsgUpdateOutputCoin.fromPartial( value ) }  
+				return { typeUrl: "/privacy.privacy.MsgCreateCommitment", value: MsgCreateCommitment.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateOutputCoin: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgCreateCommitment: Could not create message: ' + e.message)
 			}
 		},
 		
-		msgCreateTxPrivacyData({ value }: msgCreateTxPrivacyDataParams): EncodeObject {
+		msgUpdateSerialNumber({ value }: msgUpdateSerialNumberParams): EncodeObject {
 			try {
-				return { typeUrl: "/privacy.privacy.MsgCreateTxPrivacyData", value: MsgCreateTxPrivacyData.fromPartial( value ) }  
+				return { typeUrl: "/privacy.privacy.MsgUpdateSerialNumber", value: MsgUpdateSerialNumber.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateTxPrivacyData: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgCreateCommitmentIndex({ value }: msgCreateCommitmentIndexParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgCreateCommitmentIndex", value: MsgCreateCommitmentIndex.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateCommitmentIndex: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgUpdateTxPrivacyData({ value }: msgUpdateTxPrivacyDataParams): EncodeObject {
-			try {
-				return { typeUrl: "/privacy.privacy.MsgUpdateTxPrivacyData", value: MsgUpdateTxPrivacyData.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateTxPrivacyData: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgUpdateSerialNumber: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -931,11 +803,11 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgDeleteOnetimeAddress({ value }: msgDeleteOnetimeAddressParams): EncodeObject {
+		msgCreateOnetimeAddress({ value }: msgCreateOnetimeAddressParams): EncodeObject {
 			try {
-				return { typeUrl: "/privacy.privacy.MsgDeleteOnetimeAddress", value: MsgDeleteOnetimeAddress.fromPartial( value ) }  
+				return { typeUrl: "/privacy.privacy.MsgCreateOnetimeAddress", value: MsgCreateOnetimeAddress.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgDeleteOnetimeAddress: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgCreateOnetimeAddress: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -947,11 +819,139 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		msgPrivacyData({ value }: msgPrivacyDataParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgPrivacyData", value: MsgPrivacyData.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgPrivacyData: Could not create message: ' + e.message)
+			}
+		},
+		
 		msgDeleteCommitment({ value }: msgDeleteCommitmentParams): EncodeObject {
 			try {
 				return { typeUrl: "/privacy.privacy.MsgDeleteCommitment", value: MsgDeleteCommitment.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgDeleteCommitment: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgDeleteSerialNumber({ value }: msgDeleteSerialNumberParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgDeleteSerialNumber", value: MsgDeleteSerialNumber.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgDeleteSerialNumber: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgUpdateOutputCoin({ value }: msgUpdateOutputCoinParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgUpdateOutputCoin", value: MsgUpdateOutputCoin.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpdateOutputCoin: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgDeleteCommitmentIndex({ value }: msgDeleteCommitmentIndexParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgDeleteCommitmentIndex", value: MsgDeleteCommitmentIndex.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgDeleteCommitmentIndex: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgDeleteOnetimeAddress({ value }: msgDeleteOnetimeAddressParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgDeleteOnetimeAddress", value: MsgDeleteOnetimeAddress.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgDeleteOnetimeAddress: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgCreateToken({ value }: msgCreateTokenParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgCreateToken", value: MsgCreateToken.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateToken: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgAirdrop({ value }: msgAirdropParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgAirdrop", value: MsgAirdrop.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgAirdrop: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgCreateOutputCoin({ value }: msgCreateOutputCoinParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgCreateOutputCoin", value: MsgCreateOutputCoin.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateOutputCoin: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgUpdateToken({ value }: msgUpdateTokenParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgUpdateToken", value: MsgUpdateToken.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpdateToken: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgUpdateOnetimeAddress({ value }: msgUpdateOnetimeAddressParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgUpdateOnetimeAddress", value: MsgUpdateOnetimeAddress.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpdateOnetimeAddress: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgCreateCommitmentIndex({ value }: msgCreateCommitmentIndexParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgCreateCommitmentIndex", value: MsgCreateCommitmentIndex.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateCommitmentIndex: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgUpdateCommitment({ value }: msgUpdateCommitmentParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgUpdateCommitment", value: MsgUpdateCommitment.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpdateCommitment: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgCreateTxPrivacyData({ value }: msgCreateTxPrivacyDataParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgCreateTxPrivacyData", value: MsgCreateTxPrivacyData.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateTxPrivacyData: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgUpdateTxPrivacyData({ value }: msgUpdateTxPrivacyDataParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgUpdateTxPrivacyData", value: MsgUpdateTxPrivacyData.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpdateTxPrivacyData: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgTransfer({ value }: msgTransferParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgTransfer", value: MsgTransfer.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgTransfer: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgUpdateOutputCoinSerialNumber({ value }: msgUpdateOutputCoinSerialNumberParams): EncodeObject {
+			try {
+				return { typeUrl: "/privacy.privacy.MsgUpdateOutputCoinSerialNumber", value: MsgUpdateOutputCoinSerialNumber.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpdateOutputCoinSerialNumber: Could not create message: ' + e.message)
 			}
 		},
 		

@@ -34,3 +34,7 @@ func (msg *MsgCreateTx) GetSignBytes() []byte {
 func (msg *MsgCreateTx) ValidateBasic() error {
 	return nil
 }
+
+func (msg *MsgCreateTx) IsPrivacy() bool {
+	return true
+}

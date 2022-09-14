@@ -1,8 +1,9 @@
 package types
 
 import (
+	fmt "fmt"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 const TypeMsgPrivacyData = "privacy_data"
@@ -10,13 +11,11 @@ const TypeMsgPrivacyData = "privacy_data"
 var _ sdk.Msg = &MsgPrivacyData{}
 
 func NewMsgPrivacyData(
-	creator string,
 	lockTime, fee uint64,
 	info, sigPubKey, sig, proof []byte,
 	txType int32, metadata []byte,
 ) *MsgPrivacyData {
 	return &MsgPrivacyData{
-		Creator:   creator,
 		LockTime:  lockTime,
 		Fee:       fee,
 		Info:      info,
@@ -36,11 +35,12 @@ func (msg *MsgPrivacyData) Type() string {
 }
 
 func (msg *MsgPrivacyData) GetSigners() []sdk.AccAddress {
-	creator, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		panic(err)
-	}
-	return []sdk.AccAddress{creator}
+	/*creator, err := sdk.AccAddressFromBech32(msg.Creator)*/
+	/*if err != nil {*/
+	/*panic(err)*/
+	/*}*/
+	//return []sdk.AccAddress{creator}
+	return []sdk.AccAddress{}
 }
 
 func (msg *MsgPrivacyData) GetSignBytes() []byte {
@@ -49,9 +49,14 @@ func (msg *MsgPrivacyData) GetSignBytes() []byte {
 }
 
 func (msg *MsgPrivacyData) ValidateBasic() error {
-	_, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
-	}
+	/*_, err := sdk.AccAddressFromBech32(msg.Creator)*/
+	/*if err != nil {*/
+	/*return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)*/
+	/*}*/
+	fmt.Println("ValidateBasic")
 	return nil
+}
+
+func (msg *MsgPrivacyData) IsPrivacy() bool {
+	return true
 }

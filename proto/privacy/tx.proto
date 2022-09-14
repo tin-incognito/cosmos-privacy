@@ -234,15 +234,14 @@ message MsgDeleteOutputCoinSerialNumber {
 }
 message MsgDeleteOutputCoinSerialNumberResponse {}
 message MsgPrivacyData {
-  string creator = 1;
-  uint64 lock_time = 2;
-  uint64 fee = 3;
-  bytes info = 4;
-  bytes sig_pub_key = 5;
-  bytes sig = 6;
-  bytes proof = 7;
-  int32 tx_type = 8;
-  bytes metadata = 9;
+  uint64 lock_time = 1;
+  uint64 fee = 2;
+  bytes info = 3;
+  bytes sig_pub_key = 4;
+  bytes sig = 5;
+  bytes proof = 6;
+  int32 tx_type = 7;
+  bytes metadata = 8;
 }
 
 message MsgPrivacyDataResponse {

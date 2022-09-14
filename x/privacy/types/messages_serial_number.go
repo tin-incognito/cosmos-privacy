@@ -24,6 +24,10 @@ func NewMsgCreateSerialNumber(
 	}
 }
 
+func (msg *MsgCreateSerialNumber) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgCreateSerialNumber) Route() string {
 	return RouterKey
 }
@@ -64,6 +68,10 @@ func NewMsgUpdateSerialNumber(
 		Creator: creator,
 		Index:   index,
 	}
+}
+
+func (msg *MsgUpdateSerialNumber) IsPrivacy() bool {
+	return true
 }
 
 func (msg *MsgUpdateSerialNumber) Route() string {
@@ -134,4 +142,8 @@ func (msg *MsgDeleteSerialNumber) ValidateBasic() error {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
+}
+
+func (msg *MsgDeleteSerialNumber) IsPrivacy() bool {
+	return true
 }

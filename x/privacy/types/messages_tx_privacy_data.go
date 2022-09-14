@@ -24,6 +24,10 @@ func NewMsgCreateTxPrivacyData(
 	}
 }
 
+func (msg *MsgCreateTxPrivacyData) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgCreateTxPrivacyData) Route() string {
 	return RouterKey
 }
@@ -64,6 +68,10 @@ func NewMsgUpdateTxPrivacyData(
 		Creator: creator,
 		Index:   index,
 	}
+}
+
+func (msg *MsgUpdateTxPrivacyData) IsPrivacy() bool {
+	return true
 }
 
 func (msg *MsgUpdateTxPrivacyData) Route() string {
@@ -134,4 +142,8 @@ func (msg *MsgDeleteTxPrivacyData) ValidateBasic() error {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
+}
+
+func (msg *MsgDeleteTxPrivacyData) IsPrivacy() bool {
+	return true
 }

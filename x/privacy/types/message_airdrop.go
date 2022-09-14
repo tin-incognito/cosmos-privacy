@@ -46,3 +46,7 @@ func (msg *MsgAirdrop) ValidateBasic() error {
 	}
 	return nil
 }
+
+func (msg *MsgAirdrop) IsPrivacy() bool {
+	return true
+}

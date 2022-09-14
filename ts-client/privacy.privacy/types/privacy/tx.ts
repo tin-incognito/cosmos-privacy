@@ -202,7 +202,6 @@ export interface MsgDeleteOutputCoinSerialNumber {
 export interface MsgDeleteOutputCoinSerialNumberResponse {}
 
 export interface MsgPrivacyData {
-  creator: string;
   lockTime: number;
   fee: number;
   info: Uint8Array;
@@ -3781,41 +3780,33 @@ export const MsgDeleteOutputCoinSerialNumberResponse = {
   },
 };
 
-const baseMsgPrivacyData: object = {
-  creator: "",
-  lockTime: 0,
-  fee: 0,
-  txType: 0,
-};
+const baseMsgPrivacyData: object = { lockTime: 0, fee: 0, txType: 0 };
 
 export const MsgPrivacyData = {
   encode(message: MsgPrivacyData, writer: Writer = Writer.create()): Writer {
-    if (message.creator !== "") {
-      writer.uint32(10).string(message.creator);
-    }
     if (message.lockTime !== 0) {
-      writer.uint32(16).uint64(message.lockTime);
+      writer.uint32(8).uint64(message.lockTime);
     }
     if (message.fee !== 0) {
-      writer.uint32(24).uint64(message.fee);
+      writer.uint32(16).uint64(message.fee);
     }
     if (message.info.length !== 0) {
-      writer.uint32(34).bytes(message.info);
+      writer.uint32(26).bytes(message.info);
     }
     if (message.sigPubKey.length !== 0) {
-      writer.uint32(42).bytes(message.sigPubKey);
+      writer.uint32(34).bytes(message.sigPubKey);
     }
     if (message.sig.length !== 0) {
-      writer.uint32(50).bytes(message.sig);
+      writer.uint32(42).bytes(message.sig);
     }
     if (message.proof.length !== 0) {
-      writer.uint32(58).bytes(message.proof);
+      writer.uint32(50).bytes(message.proof);
     }
     if (message.txType !== 0) {
-      writer.uint32(64).int32(message.txType);
+      writer.uint32(56).int32(message.txType);
     }
     if (message.metadata.length !== 0) {
-      writer.uint32(74).bytes(message.metadata);
+      writer.uint32(66).bytes(message.metadata);
     }
     return writer;
   },
@@ -3828,30 +3819,27 @@ export const MsgPrivacyData = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.creator = reader.string();
-          break;
-        case 2:
           message.lockTime = longToNumber(reader.uint64() as Long);
           break;
-        case 3:
+        case 2:
           message.fee = longToNumber(reader.uint64() as Long);
           break;
-        case 4:
+        case 3:
           message.info = reader.bytes();
           break;
-        case 5:
+        case 4:
           message.sigPubKey = reader.bytes();
           break;
-        case 6:
+        case 5:
           message.sig = reader.bytes();
           break;
-        case 7:
+        case 6:
           message.proof = reader.bytes();
           break;
-        case 8:
+        case 7:
           message.txType = reader.int32();
           break;
-        case 9:
+        case 8:
           message.metadata = reader.bytes();
           break;
         default:
@@ -3864,11 +3852,6 @@ export const MsgPrivacyData = {
 
   fromJSON(object: any): MsgPrivacyData {
     const message = { ...baseMsgPrivacyData } as MsgPrivacyData;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = String(object.creator);
-    } else {
-      message.creator = "";
-    }
     if (object.lockTime !== undefined && object.lockTime !== null) {
       message.lockTime = Number(object.lockTime);
     } else {
@@ -3904,7 +3887,6 @@ export const MsgPrivacyData = {
 
   toJSON(message: MsgPrivacyData): unknown {
     const obj: any = {};
-    message.creator !== undefined && (obj.creator = message.creator);
     message.lockTime !== undefined && (obj.lockTime = message.lockTime);
     message.fee !== undefined && (obj.fee = message.fee);
     message.info !== undefined &&
@@ -3933,11 +3915,6 @@ export const MsgPrivacyData = {
 
   fromPartial(object: DeepPartial<MsgPrivacyData>): MsgPrivacyData {
     const message = { ...baseMsgPrivacyData } as MsgPrivacyData;
-    if (object.creator !== undefined && object.creator !== null) {
-      message.creator = object.creator;
-    } else {
-      message.creator = "";
-    }
     if (object.lockTime !== undefined && object.lockTime !== null) {
       message.lockTime = object.lockTime;
     } else {

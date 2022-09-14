@@ -24,6 +24,10 @@ func NewMsgCreateToken(
 	}
 }
 
+func (msg *MsgCreateToken) IsPrivacy() bool {
+	return true
+}
+
 func (msg *MsgCreateToken) Route() string {
 	return RouterKey
 }
@@ -64,6 +68,10 @@ func NewMsgUpdateToken(
 		Creator: creator,
 		Index:   index,
 	}
+}
+
+func (msg *MsgUpdateToken) IsPrivacy() bool {
+	return true
 }
 
 func (msg *MsgUpdateToken) Route() string {
@@ -134,4 +142,8 @@ func (msg *MsgDeleteToken) ValidateBasic() error {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
+}
+
+func (msg *MsgDeleteToken) IsPrivacy() bool {
+	return true
 }
