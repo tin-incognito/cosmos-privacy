@@ -191,3 +191,9 @@ replace (
 )
 
 replace github.com/cosmos/cosmos-sdk => /Users/tin/go/src/github.com/tin-incognito/cosmos-sdk
+
+replace github.com/tendermint/spn => /Users/tin/go/src/github.com/tendermint/spn
+
+replace github.com/tendermint/fundraising => /Users/tin/go/src/github.com/tendermint/fundraising
+
+replace github.com/cosmos/ibc-go/v3 => /Users/tin/go/src/github.com/cosmos/ibc-go
