@@ -10,7 +10,7 @@ func Transfer(privateKey0, privateKey1, paymentAddress string) {
 	fmt.Println("balance of", privateKey1)
 	args = []string{"query", "privacy", "balance", privateKey1}
 	execCmd(args)
-	fmt.Println("Press any key")
+	fmt.Println("Press enter to continue")
 	fmt.Scanln()
 
 	// airdrop
@@ -24,7 +24,7 @@ func Transfer(privateKey0, privateKey1, paymentAddress string) {
 	fmt.Println("balance of", privateKey1)
 	args = []string{"query", "privacy", "balance", privateKey1}
 	execCmd(args)
-	fmt.Println("Press any key")
+	fmt.Println("Press enter to continue")
 	fmt.Scanln()
 
 	// transfer
@@ -39,6 +39,5 @@ func Transfer(privateKey0, privateKey1, paymentAddress string) {
 	fmt.Println("balance of", privateKey1)
 	args = []string{"query", "privacy", "balance", privateKey1}
 	execCmd(args)
-	fmt.Println("Press any key")
 	fmt.Scanln()
 }

@@ -23,5 +23,6 @@ func Airdrop(privateKey string) {
 	execCmd(args)
 	args = []string{"query", "privacy", "balance", privateKey}
 	execCmd(args)
+	fmt.Println("Press enter to continue")
 	fmt.Scanln()
 }
