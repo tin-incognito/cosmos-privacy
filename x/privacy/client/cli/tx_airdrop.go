@@ -53,12 +53,10 @@ func CmdAirdrop() *cobra.Command {
 			type Message struct {
 				PrivateKey string `json:"private_key"`
 				Amount     uint64 `json:"amount"`
-				Info       []byte `json:"info"`
 			}
 			m := Message{
 				PrivateKey: privateKey,
 				Amount:     amount,
-				Info:       nil,
 			}
 
 			msgBytes, err := json.Marshal(m)
@@ -75,7 +73,7 @@ func CmdAirdrop() *cobra.Command {
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+			return tx.GenerateOrBroadcastPrivacyTxCLI(clientCtx, cmd.Flags(), msg)
 		},
 	}
 

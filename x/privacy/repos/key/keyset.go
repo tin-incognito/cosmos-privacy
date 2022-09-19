@@ -84,6 +84,11 @@ func (keySet KeySet) Verify(data, signature []byte) (bool, error) {
 }
 
 // GetPublicKeyInBase58CheckEncode returns the public key which is base58 check encoded
+func (keySet KeySet) GetPrivateKey() string {
+	return base58.Base58Check{}.Encode(keySet.PrivateKey, common.ZeroByte)
+}
+
+// GetPublicKeyInBase58CheckEncode returns the public key which is base58 check encoded
 func (keySet KeySet) GetPublicKeyInBase58CheckEncode() string {
 	return base58.Base58Check{}.Encode(keySet.PaymentAddress.Pk, common.ZeroByte)
 }

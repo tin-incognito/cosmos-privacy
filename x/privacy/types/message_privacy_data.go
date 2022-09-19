@@ -1,8 +1,6 @@
 package types
 
 import (
-	fmt "fmt"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
@@ -53,7 +51,6 @@ func (msg *MsgPrivacyData) ValidateBasic() error {
 	/*if err != nil {*/
 	/*return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)*/
 	/*}*/
-	fmt.Println("ValidateBasic")
 	return nil
 }
 
